@@ -7,7 +7,7 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "dev": "echo \"Launching in Developer Mode\" && nodemon",
-    "start": "forever start --spinSleepTime 1000ms --minUptime 500ms index.js",
+    "start": "node index.js",
     "stop": "forever stopall"
   },
   "author": "Fionn Tolster",
@@ -16,6 +16,7 @@
     "async": "^3.1.0",
     "bcrypt": "^3.0.6",
     "body-parser": "^1.19.0",
+    "cluster": "^0.7.7",
     "connect-busboy": "0.0.2",
     "cookie-parser": "^1.4.4",
     "express": "^4.17.1",
