@@ -13,7 +13,7 @@ app.set('views', './pages')
 app.set('view engine', 'pug')
 
 
-// app.listen(port, () => console.log(`Running on port ${port}!`))
+app.listen(port, () => console.log(`Running on port ${port}!`))
 
 app.use(require('cookie-parser')());
 app.use(require('express-session')({
