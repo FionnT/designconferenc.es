@@ -7,7 +7,7 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "dev": "echo \"Launching in Developer Mode\" && nodemon",
-    "start": "forever start index.js"
+    "start": "nodemon index.js"
   },
   "author": "Fionn Tolster",
   "license": "CC-NC-A",
