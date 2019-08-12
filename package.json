@@ -7,7 +7,8 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "dev": "echo \"Launching in Developer Mode\" && nodemon",
-    "start": "forever start index.js --spinSleepTime 1000ms --minUptime 500ms"
+    "start": "forever start --spinSleepTime 1000ms --minUptime 500ms index.js",
+    "stop": "forever stopall"
   },
   "author": "Fionn Tolster",
   "license": "CC-NC-A",
