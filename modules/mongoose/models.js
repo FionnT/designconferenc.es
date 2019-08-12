@@ -1,10 +1,7 @@
 var mongoose = require("mongoose");
 
 mongoose.Promise = global.Promise;
-mongoose.connect("mongodb:/site:AwGG4n5x@Fj2i@j@ds161397.mlab.com:61397/heroku_6lgfsr4h", { useNewUrlParser: true });
-
-
-
+mongoose.connect("mongodb://site:kseneU5ffzGUpZ3@ds161397.mlab.com:61397/heroku_6lgfsr4h", { useNewUrlParser: true });
 
 var Schema = mongoose.Schema;
 
