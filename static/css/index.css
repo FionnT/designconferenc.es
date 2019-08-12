@@ -1,0 +1,260 @@
+nav {
+  width: 100%;
+  height: 15%;
+  margin: 1.5% auto -25px;
+}
+
+nav input {
+  max-height: 39px;
+  height: 25%;
+  width: calc(100% - 18px);
+  padding-left: 15px;
+
+  border-radius: 21px;
+}
+
+#conferences {
+  width: 100%;
+  margin: 0 auto;
+  min-height: 800px;
+  z-index: 0;
+}
+
+#conferences span {
+  display: block;
+  margin: 0 0 15px 0;
+  width: 100%;
+
+  font-family: 'Lato', sans-serif;
+  font-size: 0.85em;
+  color: #8D8D8D;
+  font-weight: 300;
+  letter-spacing: 0.25px;
+}
+
+#conferences .item {
+  display: inline-block;
+
+  font-family: 'Lato', sans-serif;
+  font-size: 0.85em;
+  color: #8D8D8D;
+  font-weight: 300;
+  letter-spacing: 0.25px;
+
+  border: 1px solid #E1E1E1;
+  background-color: #FFFFFF;
+  box-shadow: 2px 2px 8px 3px rgba(235,235,235,0.5);
+}
+
+#month{width: 20%;}
+
+#country {
+  width: 35%;
+  margin-left: 5%;
+}
+
+
+
+/* Code for the Search button! */
+
+#search {
+
+  height: 25%;
+  width: 35%;
+  float: right;
+  margin-top: 15px;
+  border: none;
+
+  color:#D74177;
+  text-align: center;
+  cursor: pointer;
+
+}
+
+nav #search p {font-size: 1em; margin-top: 1px; padding-bottom: 11px; transition: all 0.35s ease-in 0s;}
+nav #search p:hover {color: #118063;} /* slightly more readable than the button color */
+.spot {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  top: 0;
+  left: 0;
+
+}
+
+.svg-wrapper {
+  cursor: pointer;
+  margin-top: 0;
+  position: relative;
+  width: 100%;
+  height: 100%;
+  display: inline-block;
+}
+
+#shape {
+  stroke-width: 2px;
+  fill: transparent;
+  stroke: #D74177;
+  stroke-dasharray: 700 235;
+  stroke-dashoffset: 0;
+  transition: 0.35s all ease;
+}
+
+#text {
+  margin-top: -35px;
+  text-align: center;
+}
+
+#text p {
+  text-decoration: none;
+  font-weight: 300;
+  font-size: 1.15em;
+  width: 100%;
+  padding-top: 9px;
+}
+
+.svg-wrapper:hover #shape {
+  stroke-dasharray: 50 0;
+  stroke-width: 2px;
+  stroke-dashoffset: 0;
+  stroke: #06D6A0;
+}
+
+
+/*************
+************** Small Version
+*************/
+
+
+.item.small {
+  width: 45%;
+  height: auto;
+  min-height: 180px;
+  float: left;
+  margin: 10px 2.37% 10px;
+  z-index: 0;
+}
+
+.item.small:nth-child(odd) {
+  background: red;
+  float: right;
+}
+
+.item.small h2 {
+  width: 80%;
+  height: auto;
+  margin: 20px 0 15px 20px;
+
+  font-family: 'Lato', sans-serif;
+  color: #22252C;
+  font-weight: 700;
+  font-size: 1.5em;
+  text-align: left;
+}
+
+.item.small p {
+  margin: 0 auto 5px 20px;
+  width: auto;
+
+  font-family: 'Lato', sans-serif;
+  color: #22252C;
+  font-weight: 300;
+  font-size: 1.1em;
+  text-align: left;
+  line-height: 22px;
+
+}
+.item.small .expand.toggle { padding: 5px 0 15px; cursor: pointer;}
+.item.small p.desc{ display: none;}
+.item.small .expand.website{ display: none;}
+
+/*************
+************** Big Version
+*************/
+
+.item.big {
+  display: block;
+  margin: 10px auto 10px;
+  width: 95%;
+  min-height: 260px;
+  height: auto;
+  left: 2.25% !important;
+
+  z-index: 0;
+  float: none;
+}
+
+.item.big .img {
+  width: 250px;
+  height: 250px;
+  margin: 20px auto 0;
+
+  background: url('../img/placeholder.png');
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: 100%;
+}
+
+.item.big h2 {
+  width: 100%;
+  height: 100%;
+  margin: 30px 0 15px 0;
+
+  font-family: 'Lato', sans-serif;
+  color: #22252C;
+  font-weight: 700;
+  font-size: 1.5em;
+  text-align: center;
+}
+
+.item.big p {
+  margin: 0 auto 5px;
+  width: 70%;
+
+  font-family: 'Lato', sans-serif;
+  color: #22252C;
+  font-weight: 300;
+  font-size: 1.1em;
+  text-align: center;
+  line-height: 22px;
+}
+
+.item.big .toggle.expand {
+  width: 14%;
+  height: 2%;
+  float: left;
+  margin: 5% 0 0 2.5%;
+  cursor: pointer;
+  padding-bottom: 20px;
+}
+
+.item .expand p, .item.small .expand p {
+  font-family: 'Lato', sans-serif;
+  font-weight: 700;
+}
+
+.item.big .expand.website {
+  width: 25%;
+  height: 2%;
+  float: right;
+  margin: 5% 2.5% 0 0;
+}
+.item .expand.website a {text-decoration: none;}
+.item .expand.website a p {color: #D74177; font-weight: 1;}
+
+#noresults {
+  width: 100%;
+  height: auto;
+  margin: 90px 0 0 0;
+}
+
+#noresults h2, #noresults p{
+  font-family: 'Lato', sans-serif;
+  text-align: center;
+  color: #8D8D8D;
+  line-height: 28px;
+  font-size: 18px;
+  font-weight: 300;
+  padding: 20px;
+}
+#noresults h2{ font-size: 48px;}

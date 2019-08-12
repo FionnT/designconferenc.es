@@ -1,0 +1,200 @@
+#suggest {
+  width: 100%;
+  margin: 0 auto;
+  min-height: 800px;
+  z-index: 0;
+  padding-top: 35px;
+
+}
+
+.item p {
+  width: 100%;
+  height: 22px;
+  display: block;
+  position: relative;
+  margin: 0;
+  top: 0;
+  left: 0;
+  font-family: 'Open Sans Condensed', sans-serif;
+  font-size: 17px;
+  font-weight: 300;
+  line-height: 22px;
+  color: #737881
+}
+
+#suggest input, #suggest textarea {
+  min-height: 40px;
+  height: 25%;
+  width: calc(100% - 16px);
+  padding-left: 15px;
+  margin: 10px auto 0;
+  outline: none;
+}
+
+#country {
+  margin: 10px 0 0 0;
+  min-height: 40px;
+  width: 85%;
+}
+
+#calendar {
+  width: 100%;
+  height: 495px;
+
+  background: white;
+
+  border: 1px solid #DEE0E4;	border-radius: 2px;
+}
+
+.controls {
+  width: 100%;
+  height: 25px;
+  margin: 20px auto;
+}
+.controls * {
+  -webkit-touch-callout: none; /* iOS Safari */
+  -webkit-user-select: none; /* Safari */
+   -khtml-user-select: none; /* Konqueror HTML */
+     -moz-user-select: none; /* Firefox */
+      -ms-user-select: none; /* Internet Explorer/Edge */
+          user-select: none; /* Non-prefixed version, currently */
+}
+
+.controls p {
+  width: calc(32% - 15px);
+  margin: 0 0 0 2%;
+  display: inline-block;
+  padding-top: 2px;
+}
+p.left{margin: 0 2% 0 0;padding-left: 15px;}
+p.date{text-align: center;margin: 0;width:calc(32% - 30px;)}
+p.right {text-align: right;padding-right: 15px;font-size: 18px;}
+p.right, p.left {cursor: pointer;}
+/* I have no idea why, but it keeps rendering 1px smaller than the left side, so I have to set it 1px bigger */
+
+.datepicker {
+  width: 500px;
+  height: 350px;
+  margin: 0 auto;
+}
+
+.days {
+  width: 100%;
+  margin: 0 auto;
+  height: 50px;
+}
+
+.days p, .numbers li {
+  width: 14%;
+  height: 100%;
+  display: inline-block;
+  margin: 0 0.24% 0 0;
+
+  text-align: center;
+  line-height: 50px;
+
+  cursor: default;
+}
+
+.days p {width: 12%; padding-left: 0;}
+.days p:first-of-type{padding-left: 5%}
+ul.numbers {
+  width: 100%;
+  height: calc(100% - 50px);
+}
+
+.numbers li {
+  width: 12%;
+  height: 20%;
+
+  color: #22252C;
+  line-height: 59px;
+  font-family: 'Lato', sans-serif;
+  font-weight: 300;
+
+}
+.numbers li:nth-child(7n + 1) {margin-left: 5%;} /* centering, i.e. push first item in every row */
+
+.numbers li .left, .numbers li .right {
+  width: 51%;
+  position: relative;
+  height: 100%;
+  margin-top: -100%;
+  z-index: 1;
+  cursor: pointer;
+}
+
+.date.hidden{opacity: 0;pointer-events: none;}
+
+.date.more .right, .date.less .left, .date.middle .right, .date.middle .left{background-color: rgba(233,44,119,0.2);}
+
+.date.active .circle {background-color: #F89BBC}
+
+.numbers li .left {left: -1%;}
+.numbers li .right {left: 50%;}
+
+.numbers li .circle {
+  width: 100%;
+  height: 100%;
+  position: relative;
+  left: 0;
+  margin: 0 auto;
+  z-index: 2;
+
+  cursor: pointer;
+  border-radius: 100%;
+  pointer-events: none;
+}
+.numbers p {
+  margin: -100% 0 0 0;
+  z-index: 3;
+
+  line-height: 59px;
+  pointer-events: none;
+  font-family: 'lato', sans-serif;
+  color: #22252C;
+}
+
+#description textarea{
+  height: 90px;
+  padding-top: 15px;
+
+  text-align: left;
+  line-height: 25px;
+  font-size: 16px;
+  font-family: 'Lato', sans-serif;
+  font-weight: 300;
+
+  border: 1px solid #DEE0E4;
+  resize: none;
+}
+
+input.fileinput[type='file'] {
+  display: none;
+  opacity: 0;
+  position: absolute;
+
+}
+button.file:focus, button.file:active{outline: none;background: linear-gradient(180deg, #eaeaea 0%, #DEE0E4 100%); border: 1px solid #bfc1c3;}
+button.file {
+
+	height: 40px;
+  min-width: 154px;
+  width: auto;
+  margin: 15px 0 0;
+
+  transition: background 0.35s ease-out 0s;
+  cursor: pointer;
+
+  border: 1px solid #DEE0E4;
+  border-radius: 21px;
+  background: linear-gradient(180deg, #FFFFFF 0%, #EEEEEE 100%);
+}
+button.file p {
+  font-size: 14px;
+  width: auto;
+  min-width: 100%;
+  margin: 0 5px 0 0px;
+  text-align: center;
+  padding: 0 15px 0 0px;
+}

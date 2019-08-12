@@ -1,0 +1,22 @@
+include includes/header.pug
+
+  script(src="http://livejs.com/live.js") 
+  link(rel='stylesheet', href='/css/index.css')
+  script(src="https://unpkg.com/packery@2.1.2/dist/packery.pkgd.min.js")
+  script(src="js/index.js") 
+  title Design Conferences
+
+block body
+  div.wrapper
+    div#splash
+      a(href="./")
+        h1 Thank you for your suggestion 🙏
+      p Your conference suggestion has been successfully submitted. 
+      p If this suggestion is accepted, it will appear in the list.
+    div.item.big(style="margin-top: 60px auto 0")
+      div.rectangle
+        a(href="/")
+          p Go back to the list
+      div.rectangle.other
+        a(href="/suggest")
+          p Suggest another conference

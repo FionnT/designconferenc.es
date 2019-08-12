@@ -1,0 +1,263 @@
+include includes/header.pug
+
+  //- script(src="http://livejs.com/live.js") 
+  script(src="js/suggest.js") 
+  title Design Conferences
+  link(rel='stylesheet', href='/css/suggest.css')
+
+block body
+  div.wrapper
+    div#splash
+      if isAdmin
+        h1 Add a conference
+      if !isAdmin
+        h1 Suggest a conference
+      p 
+       a(href="/") Or go back to the list.
+    div#suggest
+      div.item.big 
+        p CONFERENCE NAME *
+        input(type="text" label="Name input" class="text" placeholder="Cool International Conference of Experience Design")
+      div.item.big 
+        p CONFERENCE WEBSITE *
+        input(type="text" label="Website URL input" class="text" placeholder="http://somewhere.cool")
+      div.item
+        p COUNTRY *
+        div#country.menu(label="Country Menu")
+          p.sel Select a country...
+          p &#9662;
+          ul.dropdown.inactive
+            li="Worldwide"
+            li="Afghanistan"
+            li="Albania"
+            li="Algeria"
+            li="Andorra"
+            li="Angola"
+            li="Antigua & Deps"
+            li="Argentina"
+            li="Armenia"
+            li="Australia"
+            li="Austria"
+            li="Azerbaijan"
+            li="Bahamas"
+            li="Bahrain"
+            li="Bangladesh"
+            li="Barbados"
+            li="Belarus"
+            li="Belgium"
+            li="Belize"
+            li="Benin"
+            li="Bhutan"
+            li="Bolivia"
+            li="Bosnia Herzegovina"
+            li="Botswana"
+            li="Brazil"
+            li="Brunei"
+            li="Bulgaria"
+            li="Burkina"
+            li="Burundi"
+            li="Cambodia"
+            li="Cameroon"
+            li="Canada"
+            li="Cape Verde"
+            li="Central African Rep"
+            li="Chad"
+            li="Chile"
+            li="China"
+            li="Colombia"
+            li="Comoros"
+            li="Congo"
+            li="Congo"
+            li="Costa Rica"
+            li="Croatia"
+            li="Cuba"
+            li="Cyprus"
+            li="Czech Republic"
+            li="Denmark"
+            li="Djibouti"
+            li="Dominica"
+            li="Dominican Republic"
+            li="East Timor"
+            li="Ecuador"
+            li="Egypt"
+            li="El Salvador"
+            li="Equatorial Guinea"
+            li="Eritrea"
+            li="Estonia"
+            li="Ethiopia"
+            li="Fiji"
+            li="Finland"
+            li="France"
+            li="Gabon"
+            li="Gambia"
+            li="Georgia"
+            li="Germany"
+            li="Ghana"
+            li="Greece"
+            li="Grenada"
+            li="Guatemala"
+            li="Guinea"
+            li="Guinea-Bissau"
+            li="Guyana"
+            li="Haiti"
+            li="Honduras"
+            li="Hungary"
+            li="Iceland"
+            li="India"
+            li="Indonesia"
+            li="Iran"
+            li="Iraq"
+            li="Ireland"
+            li="Israel"
+            li="Italy"
+            li="Ivory Coast"
+            li="Jamaica"
+            li="Japan"
+            li="Jordan"
+            li="Kazakhstan"
+            li="Kenya"
+            li="Kiribati"
+            li="Korea North"
+            li="Korea South"
+            li="Kosovo"
+            li="Kuwait"
+            li="Kyrgyzstan"
+            li="Laos"
+            li="Latvia"
+            li="Lebanon"
+            li="Lesotho"
+            li="Liberia"
+            li="Libya"
+            li="Liechtenstein"
+            li="Lithuania"
+            li="Luxembourg"
+            li="Macedonia"
+            li="Madagascar"
+            li="Malawi"
+            li="Malaysia"
+            li="Maldives"
+            li="Mali"
+            li="Malta"
+            li="Marshall Islands"
+            li="Mauritania"
+            li="Mauritius"
+            li="Mexico"
+            li="Micronesia"
+            li="Moldova"
+            li="Monaco"
+            li="Mongolia"
+            li="Montenegro"
+            li="Morocco"
+            li="Mozambique"
+            li="Myanmar, Burma"
+            li="Namibia"
+            li="Nauru"
+            li="Nepal"
+            li="Netherlands"
+            li="New Zealand"
+            li="Nicaragua"
+            li="Niger"
+            li="Nigeria"
+            li="Norway"
+            li="Oman"
+            li="Pakistan"
+            li="Palau"
+            li="Panama"
+            li="Papua New Guinea"
+            li="Paraguay"
+            li="Peru"
+            li="Philippines"
+            li="Poland"
+            li="Portugal"
+            li="Qatar"
+            li="Romania"
+            li="Russian Federation"
+            li="Rwanda"
+            li="St Kitts & Nevis"
+            li="St Lucia"
+            li="Saint Vincent & the Grenadines"
+            li="Samoa"
+            li="San Marino"
+            li="Sao Tome & Principe"
+            li="Saudi Arabia"
+            li="Senegal"
+            li="Serbia"
+            li="Seychelles"
+            li="Sierra Leone"
+            li="Singapore"
+            li="Slovakia"
+            li="Slovenia"
+            li="Solomon Islands"
+            li="Somalia"
+            li="South Africa"
+            li="South Sudan"
+            li="Spain"
+            li="Sri Lanka"
+            li="Sudan"
+            li="Suriname"
+            li="Swaziland"
+            li="Sweden"
+            li="Switzerland"
+            li="Syria"
+            li="Taiwan"
+            li="Tajikistan"
+            li="Tanzania"
+            li="Thailand"
+            li="Togo"
+            li="Tonga"
+            li="Trinidad & Tobago"
+            li="Tunisia"
+            li="Turkey"
+            li="Turkmenistan"
+            li="Tuvalu"
+            li="Uganda"
+            li="Ukraine"
+            li="United Arab Emirates"
+            li="United Kingdom"
+            li="United States"
+            li="Uruguay"
+            li="Uzbekistan"
+            li="Vanuatu"
+            li="Vatican City"
+            li="Venezuela"
+            li="Vietnam"
+            li="Yemen"
+            li="Zambia"
+            li="Zimbabwe"
+      div.item
+        p CITY *
+        input(type="text" label="City input" class="text" placeholder="Enter the city name...")
+      div#calendar.item.big
+        div.controls
+          p.left(label="One month less") &#9664;
+          p.date(label="Current Month" data-date="")
+          p.right(label="One month more") &#9654;
+        div.datepicker
+          div.days 
+            p Mo
+            p Tu
+            p We
+            p Th
+            p Fr
+            p Sa
+            p Su 
+          ul.numbers(label="Datepicker")
+        li.date.hidden
+          div.circle
+          div.left
+          div.right
+          p 1
+      div#description.item.big
+        p DESCRIPTION
+        textarea(type="text" maxlength="280" label="Conference Description" placeholder="Enter a description...")
+      div.item.small
+        p CONFERENCE ICON (250x250)
+        input.fileinput(type="file" name="icon" accept=".png,.jpg,.gif,.svg,.bmp")
+        button.file(label="Conference Icon")
+          p.fileinfo Upload a file  
+      div.item.big
+        div.rectangle(label="Suggest your conference!" type="submit" action="/suggest")
+          if !isAdmin
+            p Suggest this conference!
+          if isAdmin 
+            p Save your conference!

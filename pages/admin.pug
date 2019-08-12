@@ -1,0 +1,19 @@
+include includes/head.pug
+  
+if users
+  for user in users
+    div(class="user")
+      p= user.username
+      p= user.first
+      p= user.last
+      p(class="email")= user.email
+      if user.isAdmin
+        - var levels = ['User','Admin','Manager','Root']
+        p=levels[user.isAdmin]
+        button(submit="/grantprivileges" class=("privileges revoke")) Revoke Admin? 
+      else
+        p User
+        button(submit="/grantprivileges" class=("privileges grant")) Grant Admin? 
+    br
+    br
+    br

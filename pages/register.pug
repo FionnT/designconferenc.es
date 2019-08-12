@@ -1,0 +1,23 @@
+include includes/header.pug
+
+  script(src='js/register.js')
+  link(rel='stylesheet', href='/css/suggest.css')
+    
+block body
+
+body
+  div.wrapper
+    h1 Sign Up For The Flying Spaghetti Monster Club
+    form(method="post" action="/register")
+      div.item.big
+        input(type="text" name="email" placeholder="person@someone.com" id="email" required)
+      br
+      input(type="text" name="first" placeholder="First name" required)
+      br
+      input(type="number" name="age" placeholder="Your age?")
+      br
+      input(type="password" name="password" placeholder="Password" required)
+      br
+      input(type="password2" name="password2" placeholder="Verify Password" required)
+      br
+      input(class="submit" type="submit" action="/register")

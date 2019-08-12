@@ -1,0 +1,328 @@
+include includes/header.pug
+
+  script(src="http://livejs.com/live.js")
+  link(rel='stylesheet', href='/css/index.css')
+  if !manage
+    script(src="https://unpkg.com/packery@2.1.2/dist/packery.pkgd.min.js")
+    script(src="js/index.js") 
+  if manage
+    link(rel='stylesheet', href='/css/manage.css')
+    script(src="js/manage.js") 
+  title Design Conferences
+  
+block body
+  div.wrapper
+    div#splash
+      a(href="./")
+        h1 The List of Design Conferences
+      if !manage  
+        p="If you have more suggestions, please let us know using "
+          a(href="/suggest") this form!
+      if manage 
+        p="If you want to manually add a conference, use "
+          a(href="/add") this form!
+    if !manage
+      nav 
+        input(type="text" label="Name search" class="text" placeholder="Search this list...")
+        div#month.menu(label="Month Menu")
+          p.sel This month 
+          p &#9662;
+          ul.dropdown.inactive
+            li Any month
+            li January
+            li February
+            li March
+            li April
+            li May
+            li June
+            li July
+            li August
+            li September
+            li October
+            li November
+            li December
+        div#country.menu(label="Country Menu")
+          p.sel Worldwide
+          p &#9662;
+          ul.dropdown.inactive
+            li="Worldwide"
+            li="Afghanistan"
+            li="Albania"
+            li="Algeria"
+            li="Andorra"
+            li="Angola"
+            li="Antigua & Deps"
+            li="Argentina"
+            li="Armenia"
+            li="Australia"
+            li="Austria"
+            li="Azerbaijan"
+            li="Bahamas"
+            li="Bahrain"
+            li="Bangladesh"
+            li="Barbados"
+            li="Belarus"
+            li="Belgium"
+            li="Belize"
+            li="Benin"
+            li="Bhutan"
+            li="Bolivia"
+            li="Bosnia Herzegovina"
+            li="Botswana"
+            li="Brazil"
+            li="Brunei"
+            li="Bulgaria"
+            li="Burkina"
+            li="Burundi"
+            li="Cambodia"
+            li="Cameroon"
+            li="Canada"
+            li="Cape Verde"
+            li="Central African Rep"
+            li="Chad"
+            li="Chile"
+            li="China"
+            li="Colombia"
+            li="Comoros"
+            li="Congo"
+            li="Congo"
+            li="Costa Rica"
+            li="Croatia"
+            li="Cuba"
+            li="Cyprus"
+            li="Czech Republic"
+            li="Denmark"
+            li="Djibouti"
+            li="Dominica"
+            li="Dominican Republic"
+            li="East Timor"
+            li="Ecuador"
+            li="Egypt"
+            li="El Salvador"
+            li="Equatorial Guinea"
+            li="Eritrea"
+            li="Estonia"
+            li="Ethiopia"
+            li="Fiji"
+            li="Finland"
+            li="France"
+            li="Gabon"
+            li="Gambia"
+            li="Georgia"
+            li="Germany"
+            li="Ghana"
+            li="Greece"
+            li="Grenada"
+            li="Guatemala"
+            li="Guinea"
+            li="Guinea-Bissau"
+            li="Guyana"
+            li="Haiti"
+            li="Honduras"
+            li="Hungary"
+            li="Iceland"
+            li="India"
+            li="Indonesia"
+            li="Iran"
+            li="Iraq"
+            li="Ireland"
+            li="Israel"
+            li="Italy"
+            li="Ivory Coast"
+            li="Jamaica"
+            li="Japan"
+            li="Jordan"
+            li="Kazakhstan"
+            li="Kenya"
+            li="Kiribati"
+            li="Korea North"
+            li="Korea South"
+            li="Kosovo"
+            li="Kuwait"
+            li="Kyrgyzstan"
+            li="Laos"
+            li="Latvia"
+            li="Lebanon"
+            li="Lesotho"
+            li="Liberia"
+            li="Libya"
+            li="Liechtenstein"
+            li="Lithuania"
+            li="Luxembourg"
+            li="Macedonia"
+            li="Madagascar"
+            li="Malawi"
+            li="Malaysia"
+            li="Maldives"
+            li="Mali"
+            li="Malta"
+            li="Marshall Islands"
+            li="Mauritania"
+            li="Mauritius"
+            li="Mexico"
+            li="Micronesia"
+            li="Moldova"
+            li="Monaco"
+            li="Mongolia"
+            li="Montenegro"
+            li="Morocco"
+            li="Mozambique"
+            li="Myanmar, Burma"
+            li="Namibia"
+            li="Nauru"
+            li="Nepal"
+            li="Netherlands"
+            li="New Zealand"
+            li="Nicaragua"
+            li="Niger"
+            li="Nigeria"
+            li="Norway"
+            li="Oman"
+            li="Pakistan"
+            li="Palau"
+            li="Panama"
+            li="Papua New Guinea"
+            li="Paraguay"
+            li="Peru"
+            li="Philippines"
+            li="Poland"
+            li="Portugal"
+            li="Qatar"
+            li="Romania"
+            li="Russian Federation"
+            li="Rwanda"
+            li="St Kitts & Nevis"
+            li="St Lucia"
+            li="Saint Vincent & the Grenadines"
+            li="Samoa"
+            li="San Marino"
+            li="Sao Tome & Principe"
+            li="Saudi Arabia"
+            li="Senegal"
+            li="Serbia"
+            li="Seychelles"
+            li="Sierra Leone"
+            li="Singapore"
+            li="Slovakia"
+            li="Slovenia"
+            li="Solomon Islands"
+            li="Somalia"
+            li="South Africa"
+            li="South Sudan"
+            li="Spain"
+            li="Sri Lanka"
+            li="Sudan"
+            li="Suriname"
+            li="Swaziland"
+            li="Sweden"
+            li="Switzerland"
+            li="Syria"
+            li="Taiwan"
+            li="Tajikistan"
+            li="Tanzania"
+            li="Thailand"
+            li="Togo"
+            li="Tonga"
+            li="Trinidad & Tobago"
+            li="Tunisia"
+            li="Turkey"
+            li="Turkmenistan"
+            li="Tuvalu"
+            li="Uganda"
+            li="Ukraine"
+            li="United Arab Emirates"
+            li="United Kingdom"
+            li="United States"
+            li="Uruguay"
+            li="Uzbekistan"
+            li="Vanuatu"
+            li="Vatican City"
+            li="Venezuela"
+            li="Vietnam"
+            li="Yemen"
+            li="Zambia"
+            li="Zimbabwe"
+        div#search(label="Search Button")
+          div.svg-wrapper
+            svg(height="100%" width="100%" xmlns="http://www.w3.org/2000/svg" )
+              rect#shape(height="100%" width="100%" x="0" y="0")
+              div#text
+                span.spot
+                  p="Search"
+    if manage    
+      div#conferences
+        if !result
+          a(href="./").big No new suggestions to approve!
+          img.big(src="./img/done-dawg.gif")
+        else if result!=1
+          span=result + " conferences waiting for your approval."
+        else if result=1
+          span=result + " conference waiting for your approval."
+        if list 
+          for suggestion in list
+            div.item.big.admin(data-id=suggestion._id)
+              input.fileinput(type="file" name="icon" accept=".png,.jpg,.gif,.svg,.bmp" placeholder="")
+              if suggestion.image
+                div.img(style={"background-image": "url('" + suggestion.image + "')"})
+                  div.change
+                    div.remove
+                    div.upload
+              else 
+                div.img(style={"background-image": "url('./img/placeholder.png')"})
+                  div.change
+                    div.remove
+                    div.upload
+              input.h2(placeholder=suggestion.title)
+              input.date(placeholder=suggestion.date)
+              input.place(placeholder=suggestion.city + ", " + suggestion.country)
+              div.description 
+                textarea.desc(placeholder=suggestion.desc)
+              div.expand.website
+                a(href=suggestion.website target="_blank" rel="noopener")
+                  p View website →
+                input(placeholder=suggestion.website) 
+              div.buttonwrapper
+                div.button.approve(data-id="")
+                  div.svg-wrapper
+                    svg(height="40" width="150" xmlns="http://www.w3.org/2000/svg" )
+                      rect#shape(height="40" width="150")
+                      div#text
+                        span.spot
+                          p="Approve this listing"
+                div.button.reject(data-id="")
+                  div.svg-wrapper
+                    svg(height="40" width="150" xmlns="http://www.w3.org/2000/svg" )
+                      rect#shape(height="40" width="150")
+                      div#text
+                        span.spot
+                          p="Reject this listing"
+    if !manage
+      if list
+        div#conferences
+          if !result
+            span=""
+          else if result!=1
+            span=result + " results found for your search."
+          else if result=1
+            span=result + " result found for your search."
+          for conf in list
+            div.item.small
+              if conf.image 
+                div.img(style={"background-image": "url(" + conf.image + ")"})
+              h2=conf.title
+              p=conf.date
+              p=conf.city + ", " + conf.country
+              if conf.description 
+                p.desc=conf.description
+              div.expand.toggle
+                p + See More
+              if conf.website
+                div.expand.website
+                  a(href=conf.website target="_blank" rel="noopener")
+                    p View website →
+      if !list
+        div#noresults
+          h2 No results found :-(
+          p Try expanding your search,<br>or suggest a conference using the button below!
+          a.rectangle(href="/suggest" label="Suggest a Conference!") 
+            p Suggest a conference!
