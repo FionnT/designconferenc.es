@@ -7,7 +7,7 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "dev": "echo \"Launching in Developer Mode\" && nodemon",
-    "start": "node index.js",
+    "start": "forever --minUptime 1000ms --spinSleepTime 1000ms index.js",
     "stop": "forever stopall"
   },
   "author": "Fionn Tolster",
@@ -28,6 +28,8 @@
     "passport": "^0.4.0",
     "passport-local": "^1.0.0",
     "pug": "^2.0.4",
+    "run": "^1.4.0",
+    "start": "^5.1.0",
     "uuid": "^3.3.2"
   },
   "devDependencies": {
