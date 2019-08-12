@@ -26,10 +26,8 @@ $(document).ready(function(){
     text.attr('placeholder', 'You emptied this!')
   })
 
-  var changed = false;
   $(".fileinput").each(function(){
     $(this).change(function () {
-        changed = true;
         var file = this.files[0];
         var reader = new FileReader();
         var container = $($($(this).parents()[0]).find(".img")[0])
@@ -39,9 +37,6 @@ $(document).ready(function(){
         if (file) reader.readAsDataURL(file);
     });
   })
-
-
-
 
 
   function type(container){
@@ -87,7 +82,7 @@ $(document).ready(function(){
     var desc = container.find("textarea")[0].value;
 
     if(file) var filename = file.name
-    else if(changed) var filename = ($(container.find('.img')[0]).css("background-image")).split("/pending/")[1].replace("\")", "")
+    else if($(container.find('.img')[0]).css("background-image") != "url(\"http://localhost/img/placeholder.png\"\)") var filename = ($(container.find('.img')[0]).css("background-image")).split("/pending/")[1].replace("\")", "")
     else var fileName = false;
 
     var formData = new FormData();
@@ -100,6 +95,7 @@ $(document).ready(function(){
       description: desc,
       website: website,
       image: filename,
+      approve: true
     }
 
     formData.append("data", JSON.stringify(conference))

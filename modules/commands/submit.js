@@ -16,6 +16,7 @@ router.post('/submit', busboy({ immediate: true}), (req, res) => {
 
   var conference = undefined;
   var tmpDir =  __dirname + '../../../static/img/tmp/';
+  var pendingDir =  __dirname + '../../../static/img/icons/pending/'
   var newName = undefined;
   var privileged = true; // NOTE: PLEASE CHANGE TO FALSE BEFORE PUBLISHING
   let formData = new Map(); // Map inputs to their values
@@ -41,11 +42,16 @@ router.post('/submit', busboy({ immediate: true}), (req, res) => {
           return (t[t.length-1]).toString()
         }
 
-        var tmpName = path.join(tmpDir + conference.image);
+        if(conference.approve) {
+          var tmpName = path.join(pendingDir + conference.image);
+          delete conference.approve;
+        }else var tmpName = path.join(tmpDir + conference.image);
+
         var nameVar = uuid() + conference.title.replace(/ /g, "") + "." + ext()
 
         if(admin) newName = path.join(__dirname + '../../../static/img/icons/approved/' + nameVar);
-        else newName = path.join(__dirname + '../../../static/img/icons/pending/' + nameVar);
+        else newName = path.join(pendingDir + nameVar);
+
         conference.image = "'./" + newName.split("/static/")[1] + "'"
         fs.rename(tmpName, newName , function(err) {
           if(err) {
