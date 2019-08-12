@@ -38,7 +38,7 @@ router.get('/', (req, res) => {
 })
 
 router.get('/approve', (req, res) => {
-  suggestion.find({}, (err, suggestions)=>{
+  suggestion.find({}, (err, suggestions) => {
     if(suggestions){
       res.render('index', {
         manage: true,

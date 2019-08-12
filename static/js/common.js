@@ -17,13 +17,6 @@ $(document).ready(function(){
     })
   })
 
-  // Chrome is dumb and doesn't support .contains()
-  if (!String.prototype.contains) {
-    String.prototype.contains = function(s) {
-      return this.indexOf(s) > -1
-    }
-  }
-
   var match = false;
   document.addEventListener('keydown', (event) => { // event.key is better than jQuery's e.which
     var country = $("#country ul");

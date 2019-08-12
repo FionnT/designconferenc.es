@@ -29,6 +29,7 @@ app.use('/', require('./modules/pages'));
 app.use('/', require('./modules/functions'));
 app.use('/', require('./modules/commands/search'));
 app.use('/', require('./modules/commands/submit'));
+app.use('/', require('./modules/commands/purge'));
 
 app.get('*', function(req, res) {
   res.redirect('/404');

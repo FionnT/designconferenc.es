@@ -106,7 +106,6 @@ router.post('/submit', busboy({ immediate: true}), (req, res) => {
     async function handler() {
       const admin = await privileges();
       const file = await fileStore(privileged);
-      const clean = await clean();
       const save = await dbStore(privileged);
 
       return resolve();

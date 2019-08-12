@@ -176,9 +176,8 @@ $(document).ready(function(){
         website: website,
         image: filename
       }
-      var str = JSON.stringify(conference)
 
-      formData.append("data", str)
+      formData.append("data", JSON.stringify(conference))
       formData.append("file", file);
       $.ajax({
         type: "POST",

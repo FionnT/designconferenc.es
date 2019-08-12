@@ -1,6 +1,6 @@
 include includes/header.pug
 
-  script(src="http://livejs.com/live.js")
+  //- script(src="http://livejs.com/live.js")
   link(rel='stylesheet', href='/css/index.css')
   if !manage
     script(src="https://unpkg.com/packery@2.1.2/dist/packery.pkgd.min.js")
@@ -263,7 +263,7 @@ block body
             div.item.big.admin(data-id=suggestion._id)
               input.fileinput(type="file" name="icon" accept=".png,.jpg,.gif,.svg,.bmp" placeholder="")
               if suggestion.image
-                div.img(style={"background-image": "url('" + suggestion.image + "')"})
+                div.img(style={"background-image": "url(" + suggestion.image + ")"})
                   div.change
                     div.remove
                     div.upload
@@ -276,7 +276,7 @@ block body
               input.date(placeholder=suggestion.date)
               input.place(placeholder=suggestion.city + ", " + suggestion.country)
               div.description 
-                textarea.desc(placeholder=suggestion.desc)
+                textarea.desc(placeholder=suggestion.description)
               div.expand.website
                 a(href=suggestion.website target="_blank" rel="noopener")
                   p View website →

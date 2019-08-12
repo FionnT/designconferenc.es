@@ -33,7 +33,7 @@ router.get('/users/check', (req, res) => {
 });
 
 router.get('/cleardb', (req, res) => {
-  suggestion.find({}, (err, result) => {
+  conf.find({}, (err, result) => {
     result.forEach((result) => {
       result.deleteOne()
     });

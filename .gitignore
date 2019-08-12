@@ -4,5 +4,9 @@ db/
 db/journal
 db/diagnostic.data
 
+static/img/tmp/*
+static/img/profiles/*
+static/img/icons/approved/*
+static/img/icons/pending/*
 
 .DS_Store

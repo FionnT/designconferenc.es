@@ -41,82 +41,98 @@ $(document).ready(function(){
   })
 
 
-  // Form Posting handler; we're doing this again because the fields are different
-  $(".approve").each(function(){
-    $this = $(this)
-    $this.on("click", function(){
+
+
+
+  function type(container){
+    var loc = document.location.href;
+    if(loc.match("/approve").length>0) return "suggestion"
+    else if(loc.match("/manage").length>0) return "conference"
+  }
+
+  function clear(container){
+    var params = {
+      id: container.data("id").toString(),
+      type: type()
+    }
+    var formData = new FormData();
+    formData.append("data", JSON.stringify(params))
+    $.ajax({
+      type: "POST",
+      url: "/purge",
+      contentType: false,
+      data: formData,
+      processData: false,
+      success: function(r){
+        if(r === "OK"){
+          container.fadeOut().remove()
+        }
+      },
+      error: function (e) {
+          console.log("some error", e);
+      }
+    });
+  }
+
+  function approve(container){
+
+    var inputs = container.find("input");
+
+    var name = inputs[1].value;
+    var date = inputs[2].value;
+    var city = inputs[3].value.split(", ")[0];
+    var country = inputs[3].value.split(", ")[1];
+    var website = inputs[4].value;
+    var file = container.find('.fileinput')[0].files[0]
+    var desc = container.find("textarea")[0].value;
+
+    if(file) var filename = file.name
+    else if(changed) var filename = ($(container.find('.img')[0]).css("background-image")).split("/pending/")[1].replace("\")", "")
+    else var fileName = false;
+
+    var formData = new FormData();
+
+    var conference = {
+      title: name,
+      date: date,
+      country: country,
+      city: city,
+      description: desc,
+      website: website,
+      image: filename,
+    }
+
+    formData.append("data", JSON.stringify(conference))
+    formData.append("file", file);
+
+    $.ajax({
+      type: "POST",
+      url: "/submit",
+      contentType: false,
+      data: formData,
+      processData: false,
+      success: function(r){
+        if(r === "OK"){
+          clear(container)
+        }
+      },
+      error: function (e) {
+          console.log("some error", e);
+      }
+    });
+  }
+
+  $(".reject").each(function(){
+    $(this).on("click", function(){
       var container = $($(this).parents()[1])
-      console.log(container)
-      var inputs = container.find("input");
+      clear(container)
+    })
+  })
 
-      var name = inputs[1].value;
-      var date = inputs[2].value;
-      var city = inputs[3].value.split(", ")[0];
-      var country = inputs[3].value.split(", ")[1];
-      var website = inputs[4].value;
-      var file = container.find('.fileinput')[0].files[0]
-      var desc = container.find("textarea")[0].value;
-
-      if(file) var filename = file.name
-      else if(changed) var filename = ($(container.find('.img')[0]).css("background-image")).split("/pending/")[1].replace("\")", "")
-      else var fileName = false;
-
-      var formData = new FormData();
-
-      var conference = {
-        title: name,
-        date: date,
-        country: country,
-        city: city,
-        description: desc,
-        website: website,
-        image: filename,
-      }
-      var str = JSON.stringify(conference)
-
-      formData.append("data", str)
-      formData.append("file", file);
-
-      function clear(){
-        var params = {
-          id: container.data("id").toString(),
-          type: "suggestion"
-        }
-        var formData = new FormData();
-        formData.append("data", params)
-        $.ajax({
-          type: "POST",
-          url: "/purge",
-          contentType: false,
-          data: formData,
-          processData: false,
-          success: function(r){
-            if(r === "OK"){
-              container.fadeOut()
-            }
-          },
-          error: function (e) {
-              console.log("some error", e);
-          }
-        });
-      }
-
-      $.ajax({
-        type: "POST",
-        url: "/submit",
-        contentType: false,
-        data: formData,
-        processData: false,
-        success: function(r){
-          if(r === "OK"){
-            clean()
-          }
-        },
-        error: function (e) {
-            console.log("some error", e);
-        }
-      });
-
+  $(".approve").each(function(){
+    $(this).on("click", function(){
+      var container = $($(this).parents()[1])
+      approve(container)
     })
   })
 
