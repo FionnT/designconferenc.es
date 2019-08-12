@@ -48,4 +48,8 @@ $(document).ready(function(){
     $this.on("click", function(){ $($(parent).find(".sel")).text($this.text()).css("color", "rgb(0, 0, 0)")})
   })
 
+  $("#profile img").on("click", function(){
+    $("#profile").toggleClass("open")
+
+  })
 })

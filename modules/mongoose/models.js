@@ -8,12 +8,9 @@ var Schema = mongoose.Schema;
 var userSchema = new Schema({
   username: String,
   first: String,
-  last: String,
-  age: Number,
   password: String,
   email: String,
-  isAdmin: String,
-  lvlAdmin: {
+  isAdmin: {
     type: Number,
     default: 2
   }
