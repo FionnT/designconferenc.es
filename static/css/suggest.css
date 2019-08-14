@@ -175,7 +175,7 @@ input.fileinput[type='file'] {
   position: absolute;
 
 }
-button.file:focus, button.file:active{outline: none;background: linear-gradient(180deg, #eaeaea 0%, #DEE0E4 100%); border: 1px solid #bfc1c3;}
+button.file:focus, button.file:active{outline: none;background-color: linear-gradient(180deg, #eaeaea 0%, #DEE0E4 100%); border: 1px solid #bfc1c3;}
 button.file {
 
 	height: 40px;
@@ -188,7 +188,7 @@ button.file {
 
   border: 1px solid #DEE0E4;
   border-radius: 21px;
-  background: linear-gradient(180deg, #FFFFFF 0%, #EEEEEE 100%);
+  background-color: linear-gradient(180deg, #FFFFFF 0%, #EEEEEE 100%);
 }
 button.file p {
   font-size: 14px;

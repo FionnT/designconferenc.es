@@ -1,6 +1,7 @@
 include includes/header.pug
 
-  script(src='js/register.js')  
+  script(src='js/register.js') 
+  script(src="http://livejs.com/live.js") 
   link(rel='stylesheet', href='/css/suggest.css')
   style(type='text/css').
     .item{width: 45%;}
@@ -15,6 +16,29 @@ include includes/header.pug
     }
     .menu .dropdown.active {
       height: 100px;
+    }
+    #notify {
+      width: 500px;
+      height: 35px;
+      position: absolute;
+      top: 35px;
+      left: 50%;
+      margin-left: -250px;
+      background: #fef1f1;
+      z-index: 999999999;
+      border-radius: 5px;
+      border: 1px solid #e2a8a8;
+      color: #c43b3b;
+      opacity: 0;
+    }
+    #notify.happy {
+      background: #f2fef1;
+      border: 1px solid #a8e2c2;
+      color: #23af41;
+    }
+    #notify p {
+      text-align: center;
+      padding-top: 9px;
     }
     
 block body
@@ -58,6 +82,7 @@ block body
             div.rectangle(label="Suggest your conference!" type="submit" action="/suggest")
               p Add this user!
                   
-
+    div#notify
+      p 
 
   //- include includes/footer.pug

@@ -68,10 +68,8 @@ router.post('/submit', busboy({ immediate: true}), (req, res) => {
 
   var dbStore = (admin) => {
     return new Promise((resolve, reject) => {
-
       if(admin) var uData = new conf(conference);
       else var uData = new suggestion(conference);
-
       uData.save()
         .then(() => {
           resolve()

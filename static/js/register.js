@@ -9,57 +9,88 @@ $(document).ready(function(){
     $(".fileinfo").text(filename);
   });
 
+  $(".dropdown li").each(function(index){
+    $(this).on("click", function(){
+      $(".sel").val(index) //db stores this as a number
+    })
+  })
 
-  function register(){
+  function notification(message){
+    var notifier = $("#notify");
 
-    var inputs = container.find("input");
+    notifier.removeClass("happy")
+    if(message==="User is registered!") notifier.addClass("happy")
 
-    var name = inputs[1].value;
-    var date = inputs[2].value;
-    var city = inputs[3].value.split(", ")[0];
-    var country = inputs[3].value.split(", ")[1];
-    var website = inputs[4].value;
-    var file = container.find('.fileinput')[0].files[0]
-    var desc = container.find("textarea")[0].value;
-
-    if(file) var filename = file.name
-    else if($(container.find('.img')[0]).css("background-image") != "url(\"http://localhost/img/placeholder.png\"\)") var filename = ($(container.find('.img')[0]).css("background-image")).split("/pending/")[1].replace("\")", "")
-    else var fileName = false;
-
-    var formData = new FormData();
-
-    var conference = {
-      title: name,
-      date: date,
-      country: country,
-      city: city,
-      description: desc,
-      website: website,
-      image: filename,
-      approve: true
-    }
-
-    formData.append("data", JSON.stringify(conference))
-    formData.append("file", file);
-
-    $.ajax({
-      type: "POST",
-      url: "/submit",
-      contentType: false,
-      data: formData,
-      processData: false,
-      success: function(r){
-        if(r === "OK"){
-          clear(container)
-        }
-      },
-      error: function (e) {
-          console.log("some error", e);
-      }
-    });
+    $("#notify p").text(message);
+    notifier.animate({
+      "opacity": "1"
+    }, 350)
+    setTimeout(function(){
+      notifier.animate({
+        "opacity": "0"
+      }, 350)
+    }, 2500)
   }
 
+  $(".rectangle").on("click", function(){
+    var inputs = $("input");
+    var admin = $(".sel");
+    var email = inputs[0].value
+    var username = inputs[1].value
+    var personname = inputs[2].value
+    var password = inputs[3].value
 
-  $("rectangle").on("click", function(){ register()})
+    var file = $('.fileinput')[0].files[0]
+    function notify(){
+     var missing = [];
+
+     if(admin.text()==="") missing.push($($(".menu")[0]))
+
+     for(i=0;i<5;i++) // check the fields aren't empty
+       if(inputs[i].value === "") missing.push(inputs[i])
+
+     if(!file) missing.push($(".file"))
+     else var filename = file.name;
+
+     if(missing.length!=0){
+       for(item in missing){
+         $(missing[item]).css("background-color", "rgba(255,0,0,0.25").on("click", function(){
+           $(this).css("background-color", "#FFFFFF")
+         })
+       }
+       console.log(missing)
+       window.scrollTo(0,0);
+       return false;
+     }else return true;
+    }
+
+    if(notify()){
+      var formData = new FormData();
+      var user = {
+        username: username,
+        name: personname, //for some reason if I call this var 'name' it doesn't work
+        password: password,
+        email: email,
+        isAdmin: admin.val(),
+        filename: filename
+      }
+      var str = JSON.stringify(user)
+      formData.append("data", str);
+      formData.append("file", file);
+      $.ajax({
+        type: "POST",
+        url: "/register",
+        contentType: false,
+        data: formData,
+        processData: false,
+        success: function(r){
+          notification(r)
+        },
+        error: function (e) {
+          console.log("some error", e);
+        }
+      });
+    }
+  })
 
 })

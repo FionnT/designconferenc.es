@@ -1,7 +1,7 @@
 const bodyParser = require('body-parser')
 const express = require('express');
 const app = express();
-const port = 80;
+const port = process.env.port || 80;
 const passport = require('passport');
 
 
@@ -25,11 +25,14 @@ app.use(require('express-session')({
 app.use(express.static("./static"));
 
 app.use('/', require('./modules/auth'));
-app.use('/', require('./modules/pages'));
 app.use('/', require('./modules/functions'));
+app.use('/', require('./modules/pages'));
+
+app.use('/', require('./modules/commands/purge'));
+app.use('/', require('./modules/commands/register'));
 app.use('/', require('./modules/commands/search'));
 app.use('/', require('./modules/commands/submit'));
-app.use('/', require('./modules/commands/purge'));
+
 
 app.get('*', function(req, res) {
   res.redirect('/404');
