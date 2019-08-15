@@ -1,7 +1,7 @@
 const bodyParser = require('body-parser')
 const express = require('express');
 const app = express();
-const port = process.env.port || 80;
+const port = 3000;
 const passport = require('passport');
 
 
