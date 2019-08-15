@@ -3,6 +3,7 @@ const express = require('express');
 const app = express();
 const port = 3000;
 const passport = require('passport');
+var httpsRedirect = require('express-https-redirect');
 
 app.use(passport.initialize());
 app.use(passport.session());
@@ -31,8 +32,7 @@ app.use('/', require('./modules/commands/purge'));
 app.use('/', require('./modules/commands/register'));
 app.use('/', require('./modules/commands/search'));
 app.use('/', require('./modules/commands/submit'));
-
-
+app.use('/', httpsRedirect());
 
 app.get('*', function(req, res) {
   res.redirect('/404');
