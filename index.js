@@ -3,7 +3,6 @@ const express = require('express');
 const app = express();
 const port = 3000;
 const passport = require('passport');
-const redirectToHTTPS = require('express-http-to-https').redirectToHTTPS
 
 app.use(passport.initialize());
 app.use(passport.session());
@@ -33,8 +32,7 @@ app.use('/', require('./modules/commands/register'));
 app.use('/', require('./modules/commands/search'));
 app.use('/', require('./modules/commands/submit'));
 
-// Don't redirect if the hostname is `localhost:port`
-app.use(redirectToHTTPS([], [], 200));
+
 
 app.get('*', function(req, res) {
   res.redirect('/404');
