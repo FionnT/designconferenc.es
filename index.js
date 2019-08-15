@@ -34,7 +34,7 @@ app.use('/', require('./modules/commands/search'));
 app.use('/', require('./modules/commands/submit'));
 
 // Don't redirect if the hostname is `localhost:port`
-app.use(redirectToHTTPS([/localhost:(\d{4})/], 301));
+app.use(redirectToHTTPS());
 
 app.get('*', function(req, res) {
   res.redirect('/404');
