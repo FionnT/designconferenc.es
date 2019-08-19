@@ -1,7 +1,5 @@
 include includes/header.pug
 
-  script(src='js/register.js') 
-  script(src="http://livejs.com/live.js") 
   link(rel='stylesheet', href='/css/suggest.css')
   style(type='text/css').
     .item{width: 45%;}
@@ -40,7 +38,9 @@ include includes/header.pug
       text-align: center;
       padding-top: 9px;
     }
-    
+    #country {
+      width: 100%;
+    }
 block body
   body
     div.wrapper
@@ -85,4 +85,5 @@ block body
     div#notify
       p 
 
-  //- include includes/footer.pug
+include includes/footer.pug
+  script(src='js/register.js') 

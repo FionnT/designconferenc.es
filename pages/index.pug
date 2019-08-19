@@ -1,13 +1,6 @@
 include includes/header.pug
 
-  script(src="http://livejs.com/live.js")
   link(rel='stylesheet', href='/css/index.css')
-  if !manage
-    script(src="https://unpkg.com/packery@2.1.2/dist/packery.pkgd.min.js")
-    script(src="js/index.js") 
-  if manage
-    link(rel='stylesheet', href='/css/manage.css')
-    script(src="js/manage.js") 
   title Design Conferences
   
 block body
@@ -326,5 +319,11 @@ block body
           p Try expanding your search,<br>or suggest a conference using the button below!
           a.rectangle(href="/suggest" label="Suggest a Conference!") 
             p Suggest a conference!
-//- 
-//- include includes/footer.pug
+
+include includes/footer.pug
+  if !manage
+    script(src="https://unpkg.com/packery@2.1.2/dist/packery.pkgd.min.js")
+    script(src="js/index.js") 
+  if manage
+    link(rel='stylesheet', href='/css/manage.css')
+    script(src="js/manage.js") 

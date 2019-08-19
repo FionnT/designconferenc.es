@@ -1,10 +1,20 @@
-//- footer
-//-   div#profile
-//-     img(style={"background-image": "url('./img/placeholder.png')"})
-//-     if user.isAdmin
-//-       a(href="/approve") Review
-//-     if user.isAdmin<2
-//-       a(href="/register") Add User
-//-     if user.isAdmin<1
-//-       a(href="/admin") Manage Users
-//-     a(href="/logout") Logout
+footer
+  script(src="js/jquery-3.4.1.min.js")
+  script(src="js/common.js")
+  style(type='text/css').
+    #profile a:hover {
+      color: #D74177
+    }
+  
+  if user
+    div#profile
+      img(style={"background-image": "url(" + user.filename + ")"})
+      if user.isAdmin>0
+        a(href="/approve") Review
+      if user.isAdmin>0
+        a(href="/Add") Submit
+      if user.isAdmin<2
+        a(href="/register") Add User
+      if user.isAdmin<1
+        a(href="/admin") Manage Users
+      a(href="/logout") Logout

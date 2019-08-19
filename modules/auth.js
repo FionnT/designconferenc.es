@@ -1,7 +1,11 @@
+const bcrypt = require('bcrypt')
+const cookie = require('cookie');
 const pug = require('pug');
 const router = require('express').Router();
 const passport = require('passport');
+
 const LocalStrategy = require('passport-local').Strategy;
+
 
 var models = require("./mongoose/models.js")
 var person = models.person;
@@ -25,23 +29,23 @@ passport.use(new LocalStrategy(
   })
 );
 
-
 router.get('/logout', function(req, res){
   res.clearCookie('UID');
   res.redirect('/');
 });
 
 router.post('/login',
-  passport.authenticate('local', {failureRedirect: '/login'}), (req, res) => {
+  passport.authenticate('local', {failureRedirect: '/failed'}), (req, res) => {
+    console.log(req.query)
     res.cookie('UID', req.session.passport.user, { expires: new Date(Date.now() + 1800000), httpOnly: true, encode: String });
     res.redirect('/');
   }
 );
 
 router.get('/login', (req, res) => {
-  Person.findOne({_id: req.cookies.UID}, function(err, user){
-    if(user) res.redirect("index")
-    else res.render("login")
+  person.findOne({_id: req.cookies.UID}, function(err, user){
+    if(user) res.redirect("/")
+    else res.render("auth")
   })
 })
 

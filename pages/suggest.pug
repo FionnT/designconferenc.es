@@ -1,16 +1,14 @@
 include includes/header.pug
 
-  //- script(src="http://livejs.com/live.js") 
-  script(src="js/suggest.js") 
   title Design Conferences
   link(rel='stylesheet', href='/css/suggest.css')
 
 block body
   div.wrapper
     div#splash
-      if isAdmin
+      if user.isAdmin
         h1 Add a conference
-      if !isAdmin
+      if !user.isAdmin
         h1 Suggest a conference
       p 
        a(href="/") Or go back to the list.
@@ -257,9 +255,10 @@ block body
           p.fileinfo Upload a file  
       div.item.big
         div.rectangle(label="Suggest your conference!" type="submit" action="/suggest")
-          if !isAdmin
+          if !user.isAdmin
             p Suggest this conference!
-          if isAdmin 
+          if user.isAdmin 
             p Save your conference!
 
-//- include includes/footer.pug
+include includes/footer.pug
+  script(src="js/suggest.js") 

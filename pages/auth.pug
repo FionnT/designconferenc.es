@@ -1,19 +1,26 @@
 include includes/header.pug 
   head
-    link(rel='stylesheet', href='/css/auth.css')
+    link(rel='stylesheet', href='/css/suggest.css')
     title Login    
+
+block body
   body
-    include includes/menu.pug
-    div#form
-      
-
-
-    //- form(method="post" action="/login")
-    //-   input(type="text" name="username" placeholder="Email or Username")
-    //-   br
-    //-   input(type="text" name="password" placeholder="Password")
-    //-   br
-    //-   input(type="submit" value="Login")
-
+    div.wrapper
+      div#splash
+        h1 Login
+        p
+          a(href="./") Go home, you're drunk!
+      div#suggest
+        form(action="/login" method="post")
+          div.item.big
+            p Email or Username
+            input(type="text" name="username" placeholder="person@someone.com" required)   
+          div.item.big
+            p Password
+            input(type="password" name="password" placeholder="Password" required)
+          div.item.big    
+            input(type="submit")
+    div#notify
+      p 
 
 include includes/footer.pug

@@ -38,37 +38,41 @@ router.get('/', (req, res) => {
 })
 
 router.get('/approve', (req, res) => {
-  suggestion.find({}, (err, suggestions) => {
-    if(suggestions){
-      res.render('index', {
-        manage: true,
-        list: suggestions,
-        result: suggestions.length
-      })
-    }else {
-      res.render('index', {
-        manage: true,
-        list: false ,
-        result: false
-      })
-    }
+  isAdmin.basic(req, res, (user)=> {
+    suggestion.find({}, (err, suggestions) => {
+      if(suggestions){
+        res.render('index', {
+          manage: true,
+          list: suggestions,
+          result: suggestions.length,
+          user: user
+        })
+      }else {
+        res.render('index', {
+          manage: true,
+          list: false ,
+          result: false,
+          user: user
+        })
+      }
+    })
   })
-
 })
 
 router.get('/admin', (req, res) => {
-  isAdmin.level(req, res, 1, () =>{
-    person.find({}, (err, users) => {
-      res.render('admin', {
-        users: users
-      })
+  isAdmin.level(req, res, 0, (user) =>{
+    res.render('admin', {
+      user: user
     })
   })
 })
 
 router.get('/suggest', (req, res) => {
-  isAdmin.level(req, res, 2, () =>{
-    res.redirect('/add') // Send an admin to the add page instead
+  isAdmin.level(req, res, 2, (user) =>{
+    res.render('suggest', {
+      isAdmin: true,
+      user: user
+    }) // Send an admin to the add page instead
   }, () => {
     res.render('suggest')
   })
@@ -78,7 +82,7 @@ router.get('/add', (req, res) => {
   isAdmin.basic(req, res, (user) =>{
     res.render('suggest', {
       isAdmin: true,
-      firstName: user.firstName
+      user: user
     })
   }, ()=> {
     res.redirect('/suggest')
