@@ -70,7 +70,7 @@ router.get('/admin', (req, res) => {
 router.get('/suggest', (req, res) => {
   isAdmin.level(req, res, 2, (user) =>{
     res.render('suggest', {
-      isAdmin: true,
+      isAdmin: user.isAdmin,
       user: user
     }) // Send an admin to the add page instead
   }, () => {
@@ -81,7 +81,7 @@ router.get('/suggest', (req, res) => {
 router.get('/add', (req, res) => {
   isAdmin.basic(req, res, (user) =>{
     res.render('suggest', {
-      isAdmin: true,
+      isAdmin: user.isAdmin,
       user: user
     })
   }, ()=> {

@@ -6,9 +6,9 @@ include includes/header.pug
 block body
   div.wrapper
     div#splash
-      if user.isAdmin
+      if isAdmin
         h1 Add a conference
-      if !user.isAdmin
+      if !isAdmin
         h1 Suggest a conference
       p 
        a(href="/") Or go back to the list.
@@ -255,9 +255,9 @@ block body
           p.fileinfo Upload a file  
       div.item.big
         div.rectangle(label="Suggest your conference!" type="submit" action="/suggest")
-          if !user.isAdmin
+          if !isAdmin
             p Suggest this conference!
-          if user.isAdmin 
+          if isAdmin 
             p Save your conference!
 
 include includes/footer.pug
