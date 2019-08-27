@@ -4,3 +4,8 @@ html(lang=en)
     meta(name="viewport" content="width=800")
     meta(charset="utf-8")
     link(rel='stylesheet', href='/css/common.css')
+    script.
+      if (location.protocol != 'https:') {
+        console.log('working')
+          /* location.href = 'https:' + window.location.href.substring(window.location.protocol.length); */
+      }

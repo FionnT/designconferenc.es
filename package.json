@@ -24,9 +24,9 @@
     "express-https-redirect": "^1.0.0",
     "express-session": "^1.16.2",
     "file-type": "^12.1.0",
-    "forever": "^1.0.0",
     "mongodb": "^3.2.7",
     "mongoose": "^5.6.4",
+    "node-sass": "^4.12.0",
     "passport": "^0.4.0",
     "passport-local": "^1.0.0",
     "pug": "^2.0.4",
@@ -35,6 +35,6 @@
     "uuid": "^3.3.2"
   },
   "devDependencies": {
-    "nodemon": "^1.18.7"
+    "nodemon": "^1.19.1"
   }
 }

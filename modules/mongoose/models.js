@@ -1,12 +1,12 @@
-var mongoose = require("mongoose");
+var mongoose = require('mongoose')
 
-mongoose.Promise = global.Promise;
+mongoose.Promise = global.Promise
 
 // mongoose.connect("mongodb://site:kseneU5ffzGUpZ3@ds161397.mlab.com:61397/heroku_6lgfsr4h", { useNewUrlParser: true });
 
-mongoose.connect('mongodb://localhost:27017/designconferences', {useNewUrlParser: true});
+mongoose.connect('mongodb://localhost:27017/designconferences', { useNewUrlParser: true })
 
-var Schema = mongoose.Schema;
+var Schema = mongoose.Schema
 
 var userSchema = new Schema({
   username: String,
@@ -18,7 +18,7 @@ var userSchema = new Schema({
     default: 3
   },
   filename: String
-}, {collection: 'users'});
+}, { collection: 'users' })
 
 var conferenceSchema = new Schema({
   title: String,
@@ -28,7 +28,7 @@ var conferenceSchema = new Schema({
   description: String,
   website: String,
   image: String
-}, { collection: 'conferences' });
+}, { collection: 'conferences' })
 
 var suggestSchema = new Schema({
   title: String,
@@ -38,11 +38,11 @@ var suggestSchema = new Schema({
   description: String,
   website: String,
   image: String
-}, { collection: 'suggestions' });
+}, { collection: 'suggestions' })
 
-var person = mongoose.model("Person", userSchema);
-var suggestion = mongoose.model("Suggestion", suggestSchema);
-var conference = mongoose.model("Conference", conferenceSchema);
+var person = mongoose.model('Person', userSchema)
+var suggestion = mongoose.model('Suggestion', suggestSchema)
+var conference = mongoose.model('Conference', conferenceSchema)
 
 module.exports = {
   person,

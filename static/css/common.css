@@ -75,7 +75,6 @@ footer, header, hgroup, menu, nav, section {
 	display: block;
 }
 body {
-  height: 100px;
   background-color: #f4f4f4;
 	line-height: 1;
   font-family: 'Lato', sans-serif;
@@ -151,7 +150,8 @@ table {
   max-width: 800px;
   width: 100%;
   background: inherit;
-  height: 1000%;
+  height: auto;
+  min-height: 100%;
   margin: 0 auto;
 }
 

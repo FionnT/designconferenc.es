@@ -5,16 +5,59 @@ footer
     #profile a:hover {
       color: #D74177
     }
+    #credits {
+      pointer-events: auto;
+      width: 400px;
+      height: 75px;
+      position: relative;
+      bottom: 15px;
+      left: 50%;
+      margin: 0 0 0 -200px;
+      text-align: center;
+      font-family: 'Lato', sans-serif;
+      font-weight: 300;
+      color: black;
+      font-size: 0.9em;
+    }
+    #credits p {
+      width: auto;
+      display: inline-block;
+      margin-bottom: 5px;
+    }
+    #credits a {
+      text-decoration: none;
+      color: #d74177a8;
+      display: unset;
+      width: auto;
+      height: 16px;
+      margin: 0 0 0 3px;
+      font-family: 'Lato', sans-serif;
+      font-weight: 600;
+      font-size: 1em;
+      transition: all 0.15s ease-out;
+    }
+    #credits a:hover  {
+      color: black;
+    }
   
   if user
     div#profile
       img(style={"background-image": "url(" + user.filename + ")"})
-      if user.isAdmin>0
+      if user.isAdmin>=0
         a(href="/approve") Review
-      if user.isAdmin>0
+      if user.isAdmin>=0
         a(href="/Add") Submit
       if user.isAdmin<2
-        a(href="/register") Add User
+        a(href="/register") Add Users
       if user.isAdmin<1
         a(href="/admin") Manage Users
       a(href="/logout") Logout
+  div#credits
+    p 
+      | Made with heart by &hearts;
+      a(href="place.com") Laura 
+      | and
+      a(href="place.com") Fionn 
+    p 
+      | Got any questions? Email us at:
+      a(href="mailto:hello@designconferenc.es") hello@designconferenc.es 
