@@ -22,17 +22,41 @@ var userSchema = new Schema({
 
 var conferenceSchema = new Schema({
   title: String,
-  date: String,
+  text_date: String,
+  start_date: {
+    index: Number,
+    date: Number,
+    month: Number,
+    year: Number
+  },
+  end_date: {
+    index: Number,
+    date: Number,
+    month: Number,
+    year: Number
+  },
   country: String,
   city: String,
   description: String,
   website: String,
-  image: String
+  image: String,
 }, { collection: 'conferences' })
 
 var suggestSchema = new Schema({
   title: String,
-  date: String,
+  text_date: String,
+  start_date: {
+    index: Number,
+    date: Number,
+    month: Number,
+    year: Number
+  },
+  end_date: {
+      index: Number,
+      date: Number,
+      month: Number,
+      year: Number
+  },
   country: String,
   city: String,
   description: String,

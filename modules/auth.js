@@ -35,8 +35,7 @@ router.get('/logout', function (req, res) {
 })
 
 router.post('/login',
-  passport.authenticate('local', { failureRedirect: '/failed' }), (req, res) => {
-    console.log(req.query)
+  passport.authenticate('local', { failureRedirect: '/login' }), (req, res) => {
     res.cookie('UID', req.session.passport.user, { expires: new Date(Date.now() + 1800000), httpOnly: true, encode: String })
     res.redirect('/')
   }

@@ -25,6 +25,7 @@ router.get('/search', (req, res) => {
     return new Promise((resolve, reject) => {
       const result = [...new Set(raw.map(obj => JSON.stringify(obj)))].map(str => JSON.parse(str)) // removing duplicates from the raw array
       helper = result.splice(0) // cloning the constant so we can edit it
+      console.log(helper)
       function run () {
         for (i = 0; i < helper.length; i++) {
           function parse (a, b) {
@@ -38,14 +39,19 @@ router.get('/search', (req, res) => {
             }
           }
           if (name) parse(name, 'title')
-          if (time) parse(time, 'date')
+          if (time) parse(time, 'text_date')
           if (place) parse(place, 'country')
         }
         resolve()
       }
       if (helper.length != 0) run()
       else resolve()
-    }).then(run = undefined) // prevent stack size exceptions
+    }).then(run = undefined)
+    // .catch(
+    //   res.render('index', {
+    //     list: false
+    //   })
+    // ) // prevent stack size exceptions
   }
 
   function isEmpty (obj) {
@@ -68,7 +74,7 @@ router.get('/search', (req, res) => {
   async function handler () {
     if ((!place && !time) && !name) resolve(true)
     if (place) { const a = await search(place, 'country') };
-    if (time) { const b = await search(time, 'date') };
+    if (time) { const b = await search(time, 'text_date') };
     if (name) { const c = await search(name, 'title') };
     const d = await filter()
     return resolve(false)

@@ -1,0 +1,230 @@
+@import _reset
+@import _fonts
+@import _vars
+@import _common
+
+#suggest
+  width: 100%
+  margin: 0 auto
+  min-height: 800px
+  z-index: 0
+  input, textarea
+    min-height: 40px
+    height: 25%
+    width: calc(100% - 16px)
+    padding-left: 15px
+    margin: 10px auto 0
+    outline: none
+  .item
+    @media screen and (max-width: $break-small)
+      margin: 5px auto 10px
+    &.small
+      @media screen and (max-width: $break-small)
+        width: 100%
+    &.big
+      .rectangle
+        @media screen and (max-width: $break-small)
+          width: 100%
+    p
+      width: 100%
+      height: 22px
+      display: block
+      position: relative
+      margin: 0
+      top: 0
+      left: 0
+      font-family: $opensans
+      font-size: 17px
+      font-weight: 300
+      line-height: 22px
+      color: #737881
+      padding: 10px 0 0 0
+    .menu p
+      font-family: $lato
+      color: $black
+      width: auto
+      padding: 0 0 0 15px
+      margin: 10px 0 0 0
+      float: left
+      display: inline-block
+      pointer-events: none
+      &:last-of-type
+        float: right
+        margin-right: 15px
+    .rectangle p
+      color: $white
+      &:hover
+        color: $lgray
+    button.file
+      height: 40px
+      min-width: 154px
+      width: auto
+      margin: 15px 0 0
+      transition: $transition
+      cursor: pointer
+      border: 1px solid $outline
+      border-radius: 21px
+      background: linear-gradient(180deg, #FFFFFF 0%, #EEEEEE 100%)
+      p
+        font-size: 14px
+        width: auto
+        min-width: 100%
+        margin: 0 5px 0 0px
+        text-align: center
+        padding: 0 15px 0 0px
+
+      &:focus, &:active
+        outline: none
+        background-color: linear-gradient(180deg, #eaeaea 0%, #DEE0E4 100%)
+        border: 1px solid #BFC1C3
+
+  #country
+    margin: 10px 0 0 0
+    min-height: 40px
+    width: 85%
+    @media screen and (max-width: $break-small)
+      width: 100% !important
+
+  #calendar
+    width: 100%
+    height: 535px
+    background: white
+    border: 1px solid $outline
+    border-radius: 2px
+
+    .controls *
+      -webkit-touch-callout: none /* iOS Safari */
+      -webkit-user-select: none /* Safari */
+       -khtml-user-select: none /* Konqueror HTML */
+         -moz-user-select: none /* Firefox */
+          -ms-user-select: none /* Internet Explorer/Edge */
+              user-select: none /* Non-prefixed version, currently */
+
+    .controls
+      width: 100%
+      height: 25px
+      margin: 20px auto
+      p
+        width: calc(32% - 15px)
+        margin: 0 0 0 2%
+        display: inline-block
+        padding-top: 2px
+      .left
+        margin: 0 2% 0 0
+        padding-left: 15px
+      .date
+        text-align: center
+        margin: 0
+        width: calc(32% - 30px)\
+      .right
+        /* I have no idea why, but it keeps rendering 1px smaller than the left side, so I have to set it 1px bigger */
+        text-align: right
+        padding-right: 15px
+        font-size: 18px
+      .right, .left
+        cursor: pointer
+
+    .datepicker
+      width: 500px
+      height: 350px
+      margin: 0 auto 65px
+      .days
+        cursor: default
+        width: 100%
+        margin: 0 auto
+        height: 50px
+        padding-bottom: 10px
+        p
+          width: 12%
+          padding-left: 0
+          &:first-of-type
+            padding-left: 5%
+
+      ul.numbers
+        width: 100%
+        height: calc(100% - 50px)
+
+      .days p, .numbers li
+        height: 100%
+        display: inline-block
+        margin: 0 0.24% 0 0
+        text-align: center
+        line-height: 50px
+
+      .numbers
+        li
+          width: 12%
+          height: 20%
+          color: $black
+          line-height: 59px
+          font-family: $lato
+          font-weight: 300
+
+          &:nth-child(7n + 1)
+            margin-left: 5%
+            /* centering, i.e. push first item in every row */
+
+          .left, .right
+            width: 51%
+            position: relative
+            height: 100%
+            margin-top: -100%
+            z-index: 1
+            cursor: pointer
+
+          .left
+            left: -1%
+          .right
+            left: 50%
+
+          .circle
+            width: 100%
+            height: 100%
+            position: relative
+            left: 0
+            margin: 0 auto
+            z-index: 2
+            cursor: pointer
+            border-radius: 100%
+            pointer-events: none
+        p
+          margin: -100% 0 0 0
+          z-index: 3
+          line-height: 59px
+          pointer-events: none
+          font-family: $lato
+          color: $black
+          padding: 0
+
+      .date.more .right, .date.less .left, .date.middle .right, .date.middle .left
+        background-color: rgba(233,44,119,0.2)
+      .date.active .circle
+        background-color: #F89BBC
+
+    .selected
+        position: unset
+        display: inline-block
+        text-align: center
+        font-style: italic
+
+    .date.hidden
+      opacity: 0
+      pointer-events: none
+
+#description textarea
+  height: 90px
+  padding-top: 15px
+  text-align: left
+  line-height: 25px
+  font-size: 16px
+  font-family: 'Lato', sans-serif
+  font-weight: 300
+
+  border: 1px solid #DEE0E4
+  resize: none
+
+
+input.fileinput[type='file']
+  display: none
+  opacity: 0
+  position: absolute

@@ -4,15 +4,30 @@ include includes/header.pug
   link(rel='stylesheet', href='/css/index.css')
 
   title Design Conferences
+  style(type='text/css').
+    #splash {
+      height: 250px;
+    }
+    #splash p {
+      width: 75%;
+      height: auto;
+      text-align: center;
+      padding: 30px 0 20px 0;
+    }
+    #splash p br {
+      line-height: 10px
+    }
+    .wrapper .item.big {
+      margin-top: 60px auto 0
+    }
 
 block body
   div.wrapper
     div#splash
       a(href="./")
         h1 Thank you for your suggestion 🙏
-      p Your conference suggestion has been successfully submitted. 
-      p If this suggestion is accepted, it will appear in the list.
-    div.item.big(style="margin-top: 60px auto 0")
+      p Your conference suggestion has been successfully submitted. <br/> <br/> If this suggestion is accepted, it will appear in the list.
+    div.item.big
       div.rectangle
         a(href="/")
           p Go back to the list

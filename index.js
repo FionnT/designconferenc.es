@@ -3,7 +3,10 @@ const express = require('express')
 const app = express()
 const port = 3000
 const passport = require('passport')
-var httpsRedirect = require('express-https-redirect')
+const sassMiddleware = require('node-sass-middleware');
+const path = require('path')
+const robots = require('express-robots-txt')
+
 
 app.use(passport.initialize())
 app.use(passport.session())
@@ -21,6 +24,19 @@ app.use(require('express-session')({
   saveUninitialized: true
 }))
 
+app.use(robots({UserAgent: '*', Allow: '/', CrawlDelay: '5'}))
+
+app.use(sassMiddleware({
+    /* Options */
+    src: path.join(__dirname, '/build'),
+    dest: path.join(__dirname, '/static/css'),
+    debug: false,
+    force: false,
+    indentedSyntax: true,
+    outputStyle: 'compressed',
+    prefix:  '/css'
+}));
+
 app.use(express.static('./static'))
 
 app.use('/', require('./modules/auth'))
@@ -31,7 +47,6 @@ app.use('/', require('./modules/commands/purge'))
 app.use('/', require('./modules/commands/register'))
 app.use('/', require('./modules/commands/search'))
 app.use('/', require('./modules/commands/submit'))
-app.use('/', httpsRedirect())
 
 app.get('*', function (req, res) {
   res.redirect('/404')

@@ -1,46 +1,8 @@
 include includes/header.pug
 
   link(rel='stylesheet', href='/css/suggest.css')
-  style(type='text/css').
-    .item{width: 45%;}
-   .item:nth-child(odd) {
-      margin: 20px 10% 20px 0;
-    }
-    .submit{
-      margin: 25px auto 0 !important;
-    }
-    #suggest .submit input{
-      cursor: pointer;
-    }
-    .menu .dropdown.active {
-      height: 100px;
-    }
-    #notify {
-      width: 500px;
-      height: 35px;
-      position: absolute;
-      top: 35px;
-      left: 50%;
-      margin-left: -250px;
-      background: #fef1f1;
-      z-index: 999999999;
-      border-radius: 5px;
-      border: 1px solid #e2a8a8;
-      color: #c43b3b;
-      opacity: 0;
-    }
-    #notify.happy {
-      background: #f2fef1;
-      border: 1px solid #a8e2c2;
-      color: #23af41;
-    }
-    #notify p {
-      text-align: center;
-      padding-top: 9px;
-    }
-    #country {
-      width: 100%;
-    }
+  link(rel='stylesheet', href='/css/register.css')
+
 block body
   body
     div.wrapper
@@ -49,41 +11,40 @@ block body
         p
           a(href="/admin") Or manage existing users.
       div#suggest
-          div.item
-            p User Level *
-            div#country.menu(label="Country Menu")
-              p.sel Select a user role
-              p &#9662;
-              ul.dropdown.inactive
-                li="Admin"
-                li="Manager"
-                li="Reviewer"
-          div.item
-            p Email
-            input(type="text" name="email" placeholder="person@someone.com" required)
-          div.item
-            p Username
-            input(type="text" name="username" placeholder="Joker123" required)    
-          div.item
-            p Name
-            input(type="text" name="first" placeholder="John" required)
-          div.item
-            p Password
-            input(type="password" name="123Password" placeholder="Password" required)
-          div.item
-            p Verify Password
-            input(type="password" name="123Password" placeholder="Verify Password" required)
-          div.item
-            p User Icon (Square)
-            input.fileinput(type="file" name="icon" accept=".png,.jpg,.gif,.svg,.bmp" required)
-            button.file(label="Conference Icon")
-              p.fileinfo Upload a file  
-          div.item.big
-            div.rectangle(label="Suggest your conference!" type="submit" action="/suggest")
-              p Add this user!
-                  
-    div#notify
-      p 
+        div.item.big
+          p User Level *
+          div#country.menu(label="Country Menu")
+            p.sel Select a user role
+            p &#9662;
+            ul.dropdown.inactive
+              li="Admin"
+              li="Manager"
+              li="Reviewer"
+        div.item.big
+          p Email
+          input(type="text" name="email" placeholder="person@someone.com" required)
+        div.item.big
+          p Username
+          input(type="text" name="username" placeholder="Joker123" required)    
+        div.item.big
+          p Name
+          input(type="text" name="first" placeholder="John" required)
+        div.item.big
+          p Password
+          input(type="password" name="123Password" placeholder="Password" required)
+        div.item.big
+          p Verify Password
+          input(type="password" name="123Password" placeholder="Verify Password" required)
+        div.item.big
+          p User Icon (Square)
+          input.fileinput(type="file" name="icon" accept=".png,.jpg,.gif,.svg,.bmp" required)
+          button.file(label="Conference Icon")
+            p.fileinfo Upload a file  
+        div.item.big
+          div.rectangle(label="Suggest your conference!" type="submit" action="/suggest")
+            p Add this user!  
+      div#notify
+        p 
 
 include includes/footer.pug
   script(src='js/register.js') 

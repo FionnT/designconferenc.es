@@ -2,7 +2,10 @@ include includes/header.pug
   head
     link(rel='stylesheet', href='/css/suggest.css')
     title Login    
-
+    script.
+      if(document.referrer.includes('/login')){
+        alert('Login Failed')
+      }
 block body
   body
     div.wrapper
@@ -19,7 +22,7 @@ block body
             p Password
             input(type="password" name="password" placeholder="Password" required)
           div.item.big    
-            input(type="submit")
+            input(type="submit"  style="margin-left: 8px")
     div#notify
       p 
 

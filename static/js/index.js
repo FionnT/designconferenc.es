@@ -1,20 +1,30 @@
 $(document).ready(function () {
-  $('.toggle').each(function (index) {
-    var $this = $(this)
-    $this.on('click', function (index) {
-      var container = $($this.parents()[0])
-      var text = $($this.find('p'))
-      if (container.hasClass('small')) {
-        container.removeClass('small').addClass('big').css('left', '2% !important') // Packery applies 4%, which is too much
-        text.text('- See Less')
-        $('#conferences').packery({ percentPosition: true })
-      } else {
-        container.removeClass('big').addClass('small').css('left', 'auto')
-        text.text('+ See More')
-        $('#conferences').packery({ percentPosition: true })
-      }
+  if(window.innerWidth >= 960){
+    $('.toggle').each(function (index) {
+      var $this = $(this)
+      $this.on('click', function (index) {
+        var container = $($this.parents()[0])
+        var text = $($this.find('p')[0])
+        if (container.hasClass('small')) {
+          container.removeClass('small').addClass('big').css('left', '2% !important') // Packery applies 4%, which is too much
+          text.text('- See Less')
+          $('#conferences').packery({ percentPosition: true })
+        } else {
+          container.removeClass('big').addClass('small').css('left', 'auto')
+          text.text('+ See More')
+          $('#conferences').packery({ percentPosition: true })
+        }
+      })
     })
-  })
+  }else if(window.innerWidth < 960){
+    $('.toggle').each(function (index) {
+      var $this = $(this)
+      $($this.children()[0]).css("display", "none") // Hide expand button
+      var container = $($this.parents()[0])
+      container.removeClass('small').addClass('big')
+    })
+  }
+
 
   // Search adapations
 

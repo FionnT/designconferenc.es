@@ -1,6 +1,7 @@
 include includes/header.pug
 
   title Design Conferences
+  link(rel='stylesheet', href='/css/common.css')
   link(rel='stylesheet', href='/css/suggest.css')
 
 block body
@@ -19,7 +20,7 @@ block body
       div.item.big 
         p CONFERENCE WEBSITE *
         input(type="text" label="Website URL input" class="text" placeholder="http://somewhere.cool")
-      div.item
+      div.item.small
         p COUNTRY *
         div#country.menu(label="Country Menu")
           p.sel Select a country...
@@ -222,7 +223,7 @@ block body
             li="Yemen"
             li="Zambia"
             li="Zimbabwe"
-      div.item
+      div.item.small
         p CITY *
         input(type="text" label="City input" class="text" placeholder="Enter the city name...")
       div#calendar.item.big
@@ -240,6 +241,7 @@ block body
             p Sa
             p Su 
           ul.numbers(label="Datepicker")
+        p.selected
         li.date.hidden
           div.circle
           div.left

@@ -1,0 +1,44 @@
+@import _reset
+@import _fonts
+@import _vars
+@import _common
+
+.item.big
+  width: 45%
+  &:nth-child(odd)
+    margin: 20px 10% 20px 0
+  &:last-of-type
+    width: 100%
+  @media screen and (max-width: $break-small)
+    width: 100%
+
+  .submit
+    margin: 25px auto 0 !important
+    input
+      cursor: pointer
+
+  .menu .dropdown.active
+    height: 100px
+
+  #notify
+    width: 500px
+    height: 35px
+    position: absolute
+    top: 35px
+    left: 50%
+    margin-left: -250px
+    background: #fef1f1
+    z-index: 999999999
+    border-radius: 5px
+    border: 1px solid #e2a8a8
+    color: #c43b3b
+    opacity: 0
+    &.happy
+      background: #f2fef1
+      border: 1px solid #a8e2c2
+      color: #23af41
+    p
+      text-align: center
+      padding-top: 9px
+  #country
+    width: 100%

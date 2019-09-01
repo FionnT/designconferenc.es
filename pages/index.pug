@@ -16,7 +16,7 @@ block body
           a(href="/add") this form!
     if !manage
       nav 
-        input(type="text" label="Name search" class="text" placeholder="Search this list...")
+        input(type="text" name="Name search" label="Name search" class="text" placeholder="Search this list...")
         div#month.menu(label="Month Menu")
           p.sel This month 
           p &#9662;
@@ -261,12 +261,12 @@ block body
                     div.remove
                     div.upload
               else 
-                div.img(style={"background-image": "url('./img/placeholder.png')"})
+                div.img(style={"background-image": "url('./img/placeholder.png')"} alt=suggestion.title)
                   div.change
                     div.remove
                     div.upload
               input.h2(placeholder=suggestion.title)
-              input.date(placeholder=suggestion.date)
+              input.date(placeholder=suggestion.text_date)
               input.place(placeholder=suggestion.city + ", " + suggestion.country)
               div.description 
                 textarea.desc(placeholder=suggestion.description)
@@ -303,7 +303,7 @@ block body
               if conf.image 
                 div.img(style={"background-image": "url(" + conf.image + ")"})
               h2=conf.title
-              p=conf.date
+              p=conf.text_date 
               p=conf.city + ", " + conf.country
               if conf.description 
                 p.desc=conf.description

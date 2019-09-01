@@ -11,7 +11,6 @@ var conf = models.conference
 // No processing required
 
 router.get('/failed', (req, res) => res.send('Failed'))
-router.get('/register', (req, res) => res.render('register'))
 router.get('/users', (req, res) => res.render('users'))
 router.get('/404', (req, res) => res.render('404'))
 router.get('/thanks', (req, res) => res.render('thanks'))
@@ -54,6 +53,17 @@ router.get('/approve', (req, res) => {
         })
       }
     })
+  })
+})
+
+router.get('/register', (req, res) => {
+  isAdmin.level(req, res, 2, (user) => {
+    res.render('register', {
+      isAdmin: user.isAdmin,
+      user: user
+    }) // Send an admin to the add page instead
+  }, () => {
+    res.redirect('404')
   })
 })
 
