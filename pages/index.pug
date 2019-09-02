@@ -16,8 +16,8 @@ block body
           a(href="/add") this form!
     if !manage
       nav 
-        input(type="text" name="Name search" label="Name search" class="text" placeholder="Search this list...")
-        div#month.menu(label="Month Menu")
+        input(type="text" name="Name search" aria-label="Name search" class="text" placeholder="Search this list...")
+        div#month.menu(aria-label="Month dropdown menu")
           p.sel This month 
           p &#9662;
           ul.dropdown.inactive
@@ -34,7 +34,7 @@ block body
             li October
             li November
             li December
-        div#country.menu(label="Country Menu")
+        div#country.menu(aria-label="Country dropdown menu")
           p.sel Worldwide
           p &#9662;
           ul.dropdown.inactive
@@ -235,7 +235,7 @@ block body
             li="Yemen"
             li="Zambia"
             li="Zimbabwe"
-        div#search(label="Search Button")
+        div#search(aria-label="Search Button")
           div.svg-wrapper
             svg(height="100%" width="100%" xmlns="http://www.w3.org/2000/svg" )
               rect#shape(height="100%" width="100%" x="0" y="0")
@@ -323,7 +323,7 @@ block body
 include includes/footer.pug
   if !manage
     script(src="https://unpkg.com/packery@2.1.2/dist/packery.pkgd.min.js")
-    script(src="js/index.js") 
+    script(src="js/minified/index.js") 
   if manage
     link(rel='stylesheet', href='/css/manage.css')
-    script(src="js/manage.js") 
+    script(src="js/minified/manage.js") 

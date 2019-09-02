@@ -16,13 +16,13 @@ block body
     div#suggest
       div.item.big 
         p CONFERENCE NAME *
-        input(type="text" label="Name input" class="text" placeholder="Cool International Conference of Experience Design")
+        input(type="text" id="nameinput" class="text" aria-label="Text field input for conference submission" placeholder="Cool International Conference of Experience Design")
       div.item.big 
         p CONFERENCE WEBSITE *
-        input(type="text" label="Website URL input" class="text" placeholder="http://somewhere.cool")
+        input(type="text" aria-label="Website URL input" class="text" placeholder="http://somewhere.cool")
       div.item.small
         p COUNTRY *
-        div#country.menu(label="Country Menu")
+        div#country.menu(aria-label="Country Menu")
           p.sel Select a country...
           p &#9662;
           ul.dropdown.inactive
@@ -225,7 +225,7 @@ block body
             li="Zimbabwe"
       div.item.small
         p CITY *
-        input(type="text" label="City input" class="text" placeholder="Enter the city name...")
+        input(type="text" aria-label="Conference City name input" class="text" placeholder="Enter the city name...")
       div#calendar.item.big
         div.controls
           p.left(label="One month less") &#9664;
@@ -240,16 +240,17 @@ block body
             p Fr
             p Sa
             p Su 
-          ul.numbers(label="Datepicker")
+          ul.numbers(aria-label="Datepicker")
         p.selected
-        li.date.hidden
-          div.circle
-          div.left
-          div.right
-          p 1
+        ul
+          li.date.hidden
+            div.circle
+            div.left
+            div.right
+            p 1
       div#description.item.big
         p DESCRIPTION
-        textarea(type="text" maxlength="280" label="Conference Description" placeholder="Enter a description...")
+        textarea(type="text" maxlength="280" aria-label="Conference Description" placeholder="Enter a description...")
       div.item.small
         p CONFERENCE ICON (250x250)
         input.fileinput(type="file" name="icon" accept=".png,.jpg,.gif,.svg,.bmp")
@@ -263,4 +264,4 @@ block body
             p Save your conference!
 
 include includes/footer.pug
-  script(src="js/suggest.js") 
+  script(src="js/minified/suggest.js") 

@@ -56,16 +56,20 @@ router.get('/approve', (req, res) => {
   })
 })
 
-router.get('/register', (req, res) => {
-  isAdmin.level(req, res, 2, (user) => {
-    res.render('register', {
-      isAdmin: user.isAdmin,
-      user: user
-    }) // Send an admin to the add page instead
-  }, () => {
-    res.redirect('404')
-  })
-})
+
+
+router.get('/register', (req, res) => res.render('register'))
+
+// router.get('/register', (req, res) => {
+//   isAdmin.level(req, res, 2, (user) => {
+//     res.render('register', {
+//       isAdmin: user.isAdmin,
+//       user: user
+//     }) // Send an admin to the add page instead
+//   }, () => {
+//     res.redirect('404')
+//   })
+// })
 
 router.get('/admin', (req, res) => {
   isAdmin.level(req, res, 0, (user) => {

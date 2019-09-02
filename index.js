@@ -7,7 +7,6 @@ const sassMiddleware = require('node-sass-middleware');
 const path = require('path')
 const robots = require('express-robots-txt')
 
-
 app.use(passport.initialize())
 app.use(passport.session())
 app.use(bodyParser.json())
@@ -38,6 +37,9 @@ app.use(sassMiddleware({
 }));
 
 app.use(express.static('./static'))
+
+
+
 
 app.use('/', require('./modules/auth'))
 app.use('/', require('./modules/functions'))
