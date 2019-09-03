@@ -8,7 +8,7 @@ var conf = models.conference
 
 router.get('/search', (req, res) => {
   var raw = []
-  var helper = undefined
+  var helper
   var query = {}
 
   var search = (filter, field) => {
@@ -25,7 +25,6 @@ router.get('/search', (req, res) => {
     return new Promise((resolve, reject) => {
       const result = [...new Set(raw.map(obj => JSON.stringify(obj)))].map(str => JSON.parse(str)) // removing duplicates from the raw array
       helper = result.splice(0) // cloning the constant so we can edit it
-      console.log(helper)
       function run () {
         for (i = 0; i < helper.length; i++) {
           function parse (a, b) {
@@ -46,12 +45,12 @@ router.get('/search', (req, res) => {
       }
       if (helper.length != 0) run()
       else resolve()
-    }).then(run = undefined)
-    // .catch(
-    //   res.render('index', {
-    //     list: false
-    //   })
-    // ) // prevent stack size exceptions
+    }).then(run = undefined) // prevent stack size exceptions
+    .catch(
+      res.render('index', {
+        list: false
+      })
+    )
   }
 
   function isEmpty (obj) {

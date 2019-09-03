@@ -1,21 +1,54 @@
-include includes/head.pug
+include includes/header.pug
   
-if users
-  for user in users
-    div(class="user")
-      p= user.username
-      p= user.first
-      p= user.last
-      p(class="email")= user.email
-      if user.isAdmin
-        - var levels = ['User','Admin','Manager','Root']
-        p=levels[user.isAdmin]
-        button(submit="/grantprivileges" class=("privileges revoke")) Revoke Admin? 
-      else
-        p User
-        button(submit="/grantprivileges" class=("privileges grant")) Grant Admin? 
-    br
-    br
-    br
-      
+  link(rel='stylesheet', href='/css/suggest.css')
+  link(rel='stylesheet', href='/css/admin.css')
+  
+block body
+  body
+    div.wrapper
+      div#splash
+        h1 Manage existing users
+        p
+          a(href="/register") Or register a new user.
+      div#suggest
+        if users
+          for user in users
+            div.item.big(data-id=user._id)
+              img.file(src=user.filename)
+              input(class="email" placeholder=user.email)
+              input(class="username" placeholder=user.username)
+              input(class="name" placeholder=user.name)
+              if user.isAdmin<=1
+                input(class="password" placeholder="New password?")
+              input.fileinput(type="file" name="icon" accept=".png,.jpg,.gif,.svg,.bmp" required)
+              div#country.menu(label="Country Menu")
+                - var levels = ["Admin", "Manager", "Reviewer"]
+                p.sel(data-admin=user.isAdmin)=levels[user.isAdmin]
+                p &#9662;
+                ul.dropdown.inactive
+                  li="Admin"
+                  li="Manager"
+                  li="Reviewer"
+              div.buttonwrapper
+                if user.isAdmin<1
+                  div.button.reject
+                    div.svg-wrapper
+                      svg(height="40" width="150" xmlns="http://www.w3.org/2000/svg" )
+                        rect#shape(height="40" width="150")
+                        div#text
+                          span.spot
+                            p="Delete this user"
+                div.button.approve
+                  div.svg-wrapper
+                    svg(height="40" width="150" xmlns="http://www.w3.org/2000/svg" )
+                      rect#shape(height="40" width="150")
+                      div#text
+                        span.spot
+                          p="Save Changes"                
+      div#notify
+        p 
+
 include includes/footer.pug
+  script(src='js/admin.js') 
+    
+    

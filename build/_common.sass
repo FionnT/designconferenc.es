@@ -22,7 +22,7 @@ label
   opacity: 0
   color: transparent
   display: none
-  
+
 .wrapper
   width: 100%
   height: auto
@@ -217,6 +217,99 @@ input
   display: inline-block
   float: left
   margin: 20px auto 20px
+  .buttonwrapper
+  	width: 100%
+  	height: 50px
+  	display: inline-block
+  	margin: 0 0 2.5% 0
+  .button
+  	position: sticky
+  	display: block
+  	top: 90%
+  	float: left
+  	left: 15px
+  	&.approve
+  		float: right
+  		right: calc(50% - 80px)
+  		left: 0
+  .spot
+  	position: absolute
+  	width: 100%
+  	height: 100%
+  	top: 0
+  	left: 0
+
+  .svg-wrapper
+  	cursor: pointer
+  	margin-top: 0
+  	position: relative
+  	width: 150px
+  	height: 40px
+  	display: inline-block
+  	border-radius: 10px
+  	margin-left: 5px
+  	margin-right: 5px
+  	&:hover
+  		#shape
+  			stroke-dasharray: 50 0
+  			stroke-width: 2px
+  			stroke-dashoffset: 0
+  			stroke: #06D6A0
+  			fill: #06D6A0
+  		p
+  			color: white
+  #shape
+  	stroke-width: 2px
+  	fill: transparent
+  	stroke: #009FFD
+  	stroke-dasharray: 50 400
+  	stroke-dashoffset: -168
+  	transition: 0.35s all ease
+  	stroke-width: 2px
+  	fill: transparent
+  	stroke: #009FFD
+  	stroke-dasharray: 50 400
+  	stroke-dashoffset: 212
+  	transition: 0.35s all ease
+  #text
+  	margin-top: -35px
+  	text-align: center
+  	margin-top: -35px
+  	text-align: center
+  	p
+  		text-decoration: none
+  		font-weight: 300
+  		font-size: 1.15em
+  		width: 100%
+  		padding-top: 9px
+  		text-decoration: none
+  		font-weight: 300
+  		font-size: 1.15em
+  		width: 100%
+  		padding-top: 9px
+
+  .approve
+  	.svg-wrapper
+  		&:hover
+  			#shape
+  				stroke-dasharray: 50 0
+  				stroke-width: 2px
+  				stroke-dashoffset: 0
+  				stroke: #06D6A0
+  				fill: transparent
+  			p
+  				color: #118063
+  .reject
+  	.svg-wrapper
+  		&:hover
+  			#shape
+  				stroke-dasharray: 50 0
+  				stroke-width: 2px
+  				stroke-dashoffset: 0
+  				stroke: red
+  				fill: transparent
+  			p
+  				color: red
 
 .item.big
   width: 100%

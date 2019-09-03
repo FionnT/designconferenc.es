@@ -59,6 +59,11 @@ router.get('/approve', (req, res) => {
 
 
 router.get('/register', (req, res) => res.render('register'))
+router.get('/admin', (req, res) => person.find({}, (err, users) => {
+  res.render('admin', {
+    users: users
+  })
+}))
 
 // router.get('/register', (req, res) => {
 //   isAdmin.level(req, res, 2, (user) => {

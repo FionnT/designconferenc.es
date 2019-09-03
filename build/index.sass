@@ -46,54 +46,6 @@ nav
       &:hover
         color: #118063
         /* slightly more readable than the button color */
-    .spot
-      position: absolute
-      width: 100%
-      height: 100%
-      top: 0
-      left: 0
-
-    .svg-wrapper
-      cursor: pointer
-      margin-top: 0
-      position: relative
-      width: 100%
-      height: 100%
-      display: inline-block
-
-      &:hover #shape
-        stroke-dasharray: 50 0
-        stroke-width: 2px
-        stroke-dashoffset: 0
-        stroke: #06D6A0
-
-    #shape
-      stroke-width: 2px
-      fill: transparent
-      stroke: $pink
-      @media screen and (max-width: $break-small)
-        stroke-dasharray: 0 0
-      @media screen and (min-width: $break-large)
-        stroke-dasharray: 700 235
-      stroke-dashoffset: 0
-      transition: $transition
-
-    #text
-      margin-top: -35px
-      text-align: center
-      p
-        text-decoration: none
-        font-family: $lato
-        font-weight: 300
-        width: 100%
-        @media screen and (max-width: $break-small)
-          padding-top: 9px
-          font-size: 0.95em
-        @media screen and (min-width: $break-large)
-          font-size: 1.15em
-          padding-top: 8px
-
-
 
 #noresults
   width: 100%

@@ -38,9 +38,6 @@ app.use(sassMiddleware({
 
 app.use(express.static('./static'))
 
-
-
-
 app.use('/', require('./modules/auth'))
 app.use('/', require('./modules/functions'))
 app.use('/', require('./modules/pages'))
@@ -52,4 +49,5 @@ app.use('/', require('./modules/commands/submit'))
 
 app.get('*', function (req, res) {
   res.redirect('/404')
+  res.sendStatus(404)
 })

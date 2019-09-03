@@ -17,8 +17,7 @@ $(document).ready(function () {
   function notification (message) {
     var notifier = $('#notify')
 
-    notifier.removeClass('happy')
-    if (message === 'User is registered!') notifier.addClass('happy')
+    if (message != 'User is registered!') notifier.removeClass('happy')
 
     $('#notify p').text(message)
     notifier.animate({
@@ -49,10 +48,7 @@ $(document).ready(function () {
       { if (inputs[i].value === '') missing.push(inputs[i]) }
 
       if (!file) missing.push($('.file'))
-      else {
-        var filename = file.name
-        console.log(file)
-      }
+      else var filename = file.name
 
       if (missing.length != 0) {
         for (item in missing) {
@@ -60,7 +56,6 @@ $(document).ready(function () {
             $(this).css('background-color', '#FFFFFF')
           })
         }
-        console.log(missing)
         window.scrollTo(0, 0)
         return false
       } else return true

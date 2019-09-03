@@ -3,12 +3,12 @@
   "name": "The complete and updated list of Design Conferences Worldwide",
   "icons": [
     {
-      "src": "img/icons/internal/192_icon.png",
+      "src": "../img/icons/internal/192_icon.png",
       "type": "image/png",
       "sizes": "192x192"
     },
     {
-      "src": "/img/icons/internal/512_icon.png",
+      "src": "../img/icons/internal/512_icon.png",
       "type": "image/png",
       "sizes": "512x512"
     }

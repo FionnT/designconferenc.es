@@ -94,6 +94,7 @@ router.post('/register', busboy({ immediate: true }), (req, res) => {
               console.log('ERROR: ' + err)
               reject()
               res.sendStatus(500)
+              res.end()
             } else {
               resolve()
             }
@@ -122,8 +123,8 @@ router.post('/register', busboy({ immediate: true }), (req, res) => {
     }
     async function handler () {
       const exists = await existCheck()
-      const file = await fileSave(unique)
-      const user = await userSave(unique)
+      const file = await fileSave()
+      const user = await userSave()
       return resolve()
     }
     handler()
