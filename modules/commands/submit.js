@@ -21,9 +21,9 @@ router.post('/submit', busboy({ immediate: true }), (req, res) => {
   var privileged = true // NOTE: PLEASE CHANGE TO FALSE BEFORE PUBLISHING
   const formData = new Map() // Map inputs to their values
 
-  // Check if admin, and switch flag if true
-  // Admin manual add page just renders the suggest page
-  // and then posts data to this route
+
+  // Admin manual add page just renders the suggest page and then posts data to this route
+  // We're not wrapping the entire request because it should process as a suggestion if they're not
   var privileges = () => {
     return new Promise((resolve, reject) => {
       isAdmin.basic(req, res, () => {
@@ -93,13 +93,6 @@ router.post('/submit', busboy({ immediate: true }), (req, res) => {
       return true // ehhh
     })
   })
-
-  // We __literally__ can't process field data before file data
-  // Processing file data first is simply how browsers function
-  // In this case we want to include conference name inside the filename
-  // So we wait for the file AND the field POST to be finished, and then perform
-  // any operations on them that are desired, using async below
-  // Busboy simply receives them, and allows multipart forms in Node.js
 
   req.busboy.on('finish', () => {
     function resolve () {

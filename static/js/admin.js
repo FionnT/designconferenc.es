@@ -34,7 +34,7 @@ $(document).ready(function () {
 
   $('.dropdown li').each(function (index) {
     $(this).on('click', function () {
-      $('.sel').val(index) // db stores this as a number
+      $('.sel').val(index)
     })
   })
 
@@ -107,7 +107,7 @@ $(document).ready(function () {
           name: personname,
           password: password,
           email: email,
-          isAdmin: Number(admin.data("admin")),
+          isAdmin: Number(admin.data("admin")), // db stores this as a number
           filename: filename
         }
         var str = JSON.stringify(user)
@@ -130,6 +130,22 @@ $(document).ready(function () {
     })
   })
 
+  $('.reject').each(function(){
+    var _this = $($(this).parents()[1]);
+    var formData = new FormData()
+    var id = _this.data("id")
+
+    var user = {
+      id: id,
+      username: username,
+      name: personname,
+      password: password,
+      email: email,
+      isAdmin: Number(admin.data("admin")), // db stores this as a number
+      filename: filename
+    }
+    var str = JSON.stringify(user)
+  })
 
 
 })

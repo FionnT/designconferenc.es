@@ -65,7 +65,7 @@ $(document).ready(function () {
       var formData = new FormData()
       var user = {
         username: username,
-        name: personname, // for some reason if I call this var 'name' it doesn't work
+        name: personname,
         password: password,
         email: email,
         isAdmin: admin.val(),

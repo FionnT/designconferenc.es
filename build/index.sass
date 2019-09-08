@@ -43,9 +43,34 @@ nav
       margin-top: 1px
       padding-bottom: 11px
       transition: $transition
+      font-family: $lato
+    .svg-wrapper
+      height: 40px
+        width: 100%
       &:hover
-        color: #118063
-        /* slightly more readable than the button color */
+        #shape
+          stroke: #06D6A0
+        p
+          color: #118063
+    #shape
+      transition: 0.35s all ease
+      stroke-dasharray: 1900 450
+      stroke-width: 2px
+      stroke-dashoffset: 0
+      stroke: $pink
+      fill: transparent
+    #text
+    	margin-top: -35px
+    	text-align: center
+    	margin-top: -35px
+    	text-align: center
+    	p
+    		text-decoration: none
+    		font-weight: 300
+    		font-size: 1.15em
+    		width: 100%
+    		padding-top: 0px
+
 
 #noresults
   width: 100%

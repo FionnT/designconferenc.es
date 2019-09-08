@@ -33,7 +33,7 @@ router.post('/register', busboy({ immediate: true }), (req, res) => {
       var info = [user.email, user.username]
       for (i = 0; i < 2; i++) {
         var query = {}
-        query[uid[i]] = info[i] // result: {email: email@place.com}
+        query[uid[i]] = info[i] // Output: query = {email: user.email}
         person.find(query, function (err, result) {
           if (result.length != 0) {
             unique = false
@@ -47,61 +47,52 @@ router.post('/register', busboy({ immediate: true }), (req, res) => {
     })
   }
 
-  var userSave = (allowed) => {
-    if (allowed) {
-      return new Promise((resolve, reject) => {
-        var pass = user.password
-        bcrypt.genSalt(saltRounds, function (err, salt) {
-          bcrypt.hash(pass, salt, function (err, hash) {
-            user.password = hash
-            var uData = new person(user)
-            uData.save()
-              .then(() => {
-                resolve()
-              })
-              .catch(err => {
-                console.log(err)
-              })
-            resolve()
-          })
+  var userSave = () => {
+    return new Promise((resolve, reject) => {
+      var pass = user.password
+      bcrypt.genSalt(saltRounds, function (err, salt) {
+        bcrypt.hash(pass, salt, function (err, hash) {
+          user.password = hash
+          var uData = new person(user)
+          uData.save()
+            .then(() => {
+              resolve()
+            })
+            .catch(err => {
+              console.log(err)
+            })
+          resolve()
         })
       })
-    } else { () => { resolve() } }
+    })
   }
 
   var fileSave = () => {
-    if (unique) {
-      return new Promise((resolve, reject) => {
-        if (user.filename) { // don't run if there's no file
-          function ext () {
-            var t = user.filename.split('.')
-            return (t[t.length - 1]).toString()
+    return new Promise((resolve, reject) => {
+      if (user.filename) { // don't run if there's no file
+
+        function ext () {
+          var t = user.filename.split('.')
+          return (t[t.length - 1]).toString()
+        }
+
+        var tmpName = path.join(tmpDir + user.filename)
+        var newName = path.join(__dirname + '../../../static/img/profiles/' + uuid() + user.name.replace(/ /g, '') + '.' + ext())
+        user.filename = "'./" + newName.split('/static/')[1] + "'"
+
+        fs.rename(tmpName, newName, function (err) {
+          if (err) {
+            console.log('ERROR: ' + err)
+            reject()
+            res.sendStatus(500)
+            res.end()
+          } else {
+            resolve()
           }
-          var tmpName = path.join(tmpDir + user.filename)
+        })
 
-          // Use these on Mac or Linux
-          // ---
-          var newName = path.join(__dirname + '../../../static/img/profiles/' + uuid() + user.name.replace(/ /g, '') + '.' + ext())
-          user.filename = "'./" + newName.split('/static/')[1] + "'"
-
-          // Use these on Windows
-          // ---
-          // var newName = path.join(__dirname + '..\\..\\..\\static\\img\\profiles\\' + uuid() + user.name.replace(/ /g, "") + "." + ext());
-          // user.filename = "'./img/profiles/" + newName.split("\\profiles\\")[1] + "'"
-
-          fs.rename(tmpName, newName, function (err) {
-            if (err) {
-              console.log('ERROR: ' + err)
-              reject()
-              res.sendStatus(500)
-              res.end()
-            } else {
-              resolve()
-            }
-          })
-        } else { () => { resolve() } }
-      })
-    } else { () => { resolve() } }
+      } else { () => { resolve() } }
+    })
   }
 
   req.busboy.on('field', (fieldname, val, ext) => {
@@ -123,8 +114,10 @@ router.post('/register', busboy({ immediate: true }), (req, res) => {
     }
     async function handler () {
       const exists = await existCheck()
-      const file = await fileSave()
-      const user = await userSave()
+      if(unique){
+        const file = await fileSave()
+        const user = await userSave()
+      }
       return resolve()
     }
     handler()

@@ -29,8 +29,8 @@ app.use(sassMiddleware({
     /* Options */
     src: path.join(__dirname, '/build'),
     dest: path.join(__dirname, '/static/css'),
-    debug: false,
-    force: false,
+    debug: true,
+    force: true,
     indentedSyntax: true,
     outputStyle: 'compressed',
     prefix:  '/css'

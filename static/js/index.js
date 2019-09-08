@@ -1,10 +1,10 @@
 $(document).ready(function () {
   if(window.innerWidth >= 960){
     $('.toggle').each(function (index) {
-      var $this = $(this)
-      $this.on('click', function (index) {
-        var container = $($this.parents()[0])
-        var text = $($this.find('p')[0])
+      var _this = $(this)
+      _this.on('click', function (index) {
+        var container = $(_this.parents()[0])
+        var text = $(_this.find('p')[0])
         if (container.hasClass('small')) {
           container.removeClass('small').addClass('big').css('left', '2% !important') // Packery applies 4%, which is too much
           text.text('- See Less')
@@ -18,9 +18,9 @@ $(document).ready(function () {
     })
   }else if(window.innerWidth < 960){
     $('.toggle').each(function (index) {
-      var $this = $(this)
-      $($this.children()[0]).css("display", "none") // Hide expand button
-      var container = $($this.parents()[0])
+      var _this = $(this)
+      $(_this.children()[0]).css("display", "none") // Hide expand button
+      var container = $(_this.parents()[0])
       container.removeClass('small').addClass('big')
     })
   }
@@ -55,8 +55,8 @@ $(document).ready(function () {
     var month = url.split('month').pop().split('&')[0].split('=')[1]
 
     $('#month ul li').each(function () {
-      var $this = $(this)
-      if ($this.text().includes(month)) $this.click().click() // clickity clack
+      var _this = $(this)
+      if (_this.text().includes(month)) _this.click().click() // clickity clack
     })
 
     if (country != 'Any') {

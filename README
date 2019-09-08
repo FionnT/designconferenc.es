@@ -1,0 +1,20 @@
+TODO:
+
+1/ Add backend for Admin page
+2/ Add emailer for new conferences
+3/ Make sure manage page SASS is still valid after changes
+4/ Fix footer
+5/ Add cron-job function
+6/ Add auto-trim for out of date conferences
+
+  Optional:
+
+    1/ Add social media share options
+
+Done:
+
+1/ Suggest page (F+B)
+2/ Main page (F+B)
+3/ Admin page (F)
+4/ Login (F+B)
+5/ Registration (F+B)

@@ -1,5 +1,10 @@
 $(document).ready(function () {
 
+
+/////////////////////////////////
+//          Calender           //
+/////////////////////////////////
+
   var start_date = {}
   var end_date = {}
   var current_year
@@ -27,7 +32,8 @@ $(document).ready(function () {
       $($('.date')[first_date]).addClass('more')
     }
   }
-  function evaluate (){
+
+  function crossmonth (){
     if(end_date.month>start_date.month && end_date.year === start_date.year){ // Increasing months, but not years
       highlight(0, end_date.index)
       displayfield.text(start_date.date + ' ' + months[start_date.month].substring(0,3) + ' - ' + end_date.date + ' ' + months[end_date.month].substring(0,3) + ' ' + end_date.year)
@@ -48,6 +54,28 @@ $(document).ready(function () {
     }else {
       displayfield.text(start_date.date + ' - ' + end_date.date + ' ' + months[start_date.month] + ', ' + current_year)
       highlight(start_date.index, end_date.index) // Same month, user picked the start date first
+    }
+  }
+
+  function month_memory (){
+    if(start_date.month === current_month && start_date.year === current_year) {
+      if(start_date.month>end_date.month){
+        if(start_date.year<end_date.year) highlight(start_date.index, 99)
+        else highlight(0, start_date.index)
+      }else if(start_date.month<end_date.month){
+        if(start_date.year>end_date.year) highlight(0, start_date.index)
+        else highlight(start_date.index, 99)
+      }
+      $($('.date')[start_date.index]).addClass('active')
+    }else if(end_date.month === current_month && end_date.year === current_year){
+      if(start_date.month>end_date.month){
+        if(start_date.year<end_date.year) highlight(0, end_date.index)
+        else highlight(end_date.index, 99)
+      }else if(start_date.month<end_date.month){
+        if(start_date.year>end_date.year) highlight(end_date.index, 99)
+        else highlight(0, end_date.index)
+      }
+      $($('.date')[end_date.index]).addClass('active')
     }
   }
 
@@ -74,75 +102,45 @@ $(document).ready(function () {
     for (i = 0; i < days; i++) { $($('.hidden')[0]).clone().detach().removeClass('hidden').appendTo(container) } // Insert items that contain the dates
 
     $('.numbers li.date').each(function (index) {
-      var $this = $(this)
-      if (!($this.hasClass('hidden'))) { // Don't add dates to bump items
+      var _this = $(this)
+      if (!(_this.hasClass('hidden'))) { // Don't add dates to bump items
         if (date < days) {
           date += 1
-          $($this.find('p')).text(date)
+          $(_this.find('p')).text(date)
         }
       }
     })
-    if(start_date.month === current_month && start_date.year === current_year) {
-      if(start_date.month>end_date.month){
-        if(start_date.year<end_date.year){
-          highlight(start_date.index, 99)
-        }else {
-          highlight(0, start_date.index)
-        }
-      }else if(start_date.month<end_date.month){
-        if(start_date.year>end_date.year){
-          highlight(0, start_date.index)
-        }else{
-          highlight(start_date.index, 99)
-        }
-      }
-      $($('.date')[start_date.index]).addClass('active')
-    }else if(end_date.month === current_month && end_date.year === current_year){
-      if(start_date.month>end_date.month){
-        if(start_date.year<end_date.year){
-          highlight(0, end_date.index)
-        }else {
-          highlight(end_date.index, 99)
-        }
-      }else if(start_date.month<end_date.month){
-        if(start_date.year>end_date.year){
-          highlight(end_date.index, 99)
-        }else {
-          highlight(0, end_date.index)
-        }
-      }
-      $($('.date')[end_date.index]).addClass('active')
-    }
+    month_memory()
   }
+
   calendar(now.getMonth(), now.getFullYear()) // Default to this month
 
-  // See here for why we're triggering the below differently: http://learn.jquery.com/events/event-delegation/
 
-  $('.numbers').on('click', '.date', function (event) {
+  $('.numbers').on('click', '.date', function (event) { // http://learn.jquery.com/events/event-delegation/
 
     $('#calendar').css('border', '1px solid #DEE0E4') // reset on clicking, in case: changed to alert missing
 
     event.preventDefault()
-    var $this = $(this)
+    var _this = $(this)
 
     function select(which_date){
-      $this.addClass('active')
-      which_date.index = ($this.index() + 1)
-      which_date.date = ($this.index() + 1) - empty_days
-      which_date.month = current_month
-      which_date.year = current_year
+      if(which_date.index != start_date.index){
+        _this.addClass('active')
+        which_date.index = (_this.index() + 1)
+        which_date.date = (_this.index() + 1) - empty_days
+        which_date.month = current_month
+        which_date.year = current_year
+      }
     }
-
     if (start_date.hasOwnProperty('index') && end_date.hasOwnProperty('index') || !start_date.hasOwnProperty('index')) {
       start_date = {}
       end_date = {}
       reset(false)
       select(start_date)
       displayfield.text(start_date.date + ' ' + months[start_date.month])
-
     }else if(start_date.hasOwnProperty('index')) {
       select(end_date)
-      evaluate()
+      crossmonth()
     }
   })
 
@@ -183,9 +181,13 @@ $(document).ready(function () {
     $('.fileinfo').text(filename)
   })
 
-//////////////////////////////////////////////////////////////////////////////////////////////////
 
-  // Form Posting handler
+
+/////////////////////////////////
+//    Form Posting handler     //
+/////////////////////////////////
+
+
   $('.rectangle').on('click', function () {
     var name = $($('input')[0]).val()
     var website = $($('input')[1]).val()

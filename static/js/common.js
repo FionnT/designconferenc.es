@@ -1,18 +1,18 @@
 $(document).ready(function () {
   $('.menu').each(function (index) {
-    var $this = $(this)
-    $this.on('click', function () {
-      var drop = $this.find('.dropdown')
+    var _this = $(this)
+    _this.on('click', function () {
+      var drop = _this.find('.dropdown')
       if (drop.hasClass('active')) {
-        $this.css('border-radius', '21px')
+        _this.css('border-radius', '21px')
         drop.removeClass('active').addClass('inactive')
       } else {
-        $this.css('border-radius', '19px 19px 0 0')
+        _this.css('border-radius', '19px 19px 0 0')
         drop.removeClass('inactive').addClass('active')
       }
     }).on('mouseleave', function () {
-      $this.css('border-radius', '21px')
-      $this.find('.dropdown').removeClass('active').addClass('inactive')
+      _this.css('border-radius', '21px')
+      _this.find('.dropdown').removeClass('active').addClass('inactive')
     })
   })
 
@@ -42,9 +42,9 @@ $(document).ready(function () {
   })
 
   $('.dropdown li').each(function () {
-    var $this = $(this)
-    var parent = $this.parents()[1]
-    $this.on('click', function () { $($(parent).find('.sel')).text($this.text()).css('color', 'rgb(0, 0, 0)') })
+    var _this = $(this)
+    var parent = _this.parents()[1]
+    _this.on('click', function () { $($(parent).find('.sel')).text(_this.text()).css('color', 'rgb(0, 0, 0)') })
   })
 
   $('#profile img').on('click', function () {

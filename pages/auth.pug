@@ -2,10 +2,23 @@ include includes/header.pug
   head
     link(rel='stylesheet', href='/css/suggest.css')
     title Login    
+    //- Referrer should only be login if the login failed 
     script.
-      if(document.referrer.includes('/login')){
-        alert('Login Failed')
-      }
+      $(document).on("ready", function(){
+        if(document.referrer.includes('/login')){ 
+          var notifier = $('#notify')
+          $('#notify p').text("Login failed.")
+          notifier.animate({
+            opacity: '1'
+          }, 350)
+          setTimeout(function () {
+            notifier.animate({
+              opacity: '0'
+            }, 350)
+          }, 2500)
+        }
+      })
+      
 block body
   body
     div.wrapper

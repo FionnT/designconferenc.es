@@ -291,25 +291,28 @@ input
   .approve
   	.svg-wrapper
   		&:hover
-  			#shape
-  				stroke-dasharray: 50 0
-  				stroke-width: 2px
-  				stroke-dashoffset: 0
-  				stroke: #06D6A0
-  				fill: transparent
-  			p
-  				color: #118063
+        #text .spot p
+          color: #06D6A0
+        #shape
+          stroke-dasharray: 50 0
+          stroke-width: 2px
+          stroke-dashoffset: 0
+          stroke: #06D6A0
+          fill: transparent
+
+
   .reject
   	.svg-wrapper
   		&:hover
-  			#shape
-  				stroke-dasharray: 50 0
-  				stroke-width: 2px
-  				stroke-dashoffset: 0
-  				stroke: red
-  				fill: transparent
-  			p
-  				color: red
+        #text .spot p
+          color: red
+        #shape
+          stroke-dasharray: 50 0
+          stroke-width: 2px
+          stroke-dashoffset: 0
+          stroke: red
+          fill: transparent
+
 
 .item.big
   width: 100%
