@@ -1,55 +1,59 @@
 $(document).ready(function () {
+  const $ = jQuery;
+
   // attach to each, instead of all so that we can update individually
   $('.remove').each(function () {
     $(this).on('click', function () {
       $($(this).parents()[1]).css('background-image', 'url(./img/placeholder.png)')
     })
-  })
+  });
+
   $('.upload').each(function () {
     $(this).on('click', function () {
       $($($(this).parents()[2]).find('.fileinput')[0]).click()
     })
-  })
+  });
+
   $('.item.big.admin').each(function () { // Input and textarea are self closing elements
-    var input = $(this).find('input') // Therefore we can't set values dynamically with pug (you could also use the data field)
-    for (item in input) { // So we set their placeholder dynamically, update their val using this script
+    let input = $(this).find('input'); // Therefore we can't set values dynamically with pug (you could also use the data field)
+    for (let item in input) { // So we set their placeholder dynamically, update their val using this script
       // skip the file input             // then we change their placeholders so users can still know when they're empty
       if (item >= 1) {
-        var thing = $(input[item])
-        thing.val(thing.attr('placeholder'))
+        let thing = $(input[item]);
+        thing.val(thing.attr('placeholder'));
         thing.attr('placeholder', 'You emptied this!')
       }
     }
-    var text = $($(this).find('textarea')[0])
-    text.val(text.attr('placeholder'))
+    let text = $($(this).find('textarea')[0]);
+    text.val(text.attr('placeholder'));
     text.attr('placeholder', 'You emptied this!')
-  })
+  });
 
   $('.fileinput').each(function () {
     $(this).change(function () {
-      var file = this.files[0]
-      var reader = new FileReader()
-      var container = $($($(this).parents()[0]).find('.img')[0])
+      let file = this.files[0];
+      let reader = new FileReader();
+      let container = $($($(this).parents()[0]).find('.img')[0]);
       reader.onloadend = function () {
         container.css('background-image', 'url("' + reader.result + '")')
-      }
+      };
       if (file) reader.readAsDataURL(file)
     })
-  })
+  });
 
   function type (container) {
-    var loc = document.location.href
-    if (loc.match('/approve').length > 0) return 'suggestion'
+    const loc = document.location.href;
+    if (loc.match('/approve').length > 0) return 'suggestion';
     else if (loc.match('/manage').length > 0) return 'conference'
   }
 
   function clear (container) {
-    var params = {
+    let params = {
       id: container.data('id').toString(),
       type: type()
-    }
-    var formData = new FormData()
-    formData.append('data', JSON.stringify(params))
+    };
+    let formData = new FormData();
+    formData.append('data', JSON.stringify(params));
     $.ajax({
       type: 'POST',
       url: '/purge',
@@ -68,23 +72,23 @@ $(document).ready(function () {
   }
 
   function approve (container) {
-    var inputs = container.find('input')
+    const inputs = container.find('input');
 
-    var name = inputs[1].value
-    var date = inputs[2].value
-    var city = inputs[3].value.split(', ')[0]
-    var country = inputs[3].value.split(', ')[1]
-    var website = inputs[4].value
-    var file = container.find('.fileinput')[0].files[0]
-    var desc = container.find('textarea')[0].value
+    let name = inputs[1].value;
+    let date = inputs[2].value;
+    let city = inputs[3].value.split(', ')[0];
+    let country = inputs[3].value.split(', ')[1];
+    let website = inputs[4].value;
+    let file = container.find('.fileinput')[0].files[0];
+    let desc = container.find('textarea')[0].value;
+    let formData = new FormData();
+    let filename;
 
-    if (file) var filename = file.name
-    else if ($(container.find('.img')[0]).css('background-image') != 'url("http://localhost/img/placeholder.png"\)') var filename = ($(container.find('.img')[0]).css('background-image')).split('/pending/')[1].replace('")', '')
-    else var fileName = false
+    if (file) filename = file.name;
+    else if ($(container.find('.img')[0]).css('background-image') !== 'url("http://localhost/img/placeholder.png"\)') let filename = ($(container.find('.img')[0]).css('background-image')).split('/pending/')[1].replace('")', '');
+    else filename = false;
 
-    var formData = new FormData()
-
-    var conference = {
+    let conference = {
       title: name,
       date: date,
       country: country,
@@ -93,10 +97,10 @@ $(document).ready(function () {
       website: website,
       image: filename,
       approve: true
-    }
+    };
 
-    formData.append('data', JSON.stringify(conference))
-    formData.append('file', file)
+    formData.append('data', JSON.stringify(conference));
+    formData.append('file', file);
 
     $.ajax({
       type: 'POST',
@@ -117,15 +121,15 @@ $(document).ready(function () {
 
   $('.reject').each(function () {
     $(this).on('click', function () {
-      var container = $($(this).parents()[1])
+      let container = $($(this).parents()[1]);
       clear(container)
     })
   })
 
   $('.approve').each(function () {
     $(this).on('click', function () {
-      var container = $($(this).parents()[1])
+      let container = $($(this).parents()[1]);
       approve(container)
     })
   })
-})
+});

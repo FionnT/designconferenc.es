@@ -1,127 +1,121 @@
-const pug = require('pug')
-const router = require('express').Router()
-const busboy = require('connect-busboy')
-const fs = require('fs')
-const path = require('path')
-const async = require('async')
-const uuid = require('uuid/v1')
-const passport = require('passport')
-const bcrypt = require('bcrypt')
-const cookie = require('cookie')
-const saltRounds = 10
+const router = require('express').Router();
+const busboy = require('connect-busboy');
+const fs = require('fs');
+const path = require('path');
+const uuid = require('uuid/v1');
+const bcrypt = require('bcrypt');
+const saltRounds = 10;
 
-var models = require('../mongoose/models.js')
-var person = models.person
-var isAdmin = require('./privileges')
+const models = require('../mongoose/models.js');
+const person = models.person;
+const isAdmin = require('./privileges');
 
 router.post('/register', busboy({ immediate: true }), (req, res) => {
-  req.pipe(req.busboy)
+  isAdmin.basic(req, res, () => {
+    req.pipe(req.busboy);
 
-  var user = undefined
-  var admin = undefined
-  var messages = ['User is registered!', 'Email is already taken', 'Username is already taken', 'Email and username are taken', 'You don\'t have the permissions to do that.']
-  var message = messages[0]
-  var unique = true
+    const messages = ['User is registered!', 'Email is already taken', 'Username is already taken', 'Email and username are taken', 'You don\'t have the permissions to do that.'];
+    const tmpDir = __dirname + '../../../static/img/tmp/';
+    const formData = new Map(); // Map inputs to their values
 
-  var tmpDir = __dirname + '../../../static/img/tmp/'
-  const formData = new Map() // Map inputs to their values
+    let user;
+    let query;
+    let message = messages[0];
+    let unique = true;
 
-  var existCheck = () => {
-    var problem = 0
-    return new Promise((resolve, reject) => {
-      var uid = ['email', 'username']
-      var info = [user.email, user.username]
+    const existCheck = new Promise((resolve, reject) => {
+      let problem = 0;
+      let uid = ['email', 'username'];
+      let info = [user.email, user.username];
       for (i = 0; i < 2; i++) {
-        var query = {}
+        query = {};
         query[uid[i]] = info[i] // Output: query = {email: user.email}
         person.find(query, function (err, result) {
-          if (result.length != 0) {
-            unique = false
-            if (result[0].email === user.email) problem += 1
-            if (result[0].username === user.username) problem += 2
+          if (result.length !== 0) {
+            unique = false;
+            if (result[0].email === user.email) problem += 1;
+            if (result[0].username === user.username) problem += 2;
             message = messages[problem]
           }
         })
       }
       resolve()
-    })
-  }
+    });
 
-  var userSave = () => {
-    return new Promise((resolve, reject) => {
-      var pass = user.password
+    const userSave = new Promise((resolve, reject) => {
+      let pass = user.password;
       bcrypt.genSalt(saltRounds, function (err, salt) {
         bcrypt.hash(pass, salt, function (err, hash) {
-          user.password = hash
-          var uData = new person(user)
+          user.password = hash;
+          let uData = new person(user);
           uData.save()
-            .then(() => {
-              resolve()
-            })
-            .catch(err => {
-              console.log(err)
-            })
+              .then(() => {
+                resolve()
+              })
+              .catch(err => {
+                console.log(err)
+              });
           resolve()
         })
       })
-    })
-  }
+    });
 
-  var fileSave = () => {
-    return new Promise((resolve, reject) => {
+
+    const fileSave = new Promise((resolve, reject) => {
       if (user.filename) { // don't run if there's no file
 
         function ext () {
-          var t = user.filename.split('.')
+          let t = user.filename.split('.');
           return (t[t.length - 1]).toString()
         }
 
-        var tmpName = path.join(tmpDir + user.filename)
-        var newName = path.join(__dirname + '../../../static/img/profiles/' + uuid() + user.name.replace(/ /g, '') + '.' + ext())
-        user.filename = "'./" + newName.split('/static/')[1] + "'"
+        let tmpName = path.join(tmpDir + user.filename);
+        let newName = path.join(__dirname + '../../../static/img/profiles/' + uuid() + user.name.replace(/ /g, '') + '.' + ext());
+        user.filename = "'./" + newName.split('/static/')[1] + "'";
 
         fs.rename(tmpName, newName, function (err) {
           if (err) {
-            console.log('ERROR: ' + err)
+            console.log('ERROR: ' + err);
             reject()
-            res.sendStatus(500)
+            res.sendStatus(500);
             res.end()
           } else {
             resolve()
           }
         })
 
-      } else { () => { resolve() } }
-    })
-  }
+      } else resolve()
+    });
 
-  req.busboy.on('field', (fieldname, val, ext) => {
-    formData.set(fieldname, val)
-    user = JSON.parse(formData.get('data'))
-  })
+    req.busboy.on('field', (fieldname, val) => {
+      formData.set(fieldname, val);
+      user = JSON.parse(formData.get('data'))
+    });
 
-  req.busboy.on('file', (fieldname, file, fileName) => {
-    var fstream = fs.createWriteStream(path.join(tmpDir + fileName))
-    file.pipe(fstream)
-    fstream.on('close', function () {
-      return true // ehhh
-    })
-  })
+    req.busboy.on('file', (fieldname, file, fileName) => {
+      const fstream = fs.createWriteStream(path.join(tmpDir + fileName));
+      file.pipe(fstream);
+      fstream.on('close', function () {
+        return true // ehhh
+      })
+    });
 
-  req.busboy.on('finish', () => {
-    function resolve () {
-      res.send(message)
-    }
-    async function handler () {
-      const exists = await existCheck()
-      if(unique){
-        const file = await fileSave()
-        const user = await userSave()
+    req.busboy.on('finish', () => {
+      function resolve () {
+        res.send(message)
       }
-      return resolve()
-    }
-    handler()
+      async function handler () {
+        const exists = await existCheck();
+        if(unique){
+          const file = await fileSave();
+          const user = await userSave()
+        }
+      }
+      handler().then(() => { resolve()})
+    })
+  }, () => {
+    res.redirect('/')
   })
-})
+});
 
-module.exports = router
+module.exports = router;

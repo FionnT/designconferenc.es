@@ -6,7 +6,7 @@
 ::placeholder
 	color: black
 	opacity: 1
-:-ms-input-placeholder
+*:-ms-input-placeholder
 	color: black
 ::-ms-input-placeholder
 	color: black
@@ -46,7 +46,6 @@
 						height: 10px
 						padding: 2px 0 2px
 				input
-					margin: 0
 					font-size: 1em
 					color: $black
 					font-weight: 300
@@ -65,21 +64,22 @@
   				top: calc(100% - 35px)
   		.change
   			transition: all 0.25s ease-out 0s
-  			width: 100%
-  			height: 35px
   			position: relative
   			top: calc(125% - 35px)
-  			.remove
-  				background-image: url("../img/delete.png")
-  				float: left
-  				margin: -5px 0 0 5px
-  			.upload
+			background-size: 35px 35px
+			width: 30px
+			height: 30px
+			display: inline-block
+			cursor: pointer
+			.remove
+				background-image: url("../img/delete.png")
+				float: left
+				margin: -5px 0 0 5px
+			.upload
   				background-image: url("../img/upload.png")
   				margin: -5px 12px 0 0
   				float: right
 		textarea
-			margin: 0 auto
-			width: 569px
 			height: auto
 			outline: none
 			border: none
@@ -103,13 +103,8 @@
 			text-align: center
 			border: none
 			outline: none
-    .img .change .remove, .img .change .upload
-    	background-size: 35px 35px
-    	width: 30px
-    	height: 30px
-    	display: inline-block
-    	cursor: pointer
-    input.date, input.place
+
+	input.date, input.place
     	margin: 0 auto 5px 1.5%
     	font-weight: 300
     	font-size: 1.1em

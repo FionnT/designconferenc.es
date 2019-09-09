@@ -1,12 +1,14 @@
 $(document).ready(function () {
 
-  var realInput = $('.fileinput')
-  var filename = false
-  var file
+  let realInput = $('.fileinput');
+  let filename = false;
+  let file;
+
+  const $ = jQuery;
 
   $("input").each(function(){
-    var _this = $(this)
-    var txt = _this.attr("placeholder")
+    let _this = $(this)
+    let txt = _this.attr("placeholder")
     if(!_this.hasClass("password")) _this.val(txt)
     else {
       _this.on("keypress", function(){
@@ -17,36 +19,30 @@ $(document).ready(function () {
 
   $('.dropdown li').each(function (index) {
     $(this).on('click', function () {
-      $('.sel').data("admin", index) // db stores this as a number
+      $('.sel').data("admin", index).val(index) // db stores this as a number
     })
-  })
+  });
 
   $(".file").each(function(){
-    var _this = $(this)
-    _this.attr("src", $(this).attr('src').replace(/'/g, ''))
+    let _this = $(this);
+    _this.attr("src", $(this).attr('src').replace(/'/g, ''));
     _this.on('click', function () { realInput.click() })
-  })
+  });
 
   realInput.on('change', function () {
-    filename = realInput.val().split(/\\|\//).pop()
+    filename = realInput.val().split(/\\|\//).pop();
     $('.fileinfo').text(filename)
-  })
-
-  $('.dropdown li').each(function (index) {
-    $(this).on('click', function () {
-      $('.sel').val(index)
-    })
-  })
+  });
 
   function notification (message) {
 
-    var notifier = $('#notify')
-    if (message != 'Details Updated!') notifier.removeClass('happy')
+    let notifier = $('#notify');
+    if (message !== 'Details Updated!') notifier.removeClass('happy');
 
     $('#notify p').text(message)
     notifier.animate({
       opacity: '1'
-    }, 350)
+    }, 350);
     setTimeout(function () {
       notifier.animate({
         opacity: '0'
@@ -58,50 +54,50 @@ $(document).ready(function () {
     $(this).on('click', function () {
 
 
-      var _this = $($(this).parents()[1]);
-      var formData = new FormData()
-      var id = _this.data("id")
-      var inputs = _this.find('input')
-      var username = _this.find(".username")[0].value
-      var personname = _this.find(".name")[0].value
-      var password = _this.find(".password")[0]
-      var admin = $(_this.find(".sel"))
-      var email = _this.find(".email")[0].value
+      let _this = $($(this).parents()[1]);
+      let formData = new FormData();
+      let id = _this.data("id");
+      let inputs = _this.find('input');
+      let username = _this.find(".username")[0].value;
+      let personname = _this.find(".name")[0].value;
+      let password = _this.find(".password")[0];
+      let admin = $(_this.find(".sel"));
+      let email = _this.find(".email")[0].value;
 
 
       if(filename) {
-        file = $('.fileinput')[0].files[0]
+        file = $('.fileinput')[0].files[0];
         formData.append('file', file)
       }
-      if($(password).data("updated") === "true") password = password.value
-      else password = false
+      if($(password).data("updated") === "true") password = password.value;
+      else password = false;
 
       function notify () {
-        var missing = []
+        let missing = [];
 
-        if (admin.text() === '') missing.push($($('.menu')[0]))
+        if (admin.text() === '') missing.push($($('.menu')[0]));
 
         // check the fields aren't empty
         for (i = 0; i <= 2; i++) {
           if (!$(inputs[i]).hasClass('password') && inputs[i].value === '') missing.push(inputs[i])
         }
 
-        if (filename) filename = file.name
+        if (filename) filename = file.name;
 
-        if (missing.length != 0) {
+        if (missing.length !== 0) {
           for (item in missing) {
             $(missing[item]).css('background-color', 'rgba(255,0,0,0.25').on('click', function () {
               $(this).css('background-color', '#FFFFFF')
             })
           }
-          window.scrollTo(0, 0)
+          window.scrollTo(0, 0);
           return false
         } else return true
       }
 
       if (notify()) {
 
-        var user = {
+        let user = {
           id: id,
           username: username,
           name: personname,
@@ -109,9 +105,9 @@ $(document).ready(function () {
           email: email,
           isAdmin: Number(admin.data("admin")), // db stores this as a number
           filename: filename
-        }
-        var str = JSON.stringify(user)
-        formData.append('data', str)
+        };
+        let str = JSON.stringify(user);
+        formData.append('data', str);
 
         $.ajax({
           type: 'POST',
@@ -128,14 +124,14 @@ $(document).ready(function () {
         })
       }
     })
-  })
+  });
 
   $('.reject').each(function(){
-    var _this = $($(this).parents()[1]);
-    var formData = new FormData()
-    var id = _this.data("id")
+    let _this = $($(this).parents()[1]);
+    let formData = new FormData();
+    let id = _this.data("id");
 
-    var user = {
+    let user = {
       id: id,
       username: username,
       name: personname,
@@ -143,9 +139,9 @@ $(document).ready(function () {
       email: email,
       isAdmin: Number(admin.data("admin")), // db stores this as a number
       filename: filename
-    }
-    var str = JSON.stringify(user)
+    };
+    let str = JSON.stringify(user)
   })
 
 
-})
+});

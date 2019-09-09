@@ -1,26 +1,24 @@
-const pug = require('pug')
 const router = require('express').Router()
-const async = require('async')
 
-var isAdmin = require('./commands/privileges')
-var models = require('./mongoose/models.js')
-var person = models.person
-var suggestion = models.suggestion
-var conf = models.conference
+let isAdmin = require('./commands/privileges');
+let models = require('./mongoose/models.js');
+let person = models.person;
+let suggestion = models.suggestion;
+let conf = models.conference;
 
 // No processing required
 
-router.get('/failed', (req, res) => res.send('Failed'))
-router.get('/users', (req, res) => res.render('users'))
-router.get('/404', (req, res) => res.render('404'))
-router.get('/thanks', (req, res) => res.render('thanks'))
+router.get('/failed', (req, res) => res.send('Failed'));
+router.get('/users', (req, res) => res.render('users'));
+router.get('/404', (req, res) => res.render('404'));
+router.get('/thanks', (req, res) => res.render('thanks'));
 
 // Processing required
 
 router.get('/', (req, res) => {
   person.findOne({ _id: req.cookies.UID }, (err, user) => {
     conf.find({}, function (err, conferences) {
-      if (conferences.length != 0) {
+      if (conferences.length !== 0) {
         res.render('index', {
           list: conferences,
           user: user
@@ -32,7 +30,7 @@ router.get('/', (req, res) => {
       }
     })
   })
-})
+});
 
 router.get('/approve', (req, res) => {
   isAdmin.basic(req, res, (user) => {
@@ -54,7 +52,7 @@ router.get('/approve', (req, res) => {
       }
     })
   })
-})
+});
 
 
 
@@ -63,7 +61,7 @@ router.get('/admin', (req, res) => person.find({}, (err, users) => {
   res.render('admin', {
     users: users
   })
-}))
+}));
 
 // router.get('/register', (req, res) => {
 //   isAdmin.level(req, res, 2, (user) => {
@@ -81,8 +79,8 @@ router.get('/admin', (req, res) => {
     res.render('admin', {
       user: user
     })
-  })
-})
+  }, () => { res.redirect('/') })
+});
 
 router.get('/suggest', (req, res) => {
   isAdmin.level(req, res, 2, (user) => {
@@ -90,10 +88,8 @@ router.get('/suggest', (req, res) => {
       isAdmin: user.isAdmin,
       user: user
     }) // Send an admin to the add page instead
-  }, () => {
-    res.render('suggest')
-  })
-})
+  }, () => {res.render('suggest')})
+});
 
 router.get('/add', (req, res) => {
   isAdmin.basic(req, res, (user) => {
@@ -104,6 +100,6 @@ router.get('/add', (req, res) => {
   }, () => {
     res.redirect('/suggest')
   })
-})
+});
 
-module.exports = router
+module.exports = router;
