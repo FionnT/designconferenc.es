@@ -38,16 +38,16 @@ app.use(sassMiddleware({
 
 app.use(express.static('./static'));
 
-app.use('/', require('./modules/auth'));
-app.use('/', require('./modules/functions'));
-app.use('/', require('./modules/pages'));
+app.use('/', require('./routes/auth'));
+app.use('/', require('./routes/functions'));
+app.use('/', require('./routes/pages'));
 
-app.use('/', require('./modules/commands/purge'));
-app.use('/', require('./modules/commands/register'));
-app.use('/', require('./modules/commands/search'));
-app.use('/', require('./modules/commands/submit'));
+app.use('/', require('./routes/commands/purge'));
+app.use('/', require('./routes/commands/register'));
+app.use('/', require('./routes/commands/search'));
+app.use('/', require('./routes/commands/submit'));
+app.use('/', require('./routes/commands/admin'));
 
 app.get('*', function (req, res) {
   res.redirect('/404');
-  res.sendStatus(404)
 })

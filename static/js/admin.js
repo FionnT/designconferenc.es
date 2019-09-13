@@ -1,10 +1,10 @@
 $(document).ready(function () {
 
+  const $ = jQuery;
+
   let realInput = $('.fileinput');
   let filename = false;
   let file;
-
-  const $ = jQuery;
 
   $("input").each(function(){
     let _this = $(this)
@@ -26,18 +26,24 @@ $(document).ready(function () {
   $(".file").each(function(){
     let _this = $(this);
     _this.attr("src", $(this).attr('src').replace(/'/g, ''));
-    _this.on('click', function () { realInput.click() })
-  });
-
-  realInput.on('change', function () {
-    filename = realInput.val().split(/\\|\//).pop();
-    $('.fileinfo').text(filename)
+    _this.on('click', function () {
+      let realInput = $($(_this.parents()[0]).find(".fileinput")[0])
+      realInput.click();
+      realInput.change(function () {
+        let file = this.files[0];
+        _this.data("filename", file.name);
+        let reader = new FileReader();
+        reader.onloadend = function () {_this.attr('src', reader.result)};
+        if (file) reader.readAsDataURL(file)
+      })
+    })
   });
 
   function notification (message) {
 
     let notifier = $('#notify');
-    if (message !== 'Details Updated!') notifier.removeClass('happy');
+    if (message !== 'Details were updated!') notifier.removeClass('happy');
+    else notifier.addClass('happy');
 
     $('#notify p').text(message)
     notifier.animate({
@@ -63,12 +69,14 @@ $(document).ready(function () {
       let password = _this.find(".password")[0];
       let admin = $(_this.find(".sel"));
       let email = _this.find(".email")[0].value;
+      let filename = $(_this.find("img")[0]).data("filename")
 
 
-      if(filename) {
-        file = $('.fileinput')[0].files[0];
+      if(filename != "") {
+        file = _this.find('.fileinput')[0].files[0];
         formData.append('file', file)
-      }
+      }else filename = false
+
       if($(password).data("updated") === "true") password = password.value;
       else password = false;
 
@@ -81,8 +89,6 @@ $(document).ready(function () {
         for (i = 0; i <= 2; i++) {
           if (!$(inputs[i]).hasClass('password') && inputs[i].value === '') missing.push(inputs[i])
         }
-
-        if (filename) filename = file.name;
 
         if (missing.length !== 0) {
           for (item in missing) {
@@ -97,18 +103,21 @@ $(document).ready(function () {
 
       if (notify()) {
 
-        let user = {
+        let request = {
           id: id,
           username: username,
           name: personname,
           password: password,
           email: email,
           isAdmin: Number(admin.data("admin")), // db stores this as a number
-          filename: filename
+          filename: filename,
+          remove: false
         };
-        let str = JSON.stringify(user);
+        let str = JSON.stringify(request);
+
         formData.append('data', str);
 
+        console.log(request, file)
         $.ajax({
           type: 'POST',
           url: '/update',
@@ -127,20 +136,34 @@ $(document).ready(function () {
   });
 
   $('.reject').each(function(){
-    let _this = $($(this).parents()[1]);
-    let formData = new FormData();
-    let id = _this.data("id");
+    $(this).on('click', function(){
+      let formData = new FormData();
 
-    let user = {
-      id: id,
-      username: username,
-      name: personname,
-      password: password,
-      email: email,
-      isAdmin: Number(admin.data("admin")), // db stores this as a number
-      filename: filename
-    };
-    let str = JSON.stringify(user)
+      let _this = $($(this).parents()[1]);
+      let id = _this.data("id");
+      let request = {
+        id: id,
+        remove: true
+      };
+
+      let str = JSON.stringify(request);
+      formData.append('data', str);
+
+      $.ajax({
+        type: 'POST',
+        url: '/update',
+        contentType: false,
+        data: formData,
+        processData: false,
+        success: function (r) {
+          notification(r)
+        },
+        error: function (e) {
+          console.log('some error', e)
+          notification("Something went wrong!")
+        }
+      })
+    })
   })
 
 

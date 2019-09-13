@@ -1,19 +1,20 @@
 footer
   script(src="js/minified/jquery-3.4.1.min.js")
-  script(src="js/minified/common.js")
-  //- 
-  //- if user
-  //-   div#profile
-  //-     img(style={"background-image": "url(" + user.filename + ")"})
-  //-     if user.isAdmin>=0
-  //-       a(href="/approve") Review
-  //-     if user.isAdmin>=0
-  //-       a(href="/Add") Submit
-  //-     if user.isAdmin<2
-  //-       a(href="/register") Add Users
-  //-     if user.isAdmin<1
-  //-       a(href="/admin") Manage Users
-  //-     a(href="/logout") Logout
+  script(src="js/common.js")
+  
+  if user
+    div#profile
+      img(style={"background-image": "url(" + user.filename + ")"})
+      if user.isAdmin>=0
+        a(href="/approve") Review
+      if user.isAdmin>=0
+        a(href="/Add") Submit
+      if user.isAdmin<2
+        a(href="/register") Add Users
+      if user.isAdmin<1
+        a(href="/admin") Manage Users
+      a(href="/logout") Logout
+
   //- div#credits
   //-   p 
   //-     | Made with heart by &hearts;

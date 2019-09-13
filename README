@@ -15,6 +15,7 @@ Done:
 
 1/ Suggest page (F+B)
 2/ Main page (F+B)
-3/ Admin page (F)
+3/ Admin page (F) x2
 4/ Login (F+B)
 5/ Registration (F+B)
+6/ Refactor to ES6 syntax (F+B)

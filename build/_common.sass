@@ -9,6 +9,23 @@
   -webkit-tap-highlight-color: rgba(0,0,0,0)
   -webkit-tap-highlight-color: transparent
 
+
+::-webkit-scrollbar-track
+	-webkit-box-shadow: inset 0 0 6px rgba(0,0,0,0.3)
+	border-radius: 10px
+	background-color: #F5F5F5
+
+::-webkit-scrollbar
+	width: 6px
+	background-color: #F5F5F5
+	padding: -10px 0 -10px
+	margin: 0 2px 0 0
+
+::-webkit-scrollbar-thumb
+	border-radius: 10px
+	-webkit-box-shadow: inset 0 0 6px rgba(0,0,0,.3)
+	background-color: #555
+
 body
   min-height: 100%
   background: $bg
@@ -22,6 +39,31 @@ label
   opacity: 0
   color: transparent
   display: none
+
+
+
+#notify
+  font-family: $opensans
+  width: 500px
+  height: 35px
+  position: fixed
+  top: 35px
+  left: 50%
+  margin-left: -250px
+  background: #fef1f1
+  z-index: 999999999
+  border-radius: 5px
+  border: 1px solid #e2a8a8
+  color: #c43b3b
+  opacity: 0
+  &.happy
+    background: #f2fef1
+    border: 1px solid #a8e2c2
+    color: #23af41
+  p
+    text-align: center
+    padding-top: 9px
+
 
 .wrapper
   width: 100%
@@ -102,21 +144,7 @@ input
   border: 1px solid $outline
   border-radius: 21px
 
-  &::-webkit-scrollbar-track
-  	-webkit-box-shadow: inset 0 0 6px rgba(0,0,0,0.3)
-  	border-radius: 10px
-  	background-color: #F5F5F5
 
-  &::-webkit-scrollbar
-  	width: 6px
-  	background-color: #F5F5F5
-  	padding: -10px 0 -10px
-  	margin: 0 2px 0 0
-
-  &::-webkit-scrollbar-thumb
-  	border-radius: 10px
-  	-webkit-box-shadow: inset 0 0 6px rgba(0,0,0,.3)
-  	background-color: #555
 
   p
     font-family: $lato
@@ -143,7 +171,7 @@ input
     padding: 0 0 10px
     overflow: scroll
     background: inherit
-    border-radius: 0 0 21px 21px
+    border-radius: 0 0 0 21px
     border: inherit
     border-top: none
     overflow-x: hidden
@@ -191,7 +219,7 @@ input
   a
     text-decoration: none
   &.other
-    background: url("../img/search_btn.png") none center
+    background: url("../img/search_btn.png") no-repeat center
     background-size: 100% 99%
     border: none
 
@@ -313,104 +341,91 @@ input
   .rectangle.other:hover p
     color: $black
 
+footer
+  width: auto
+  height: auto
+  background: transparent
+  overflow: visible
+  pointer-events: none
 
+  #profile
+    position: fixed
+    top: 60px
+    width: 50px
+    height: 50px
+    margin-left: -120px
+    pointer-events: all
+    border: none
+    background-color: none
+    box-shadow: none
+    transition: all 0.25s ease 0s
+    overflow: hidden
+    &.open
+      width: 125px
+      height: auto
+      border: 1px solid #E1E1E1
+      background-color: $white
+      box-shadow: 2px 2px 8px 3px rgba(235,235,235,0.5)
+      img
+        margin: 5px auto 25px
 
+    img
+      width: 30px
+      height: 30px
+      display: block
+      margin: 5px 0 25px 10px
+      position: relative
+      top: 3px
+      border-radius: 30px
+      background-size: 100%
+      background-repeat: no-repeat
+      cursor: pointer
 
-//
-// footer
-//   width: auto
-//   height: auto
-//   background: transparent
-//   overflow: visible
-//   pointer-events: none
-//
-//
-// footer #profile
-//   position: fixed
-//   top: 60px
-//   width: 50px
-//   height: 50px
-//   margin-left: 50px
-//   pointer-events: all
-//   border: none
-//   background-color: none
-//   box-shadow: none
-//   transition: all 0.25s ease 0s
-//   overflow: hidden
-//
-//
-// footer #profile.open
-//   width: 125px
-//   height: auto
-//   border: 1px solid #E1E1E1
-//   background-color: $white
-//   box-shadow: 2px 2px 8px 3px rgba(235,235,235,0.5)
-//
-//
-// footer #profile.open img
-//   margin: 5px auto 25px
-//
-//
-// footer #profile img
-//   width: 30px
-//   height: 30px
-//   display: block
-//   margin: 5px 0 25px 10px
-//   position: relative
-//   top: 3px
-//   border-radius: 30px
-//   background-size: 100%
-//   background-repeat: no-repeat
-//   cursor: pointer
-//
-//
-// footer a
-//   width: 100%
-//   height: 25px
-//   margin: 5px auto 10px
-//   display: block
-//   text-align: center
-//   text-decoration: none
-//   font-family: $lato
-//   color: $black
-//   font-weight: 300
-//   font-size: 1em
-//   text-align: center
-//   line-height: 22px
-//-   #profile a:hover {
-//-     color: #D74177
-//-   }
-//-   #credits {
-//-     pointer-events: auto;
-//-     width: 400px;
-//-     height: 75px;
-//-     position: relative;
-//-     bottom: 15px;
-//-     left: 50%;
-//-     margin: 0 0 0 -200px;
-//-     text-align: center;
-//-     font-family: 'Lato', sans-serif;
-//-     font-weight: 300;
-//-     color: black;
-//-     font-size: 0.9em;
-//-   }
-//-   #credits p {
-//-     width: auto;
-//-     display: inline-block;
-//-     margin-bottom: 5px;
-//-   }
-//-   #credits a {
-//-     text-decoration: none;
-//-     color: #d74177a8;
-//-     display: unset;
-//-     width: auto;
-//-     height: 16px;
-//-     margin: 0 0 0 3px;
-//-     font-family: 'Lato', sans-serif;
-//-     font-weight: 600;
-//-     font-size: 1em;
-//-     transition: all 0.15s ease-out;
-//-   }
-//-   #credits a:hover  {
-//-     color: black;
-//-   }
+  a
+    width: 100%
+    height: 25px
+    margin: 5px auto 10px
+    display: block
+    text-align: center
+    text-decoration: none
+    font-family: $lato
+    color: $black
+    font-weight: 300
+    font-size: 1em
+    text-align: center
+    line-height: 22px
+    &:hover
+      color: #D74177
+  #credits
+    pointer-events: auto
+    width: 400px
+    height: 75px
+    position: relative
+    bottom: 15px
+    left: 50%
+    margin: 0 0 0 -200px
+    text-align: center
+    font-family: $lato
+    font-weight: 300
+    color: black
+    font-size: 0.9em
+
+  #credits p
+    width: auto
+    display: inline-block
+    margin-bottom: 5px
+
+  #credits a
+    text-decoration: none
+    color: #d74177a8
+    display: unset
+    width: auto
+    height: 16px
+    margin: 0 0 0 3px
+    font-family: 'Lato', sans-serif
+    font-weight: 600
+    font-size: 1em
+    transition: all 0.15s ease-out
+
+  #credits a:hover
+    color: black

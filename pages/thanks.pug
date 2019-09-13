@@ -22,18 +22,25 @@ include includes/header.pug
     }
 
 block body
-  div.wrapper
-    div#splash
-      a(href="./")
-        h1 Thank you for your suggestion 🙏
-      p Your conference suggestion has been successfully submitted. <br/> <br/> If this suggestion is accepted, it will appear in the list.
-    div.item.big
-      div.rectangle
+  .wrapper
+    #splash
+      if !user
+        a(href="./")
+          h1 Thank you for your suggestion 🙏
+        p Your conference suggestion has been successfully submitted. <br/> <br/> If this suggestion is accepted, it will appear in the list.
+      if user
+        a(href="./")
+          h1 Thank you for adding that conference! 🙏
+        p Your conference should now appear on the list on the main page. 
+    .item.big
+      .rectangle
         a(href="/")
           p Go back to the list
-      div.rectangle.other
+      .rectangle.other
         a(href="/suggest")
-          p Suggest another conference
-
-
+          if !user
+            p Suggest another conference
+          if user
+            p Add another conference
+            
 include includes/footer.pug

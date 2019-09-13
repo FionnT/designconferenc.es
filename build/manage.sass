@@ -13,85 +13,59 @@
 
 #conferences
 	padding-top: 15px
+	img.big
+		margin: 25px auto 0
+		width: 450px
+		height: auto
+		display: inherit
 	a.big
 		font-size: 2em
 		text-align: center
 		padding: 15px 0 0 0
 		text-decoration: none
 		color: $black
-		margin: 0 auto
+		margin: $center
 		display: block
 		font-family: $lato
 		font-weight: 300
 		&:hover
 			color: #777171
-	img.big
-		width: 100%
-		height: 100%
-		margin: 25px auto
-
 	.item.big.admin
-		margin: 10px 0 10px 2.5%
 		overflow: hidden
-		input
-			&.fileinput
-				opacity: 0
-				height: 0
-				margin: 0
-		.expand
-			&.website
-				&:hover
-					input
-						bottom: 0
-						height: 10px
-						padding: 2px 0 2px
-				input
-					font-size: 1em
-					color: $black
-					font-weight: 300
-					width: 100%
-					height: 0
-					margin: 0 auto
-					display: block
-					resize: horizontal
-					position: relative
-					padding: 0
-					transition: all 0.35s ease-out 0.15s
-  	.img
-  		overflow: hidden
-  		&:hover
-  			.change
-  				top: calc(100% - 35px)
-  		.change
-  			transition: all 0.25s ease-out 0s
-  			position: relative
-  			top: calc(125% - 35px)
-			background-size: 35px 35px
-			width: 30px
-			height: 30px
-			display: inline-block
+		@media screen and (max-width: $break-small)
+			margin: 10px 0 10px
+		@media screen and (min-width: $break-large)
+			margin: 10px 0 10px 2.5%
+		.img
+			&:hover
+				.change
+					top: calc(100% - 45px)
+
+			overflow: hidden
+			display: block
+			margin: $center
 			cursor: pointer
+			.change
+				transition: all 0.25s ease-out 0s
+				position: relative
+				top: calc(125% - 45px)
+				width: 100%
+				height: 45px
+			.remove, .upload
+				width: 45px
+				height: 45px
+				background-position: center
+				background-repeat: no-repeat
+				background-size: 100% 100%
 			.remove
 				background-image: url("../img/delete.png")
 				float: left
-				margin: -5px 0 0 5px
+				margin: -5px 0 0 12px
 			.upload
-  				background-image: url("../img/upload.png")
-  				margin: -5px 12px 0 0
-  				float: right
-		textarea
-			height: auto
-			outline: none
-			border: none
-			resize: none
-			margin: 0 auto 5px 15%
-			width: 70%
-			font-family: $lato
-			color: #22252C
-			font-weight: 300
-			font-size: 1.1em
-			text-align: center
-			line-height: 22px
+					background-image: url("../img/upload.png")
+					margin: -5px 12px 0 0
+					float: right
+
 		input
 			width: 97%
 			height: 100%
@@ -104,15 +78,67 @@
 			border: none
 			outline: none
 
-	input.date, input.place
-    	margin: 0 auto 5px 1.5%
-    	font-weight: 300
-    	font-size: 1.1em
-    	line-height: 22px
-    .expand.website
-    	margin: 2.5% 2.5% 0 0
-    	a
-    		p
-    			color: #D74177
-    			font-weight: 300
-    			font-size: 1.35em
+			&.date, &.place
+				margin: $center 5px 1.5%
+				font-weight: 300
+				font-size: 1.1em
+				line-height: 22px
+
+			&.fileinput
+				opacity: 0
+				height: 0
+				margin: 0
+
+		textarea
+			height: 150px
+			outline: none
+			border: none
+			resize: none
+			margin: $center 5px 15%
+			width: 70%
+			font-family: $lato
+			color: #22252C
+			font-weight: 300
+			font-size: 1.1em
+			text-align: center
+			line-height: 22px
+		.expand
+			&.website
+				margin: $center 2.5%
+				input
+					font-size: 1em
+					color: $black
+					font-weight: 300
+					width: 120px
+					height: 0
+					float: none
+					margin: $center
+					padding: 0
+					display: block
+					resize: horizontal
+					position: relative
+					transition: all 0.35s ease-out 0.15s
+				a
+					p
+						color: #D74177
+						font-weight: 300
+						font-size: 1.35em
+						margin: 0
+						display: block
+						width: 30%
+						float: none
+						margin: $center
+						width: unset
+				&:hover
+					input
+						bottom: 0
+						height: 10px
+						padding: 2px 0 2px
+						margin: 15px auto 0
+	.buttonwrapper .button .svg-wrapper #text .spot p
+		@media screen and (max-width: $break-small)
+				margin: -15px auto 0
+
+	.buttonwrapper .button.approve
+		@media screen and (max-width: $break-small)
+			right: 15px

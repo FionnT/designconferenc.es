@@ -5,13 +5,12 @@
 
 
 #suggest
-  background: #e6e6e6
   border-radius: 5px 5px 0 0
   .item.big
-    box-shadow: inset 0 0 10px 1px #e2e2e2
-    padding: 20px 0 5px
+    border: 1px solid $outline
     background-color: white
-    margin: 0 auto 15px
+    margin: 15px auto 15px
+    height: auto
     &.info
       border-radius: 5px 5px 0 0
       background-color: #e8e8e8
@@ -24,27 +23,37 @@
       height: 40px
       border-radius: 100%
       cursor: pointer
-      display: inline-block
-      margin: 0px 5px -15px
-    input
-      height: 40px
-      width: auto
-      padding-left: 5px
-      margin: 5px 5px
-      outline: none
-    #admin
-      margin: 5px 0 0 0
-      height: 40px
-      width: 180px
-      float: right
-      display: inline-block
-      .dropdown.active
-        height: 110px
+      display: block
+      margin: 15px auto 0
+    .parent_wrapper
+      width: 90%
+      height: auto
+      margin: 0 0 0 5%
+      padding: 0 0 20px 0
+      .sub_wrapper
+        height: 81px
+        display: inline-grid
+        width: 45%
+        margin: 15px 2.5% 0 2.5%
+        input
+          height: 40px
+          width: 100%
+          padding-left: 5px
+          margin: 5px 5px
+          outline: none
+        #admin
+          height: 40px
+          width: 100%
+          margin: 5px 0 5px 5px
+          outline: none
+          .dropdown.active
+            height: 110px
     .buttonwrapper
-      width: 80%
+      width: 85%
       height: 50px
       display: inline-block
-      margin: 10px 0 10px 10%
+      margin: 0 0 0 7.5%
+      padding: 0 0 25px 0
       .button
         width: 150px
         &.reject
