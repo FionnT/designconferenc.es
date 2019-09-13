@@ -85,7 +85,7 @@ $(document).ready(function () {
     let filename;
 
     if (file) filename = file.name;
-    else if ($(container.find('.img')[0]).css('background-image') !== 'url("http://localhost/img/placeholder.png"\)') let filename = ($(container.find('.img')[0]).css('background-image')).split('/pending/')[1].replace('")', '');
+    else if ($(container.find('.img')[0]).css('background-image') !== 'url("http://localhost/img/placeholder.png"\)') filename = ($(container.find('.img')[0]).css('background-image')).split('/pending/')[1].replace('")', '');
     else filename = false;
 
     let conference = {
@@ -110,7 +110,7 @@ $(document).ready(function () {
       processData: false,
       success: function (r) {
         if (r === 'OK') {
-          clear(container)
+          container.fadeOut().remove()
         }
       },
       error: function (e) {

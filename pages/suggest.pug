@@ -5,24 +5,24 @@ include includes/header.pug
   link(rel='stylesheet', href='/css/suggest.css')
 
 block body
-  div.wrapper
-    div#splash
-      if isAdmin
+  .wrapper
+    #splash
+      if user
         h1 Add a conference
-      if !isAdmin
+      if !user
         h1 Suggest a conference
       p 
        a(href="/") Or go back to the list.
-    div#suggest
-      div.item.big 
+    #suggest
+      .item.big 
         p CONFERENCE NAME *
         input(type="text" id="nameinput" class="text" aria-label="Text field input for conference submission" placeholder="Cool International Conference of Experience Design")
-      div.item.big 
+      .item.big 
         p CONFERENCE WEBSITE *
         input(type="text" aria-label="Website URL input" class="text" placeholder="http://somewhere.cool")
-      div.item.small
+      .item.small
         p COUNTRY *
-        div#country.menu(aria-label="Country Menu")
+        #country.menu(aria-label="Country Menu")
           p.sel Select a country...
           p &#9662;
           ul.dropdown.inactive
@@ -134,7 +134,7 @@ block body
             li="Madagascar"
             li="Malawi"
             li="Malaysia"
-            li="Maldives"
+            li="Males"
             li="Mali"
             li="Malta"
             li="Marshall Islands"
@@ -223,16 +223,16 @@ block body
             li="Yemen"
             li="Zambia"
             li="Zimbabwe"
-      div.item.small
+      .item.small
         p CITY *
         input(type="text" aria-label="Conference City name input" class="text" placeholder="Enter the city name...")
-      div#calendar.item.big
-        div.controls
+      #calendar.item.big
+        .controls
           p.left(label="One month less") &#9664;
           p.date(label="Current Month" data-date="")
           p.right(label="One month more") &#9654;
-        div.datepicker
-          div.days 
+        .datepicker
+          .days 
             p Mo
             p Tu
             p We
@@ -244,20 +244,20 @@ block body
         p.selected
         ul
           li.date.hidden
-            div.circle
-            div.left
-            div.right
+            .circle
+            .left
+            .right
             p 1
-      div#description.item.big
+      #description.item.big
         p DESCRIPTION
         textarea(type="text" maxlength="280" aria-label="Conference Description" placeholder="Enter a description...")
-      div.item.small
+      .item.small
         p CONFERENCE ICON (250x250)
         input.fileinput(type="file" name="icon" accept=".png,.jpg,.gif,.svg,.bmp")
         button.file(label="Conference Icon")
           p.fileinfo Upload a file  
-      div.item.big
-        div.rectangle(label="Suggest your conference!" type="submit" action="/suggest")
+      .item.big
+        .rectangle(label="Suggest your conference!" type="submit" action="/suggest")
           if !isAdmin
             p Suggest this conference!
           if isAdmin 

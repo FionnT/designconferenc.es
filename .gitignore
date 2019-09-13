@@ -1,11 +1,7 @@
 node_modules/
 node_modules/*
-db/
+db/*
 db/journal
 db/diagnostic.data
 
 .DS_Store
-
-static/img/icons/pending/*.png,*.jpg,*.jpeg
-static/img/icons/approved/*.png,*.jpg,*.jpeg
-static/img/profiles/*.png,*.jpg,*.jpeg

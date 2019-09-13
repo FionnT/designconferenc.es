@@ -4,20 +4,20 @@ include includes/header.pug
   title Design Conferences
   
 block body
-  div.wrapper
-    div#splash
+  .wrapper
+    #splash
       a(href="./")
         h1 The List of Design Conferences
-      if !manage  
+      if !user  
         p="If you have more suggestions, please let us know using "
           a(href="/suggest") this form!
-      if manage 
+      if user 
         p="If you want to manually add a conference, use "
           a(href="/add") this form!
     if !manage
       nav 
         input(type="text" name="Name search" aria-label="Name search" class="text" placeholder="Search this list...")
-        div#month.menu(aria-label="Month dropdown menu")
+        #month.menu(aria-label="Month dropdown menu")
           p.sel This month 
           p &#9662;
           ul.dropdown.inactive
@@ -34,7 +34,7 @@ block body
             li October
             li November
             li December
-        div#country.menu(aria-label="Country dropdown menu")
+        #country.menu(aria-label="Country dropdown menu")
           p.sel Worldwide
           p &#9662;
           ul.dropdown.inactive
@@ -146,7 +146,7 @@ block body
             li="Madagascar"
             li="Malawi"
             li="Malaysia"
-            li="Maldives"
+            li="Males"
             li="Mali"
             li="Malta"
             li="Marshall Islands"
@@ -235,15 +235,15 @@ block body
             li="Yemen"
             li="Zambia"
             li="Zimbabwe"
-        div#search(aria-label="Search Button")
-          div.svg-wrapper
+        #search(aria-label="Search Button")
+          .svg-wrapper
             svg(height="100%" width="100%" xmlns="http://www.w3.org/2000/svg" )
               rect#shape(height="100%" width="100%" x="0" y="0")
-              div#text
+              #text
                 span.spot
                   p="Search"
     if manage    
-      div#conferences
+      #conferences
         if !result
           a(href="./").big No new suggestions to approve!
           img.big(src="./img/done-dawg.gif")
@@ -253,45 +253,45 @@ block body
           span=result + " conference waiting for your approval."
         if list 
           for suggestion in list
-            div.item.big.admin(data-id=suggestion._id)
+            .item.big.admin(data-id=suggestion._id)
               input.fileinput(type="file" name="icon" accept=".png,.jpg,.gif,.svg,.bmp" placeholder="")
               if suggestion.image
-                div.img(style={"background-image": "url(" + suggestion.image + ")"})
-                  div.change
-                    div.remove
-                    div.upload
+                .img(style={"background-image": "url(" + suggestion.image + ")"})
+                  .change
+                    .remove
+                    .upload
               else 
-                div.img(style={"background-image": "url('./img/placeholder.png')"} alt=suggestion.title)
-                  div.change
-                    div.remove
-                    div.upload
+                .img(style={"background-image": "url('./img/placeholder.png')"} alt=suggestion.title)
+                  .change
+                    .remove
+                    .upload
               input.h2(placeholder=suggestion.title)
               input.date(placeholder=suggestion.text_date)
               input.place(placeholder=suggestion.city + ", " + suggestion.country)
-              div.description 
+              .description 
                 textarea.desc(placeholder=suggestion.description)
-              div.expand.website
+              .expand.website
                 a(href=suggestion.website target="_blank" rel="noopener")
                   p View website →
                 input(placeholder=suggestion.website) 
-              div.buttonwrapper
-                div.button.approve(data-id="")
-                  div.svg-wrapper
+              .buttonwrapper
+                .button.approve(data-id="")
+                  .svg-wrapper
                     svg(height="40" width="150" xmlns="http://www.w3.org/2000/svg" )
                       rect#shape(height="40" width="150")
-                      div#text
+                      #text
                         span.spot
                           p="Approve this listing"
-                div.button.reject(data-id="")
-                  div.svg-wrapper
+                .button.reject(data-id="")
+                  .svg-wrapper
                     svg(height="40" width="150" xmlns="http://www.w3.org/2000/svg" )
                       rect#shape(height="40" width="150")
-                      div#text
+                      #text
                         span.spot
                           p="Reject this listing"
     if !manage
       if list
-        div#conferences
+        #conferences
           if !result
             span=""
           else if result!=1
@@ -299,22 +299,22 @@ block body
           else if result=1
             span=result + " result found for your search."
           for conf in list
-            div.item.small
+            .item.small
               if conf.image 
-                div.img(style={"background-image": "url(" + conf.image + ")"})
+                .img(style={"background-image": "url(" + conf.image + ")"})
               h2=conf.title
               p=conf.text_date 
               p=conf.city + ", " + conf.country
               if conf.description 
                 p.desc=conf.description
-              div.expand.toggle
+              .expand.toggle
                 p + See More
               if conf.website
-                div.expand.website
+                .expand.website
                   a(href=conf.website target="_blank" rel="noopener")
                     p View website →
       if !list
-        div#noresults
+        #noresults
           h2 No results found :-(
           p Try expanding your search,<br>or suggest a conference using the button below!
           a.rectangle(href="/suggest" label="Suggest a Conference!") 

@@ -19,7 +19,8 @@ $(document).ready(function () {
   function notification (message) {
     const notifier = $('#notify');
 
-    if (message !== 'User is registered!') notifier.removeClass('happy');
+    if (message != 'User is registered!') notifier.removeClass('happy');
+    else notifier.addClass('happy');
     $('#notify p').text(message);
 
     notifier.animate({
@@ -89,6 +90,7 @@ $(document).ready(function () {
         },
         error: function (e) {
           console.log('some error', e)
+          notification("Something went wrong!")
         }
       })
     }
