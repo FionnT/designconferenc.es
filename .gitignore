@@ -13,6 +13,12 @@ static/tmp/*
 static/img/profiles/*
 static/img/icons/approved/*
 static/img/icons/pending/*
+static/css/
+static/tmp/
+static/img/profiles/
+static/img/icons/approved/
+static/img/icons/pending/
+
 
 # exception to the rule
 !static/tmp/.gitkeep
