@@ -2,8 +2,6 @@ TODO:
 
 1/ Add emailer for new conferences
 2/ Fix footer
-3/ Add cron-job function
-4/ Add auto-trim for out of date conferences
 
   Optional:
 
@@ -13,9 +11,10 @@ Done:
 
 1/ Suggest page (F+B)
 2/ Main page (F+B)
-3/ Admin page (F) x2
+3/ Admin page (F+B) x2
 4/ Login (F+B)
 5/ Registration (F+B)
 6/ Refactor to ES6 syntax (F+B)
-7/ Add backend for Admin page
-8/ Make sure manage page SASS is still valid after changes
+7/ Make sure manage page SASS is still valid after changes
+8/ Add cron-job function
+9/ Add auto-trim for out of date conferences
