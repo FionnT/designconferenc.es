@@ -77,6 +77,30 @@ router.get('/approve', (req, res) => {
   })
 });
 
+router.get('/manage', (req, res) => {
+  isAdmin.basic(req, res, (user) => {
+    conf.find({}, (err, conferences) => {
+      if (conferences) {
+        res.render('index', {
+          manage: true,
+          list: conferences,
+          result: conferences.length,
+          user: user
+        })
+      } else {
+        res.render('index', {
+          manage: true,
+          list: false,
+          result: false,
+          user: user
+        })
+      }
+    })
+  }, () => {
+    res.redirect('/')
+  })
+});
+
 router.get('/register', (req, res) => {
   isAdmin.level(req, res, 2, (user) => {
     res.render('register', {

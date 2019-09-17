@@ -4,6 +4,7 @@ db/*
 db/journal
 db/diagnostic.data
 
+package-lock.json 
 .DS_Store
 .code-workspace 
 

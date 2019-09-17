@@ -37,17 +37,17 @@ router.post('/submit', busboy({ immediate: true }), (req, res) => {
           let nameVar = uuid() + conference.title.replace(/ /g, '') + '.' + ext();
 
           if (conference.approve && admin) {
-            tmpName = join(pendingDir + conference.image);
-            newName = join(__dirname + '../../../static/img/icons/approved/' + nameVar);
+            tmpName = path.join(pendingDir + conference.image);
+            newName = path.join(__dirname + '../../../static/img/icons/approved/' + nameVar);
             delete conference.approve
           } else {
-            tmpName = join(tmpDir + conference.image);
-            newName = join(pendingDir + nameVar);
+            tmpName = path.join(tmpDir + conference.image);
+            newName = path.join(pendingDir + nameVar);
           }
 
           conference.image = "'./" + newName.split('/static/')[1] + "'";
 
-          rename(tmpName, newName, function (err) {
+          fs.rename(tmpName, newName, function (err) {
             if (err) {
               console.log('ERROR: ' + err);
               reject();
@@ -97,7 +97,7 @@ router.post('/submit', busboy({ immediate: true }), (req, res) => {
   });
 
   req.busboy.on('file', (fieldname, file, fileName) => {
-    const fstream = createWriteStream(join(tmpDir + fileName));
+    const fstream = fs.createWriteStream(path.join(tmpDir + fileName));
     file.pipe(fstream);
     fstream.on('close', function () {
       return true

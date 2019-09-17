@@ -75,7 +75,7 @@ $(document).ready(function () {
         else highlight(0, end_date.index)
       }
       $($('.date')[end_date.index]).addClass('active')
-    }
+    }else if((start_date.month<current_month && end_date.month>current_month) || (end_date.month<current_month && start_date.month>current_month)) highlight(0, 99)
   }
 
   function time(month, year) {
@@ -99,7 +99,7 @@ $(document).ready(function () {
     for (i = 0; i < empty_days; i++) { $($('.hidden')[0]).clone().detach().prependTo(container) } // Insert empty items to bump to correct starting date
     for (i = 0; i < days; i++) { $($('.hidden')[0]).clone().detach().removeClass('hidden').appendTo(container) } // Insert items that contain the dates
 
-    $('.numbers li.date').each(function (index) {
+    $('.numbers li.date').each(function () {
       let _this = $(this);
       if (!(_this.hasClass('hidden'))) { // Don't add dates to bump items
         if (date < days) {
@@ -108,7 +108,7 @@ $(document).ready(function () {
         }
       }
     });
-    month_memory()
+    month_memory();
   }
 
   calendar(now.getMonth(), now.getFullYear()) // Default to this month
@@ -141,7 +141,7 @@ $(document).ready(function () {
       end_date = {};
       reset(false);
       select(start_date);
-      displayfield.text(start_date.date + ' ' + months[start_date.month])
+      displayfield.text(start_date.date + ' ' + months[start_date.month] + ' ' + start_date.year)
     }else if(start_date.hasOwnProperty('index') && start_date.index !== (_this.index() + 1)) {
       select(end_date);
       crossmonth()

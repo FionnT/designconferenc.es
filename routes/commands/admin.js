@@ -4,7 +4,6 @@ const fs = require('fs');
 const path = require('path');
 const bcrypt = require('bcrypt')
 const saltRounds = 10;
-
 const isAdmin = require('./privileges');
 const models = require('../mongoose/models.js');
 const person = models.person;
@@ -20,7 +19,9 @@ router.post('/update', busboy({ immediate: true }), (req, res) => {
                     'Email and username are taken',
                     'You don\'t have the permissions to do that.',
                     'Something went wrong!',
-                    'Couldn\'t save that password for some reason!'
+                    'Couldn\'t save that password for some reason!',
+                    'You can\'t delete yourself!',
+                    'User was deleted!'
                   ];
 
   const tmpDir = __dirname + '../../../static/img/tmp/';
@@ -138,20 +139,14 @@ router.post('/update', busboy({ immediate: true }), (req, res) => {
 
   const deleteUser = async ( requestor ) => {
     if(updated.id == requestor.id) {
-      problem = 6;
+      problem = 7;
       resolve();
     }
     else {
       try {
-        await person.findOne({_id: updated.id}, (err, result) => {
-          if(err) reject();
-          else {
-            console.log(result)
-            result.forEach((result) => {
-              result.deleteOne()
-              resolve()
-            });
-          }
+        await person.findByIdAndDelete({_id: updated.id}, (err) => {
+          if(err) throw err 
+          else problem = 8; return true;
         })
       } catch (error) { console.log(error) }
     }
