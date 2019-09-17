@@ -117,9 +117,9 @@ router.post('/submit', busboy({ immediate: true }), (req, res) => {
     }
 
     isAdmin.basic(req, res, (user) => {
-      handler(true).then( ()=> { console.log('Conference approved!'); resolve() })
+      handler(true).then( ()=> {resolve() })
     }, () => {
-      handler(false).then( ()=> { console.log('Added a new suggestion'); resolve() })
+      handler(false).then( ()=> {resolve() })
     })
 
   })

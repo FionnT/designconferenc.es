@@ -38,7 +38,7 @@ router.get('/search', (req, res) => {
       helper = result.splice(0); // cloning the constant so we can edit it
       function run () {
         for (let i = 0; i < helper.length; i++) {
-          function parse (a, b) {
+          function parse (a, b) { // Loop through array we made earlier, and remove anything that doesn't match the search terms
             let regex = new RegExp(a, 'ig');
             let res = helper[i][b].match(regex);
             if (!res) {
@@ -57,11 +57,7 @@ router.get('/search', (req, res) => {
       if (helper.length !== 0) run();
       else resolve()
     }).then( () => { let run; }) // prevent stack size exceptions
-    .catch(
-      res.render('index', {
-        list: false
-      })
-    );
+    
   }
   
 
@@ -91,7 +87,13 @@ router.get('/search', (req, res) => {
     if (time === 'Any') time = false;
     name = req.query.title.toString();
     if (name === 'Any') name = false;
-    handler().then( () => { resolve(false) })
+
+    handler().then( () => { resolve(false) }).catch(
+      res.render('index', {
+        list: false
+      })
+    );
+    
   }
 });
 

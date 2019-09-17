@@ -21,6 +21,7 @@ static/img/icons/pending/
 
 
 # exception to the rule
+!db/.gitkeep
 !static/tmp/.gitkeep
 !static/css/.gitkeep
 !static/img/profiles/.gitkeep

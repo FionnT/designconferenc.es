@@ -5,7 +5,6 @@ const path = require('path');
 
 const isAdmin = require('./privileges');
 const models = require('../mongoose/models.js');
-const person = models.person;
 const suggestion = models.suggestion;
 const conf = models.conference;
 

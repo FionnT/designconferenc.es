@@ -57,7 +57,6 @@ router.get('/approve', (req, res) => {
   isAdmin.basic(req, res, (user) => {
     suggestion.find({}, (err, suggestions) => {
       if (suggestions) {
-        console.log('Found results')
         res.render('index', {
           manage: true,
           list: suggestions,
@@ -65,7 +64,6 @@ router.get('/approve', (req, res) => {
           user: user
         })
       } else {
-        console.log('Did not find results')
         res.render('index', {
           manage: true,
           list: false,
@@ -75,7 +73,6 @@ router.get('/approve', (req, res) => {
       }
     })
   }, () => {
-    console.log('Did not find user')
     res.redirect('/')
   })
 });
