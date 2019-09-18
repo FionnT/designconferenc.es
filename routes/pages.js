@@ -105,9 +105,9 @@ router.get('/register', (req, res) => {
   isAdmin.level(req, res, 2, (user) => {
     res.render('register', {
       user: user
-    }) // Send an admin to the add page instead
+    })
   }, () => {
-    res.render('register')
+    res.redirect('/')
   })
 })
 
