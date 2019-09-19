@@ -22,7 +22,7 @@ const messages = [
 
 
 
-router.post('/register', busboy({ immediate: true }), (req, res) => {
+router.post('/register', busboy(), (req, res) => {
 
   req.pipe(req.busboy);
 
@@ -113,10 +113,9 @@ router.post('/register', busboy({ immediate: true }), (req, res) => {
   })
 
   req.busboy.on('file', (fieldname, file, fileName) => {
-    const fstream = fs.createWriteStream(path.join(tmpDir + fileName));
-    file.pipe(fstream);
-    fstream.on('close', function () {
-      return true // ehhh
+    new Promise ((resolve, reject) => {
+      const fstream = fs.createWriteStream(path.join(tmpDir, fileName));
+      file.pipe(fstream).on('finish', () => { resolve() })
     })
   });
 
@@ -131,14 +130,14 @@ router.post('/register', busboy({ immediate: true }), (req, res) => {
       resolve()
     }
 
-    // isAdmin.basic(req, res, () => {
+    isAdmin.level(req, res, 1, () => {
       handler().catch( () => {
         if(problem>0) res.send(messages[problem])
         else res.send(messages[5])
       })
-    // }, () => {
-    //   res.send(messages[4])
-    // })
+    }, () => {
+      res.send(messages[4])
+    })
 
   })
 });

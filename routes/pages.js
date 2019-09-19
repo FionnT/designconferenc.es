@@ -15,6 +15,20 @@ router.get('/404', (req, res) => res.render('404'));
 
 // Processing required
 
+router.get('/reset', (req, res) => {
+  conf.find({}, (err, result) => {
+    for(i in result){
+      result[i].remove()
+    }
+  })
+  suggestion.find({}, (err, result) => {
+    for(i in result){
+      result[i].remove()
+    }
+  })
+  res.redirect('/add')
+})
+
 router.get('/', (req, res) => {
   person.findOne({
     _id: req.cookies.UID
@@ -106,7 +120,7 @@ router.get('/manage', (req, res) => {
 });
 
 router.get('/register', (req, res) => {
-  isAdmin.level(req, res, 2, (user) => {
+  isAdmin.level(req, res, 1, (user) => {
     res.render('register', {
       user: user
     })

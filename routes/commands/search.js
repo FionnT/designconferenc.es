@@ -21,43 +21,46 @@ router.get('/search', (req, res) => {
   let name;
 
   const search = async (filter, field) => {
-    await new Promise((resolve, reject) => {
-      query[field] = { $regex: filter, $options: 'i' }; // Result: var query = {field: { "$regex": filter, "$options": "i" }}
-      conf.find(query, function (err, conferences) {
-        for (var i in conferences)
-          raw.push(conferences[i]);
-        resolve();
+    try{ 
+      await new Promise((resolve, reject) => {
+        query[field] = { $regex: filter, $options: 'i' }; // Result: var query = {field: { "$regex": filter, "$options": "i" }}
+        conf.find(query, function (err, conferences) {
+          for (var i in conferences)
+            raw.push(conferences[i]);
+          resolve();
+        });
       });
-    });
-    query = {}; // empty query after each search
+      query = {}; // empty query after each search
+    }catch (error) { console.log(error)}
   };
 
   const filter = async () => {
-    await new Promise((resolve, reject) => {
-      const result = [...new Set(raw.map(obj => JSON.stringify(obj)))].map(str => JSON.parse(str)); // removing duplicates from the raw array
-      helper = result.splice(0); // cloning the constant so we can edit it
-      function run () {
-        for (let i = 0; i < helper.length; i++) {
-          function parse (a, b) { // Loop through array we made earlier, and remove anything that doesn't match the search terms
-            let regex = new RegExp(a, 'ig');
-            let res = helper[i][b].match(regex);
-            if (!res) {
-              if (helper.length === 1) { // can't splice a 1 length string
-                helper = [];
-                resolve()
-              } else helper.splice(i, i); run() // need to reset the stored helper.length after each splice, or it won't check every item
+    try {
+      await new Promise((resolve, reject) => {
+        const result = [...new Set(raw.map(obj => JSON.stringify(obj)))].map(str => JSON.parse(str)); // removing duplicates from the raw array
+        helper = result.splice(0); // cloning the constant so we can edit it
+        function run () {
+          for (let i = 0; i < helper.length; i++) {
+            function parse (a, b) { // Loop through array we made earlier, and remove anything that doesn't match the search terms
+              let regex = new RegExp(a, 'ig');
+              let res = helper[i][b].match(regex);
+              if (!res) {
+                if (helper.length === 1) { // can't splice a 1 length string
+                  helper = [];
+                  resolve()
+                } else helper.splice(i, i); run() // need to reset the stored helper.length after each splice, or it won't check every item
+              }
             }
+            if (name) parse(name, 'title');
+            if (time) parse(time, 'text_date');
+            if (place) parse(place, 'country')
           }
-          if (name) parse(name, 'title');
-          if (time) parse(time, 'text_date');
-          if (place) parse(place, 'country')
+          resolve()
         }
-        resolve()
-      }
-      if (helper.length !== 0) run();
-      else resolve()
-    }).then( () => { let run; }) // prevent stack size exceptions
-    
+        if (helper.length !== 0) run();
+        else resolve()
+      }).then( () => { let run; }) // prevent stack size exceptions
+    }catch (error) { console.log(error)}
   }
   
 

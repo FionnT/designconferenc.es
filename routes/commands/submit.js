@@ -6,88 +6,113 @@ const uuid = require('uuid/v1');
 
 const isAdmin = require('./privileges');
 const models = require('../mongoose/models.js');
-const person = models.person;
 const suggestion = models.suggestion;
 const conf = models.conference;
 
-router.post('/submit', busboy({ immediate: true }), (req, res) => {
+router.post('/submit', busboy(), (req, res) => {
   req.pipe(req.busboy);
 
   const tmpDir = __dirname + '../../../static/img/tmp/';
   const pendingDir = __dirname + '../../../static/img/icons/pending/';
+  const approvedDir = __dirname + '../../../static/img/icons/approved/';
   const formData = new Map(); // Map inputs to their values
 
   let conference;
   let newName;
   let tmpName;
+  let newFile; 
 
   // Admin manual add page just renders the suggest page and then posts data to this route
   // We're not wrapping the entire request because it should process as a suggestion if they're not
   // an admin or other user
+  // also used for the management page 
+
+  function ext () {
+    let t = conference.image.split('.');
+    return (t[t.length - 1]).toString()
+  }
+
+  const rename = async (tmp, nu, _catch) => {
+    fs.rename(tmp, nu, function (err) {
+      if (err) console.log(err)
+    })
+  }
 
   const fileStore = async (admin) => {
-    await new Promise((resolve, reject) => {
-      try {
-        if (conference.image) { // don't run if there's no file
-          function ext () {
-            let t = conference.image.split('.');
-            return (t[t.length - 1]).toString()
-          }
-
+    if (conference.image) { // don't run if there's no file
+      try{ 
+        await new Promise((resolve, reject) => {
           let nameVar = uuid() + conference.title.replace(/ /g, '') + '.' + ext();
-
-          if (conference.approve && admin) {
-            tmpName = path.join(pendingDir + conference.image);
-            newName = path.join(__dirname + '../../../static/img/icons/approved/' + nameVar);
-            delete conference.approve
-          } else {
+          if (!conference.approve && conference.id && admin) { // modifying live conference 
+            conf.findById(conference.id, (err, result) => {
+              tmpName = path.join(tmpDir + conference.image); // overwrite existing 
+              newName =  path.join(approvedDir + result.image.split("/approved/")[1].split("'")[0]);
+              rename(tmpName, newName)
+              resolve();
+            })
+          } else if (admin) {  
+            newName = path.join(approvedDir + nameVar);
+            if(newFile) tmpName = path.join(tmpDir + conference.image); 
+            else tmpName = path.join(pendingDir + conference.image); // straight approval
+            rename(tmpName, newName) 
+            conference.image = "'./" + newName.split("/static/")[1] + "'"
+            resolve();
+          } else { // user suggestion 
             tmpName = path.join(tmpDir + conference.image);
             newName = path.join(pendingDir + nameVar);
+            rename(tmpName, newName)
+            conference.image = "'./" + newName.split("/static/")[1] + "'"
+            resolve();
           }
-
-          conference.image = "'./" + newName.split('/static/')[1] + "'";
-
-          fs.rename(tmpName, newName, function (err) {
-            if (err) {
-              console.log('ERROR: ' + err);
-              reject();
-              res.sendStatus(500)
-            } else {
-              resolve()
-            }
-          })
-        } else resolve() // no file, no problem
-      }catch { reject(error) }
-    })
+        });
+      }catch (error) { console.log(error)}
+    } else return true;
   };
 
   const dbStore = async (admin) => {
-    await new Promise((resolve, reject) => {
-      try {
+    try{ 
+      await new Promise((resolve, reject) => {
         let uData;
-        if (admin) {
-          uData = new conf(conference);
-
-          suggestion.findOne({id: conference._id}, (err, result) => {
-            if (err) reject()
-            else if(result) result.deleteOne()
+        if (!conference.approve && conference.id && admin) { // modifying live conference 
+          conf.findById(conference.id, (err, result) => {
+            result.title = conference.title;
+            result.text_date = conference.date;
+            result.country = conference.country;
+            result.city = conference.city;
+            result.description = conference.description;
+            result.website = conference.website; 
+            result.save()
+              .then(() => {
+                resolve();
+              })
+              .catch(err => {
+                console.log(err);
+              });
+            resolve(); // fallback
           })
+          
+        }else if (admin) { // adding a conference directly 
+          uData = new conf(conference); 
+          if(conference.approve) { // approving a suggestion
+            console.log(conference.id)
+            suggestion.findById(conference.id, (err, result) => {result.remove()})
+            delete conference.approve
+          }
+          delete conference.id; 
+        } else uData = new suggestion(conference); // user suggestion 
 
-        }
-        else uData = new suggestion(conference);
         uData.save()
-          .then(() => {
-            resolve()
-          })
-          .catch(err => {
-            res.sendStatus(500);
-            console.log(err);
-            reject()
-          })
-      } catch {
-        reject(error)
-      } 
-    })
+        .then(() => {
+          resolve()
+        })
+        .catch(err => {
+          res.sendStatus(500);
+          console.log(err);
+          reject()
+        })
+
+      })
+    }catch (error) { console.log(error)}
   };
 
   // Parse the string from FormData format back into JSON
@@ -97,10 +122,10 @@ router.post('/submit', busboy({ immediate: true }), (req, res) => {
   });
 
   req.busboy.on('file', (fieldname, file, fileName) => {
-    const fstream = fs.createWriteStream(path.join(tmpDir + fileName));
-    file.pipe(fstream);
-    fstream.on('close', function () {
-      return true
+    new Promise ((resolve, reject) => {
+      const fstream = fs.createWriteStream(path.join(tmpDir, fileName));
+      file.pipe(fstream).on('finish', () => { resolve() })
+      newFile = true;
     })
   });
 

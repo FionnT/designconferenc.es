@@ -8,9 +8,7 @@ const isAdmin = require('./privileges');
 const models = require('../mongoose/models.js');
 const person = models.person;
 
-router.post('/update', busboy({
-  immediate: true
-}), (req, res) => {
+router.post('/update', busboy(), (req, res) => {
 
   req.pipe(req.busboy);
 
@@ -182,10 +180,9 @@ router.post('/update', busboy({
 
 
   req.busboy.on('file', (fieldname, file, fileName) => {
-    const fstream = fs.createWriteStream(path.join(tmpDir + fileName));
-    file.pipe(fstream);
-    fstream.on('close', function () {
-      return true // ehhh
+    new Promise ((resolve, reject) => {
+      const fstream = fs.createWriteStream(path.join(tmpDir, fileName));
+      file.pipe(fstream).on('finish', () => { resolve() })
     })
   });
 

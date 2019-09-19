@@ -43,8 +43,13 @@ $(document).ready(function () {
 
   function type (container) {
     const loc = document.location.href;
-    if (loc.match('/approve').length > 0) return 'suggestion';
-    else if (loc.match('/manage').length > 0) return 'conference'
+    try { 
+      loc.match('/approve').length > 0
+      return 'suggestion';
+    } catch {
+      loc.match('/manage').length > 0
+      return 'conference'
+    }
   }
 
   function clear (container) {
@@ -81,27 +86,45 @@ $(document).ready(function () {
     let website = inputs[4].value;
     let file = container.find('.fileinput')[0].files[0];
     let desc = container.find('textarea')[0].value;
+    let id = container.data('id').toString();
     let formData = new FormData();
     let filename;
+    let conference; 
 
     if (file) filename = file.name;
-    else if ($(container.find('.img')[0]).css('background-image') !== 'url("http://localhost/img/placeholder.png"\)') filename = ($(container.find('.img')[0]).css('background-image')).split('/pending/')[1].replace('")', '');
+    else if (type() == "suggestion" && $(container.find('.img')[0]).css('background-image') !== 'url("http://localhost/img/placeholder.png"\)') filename = ($(container.find('.img')[0]).css('background-image')).split('/pending/')[1].replace('")', '');
     else filename = false;
-
-    let conference = {
-      title: name,
-      date: date,
-      country: country,
-      city: city,
-      description: desc,
-      website: website,
-      image: filename,
-      approve: true
-    };
+    
+    if(type() == "conference") {
+      conference = {
+        id: id,
+        title: name,
+        date: date,
+        country: country,
+        city: city,
+        description: desc,
+        website: website,
+        image: filename,
+        approve: false // updating 
+      };  
+    }else {
+      conference = {
+        id: id,
+        title: name,
+        date: date,
+        country: country,
+        city: city,
+        description: desc,
+        website: website,
+        image: filename,
+        approve: true
+      };  
+    }
+    
 
     formData.append('data', JSON.stringify(conference));
     formData.append('file', file);
-
+    console.log(conference)
     $.ajax({
       type: 'POST',
       url: '/submit',

@@ -26,7 +26,6 @@ app.use(require('express-session')({
 app.use(robots({UserAgent: '*', Allow: '/', CrawlDelay: '5'}));
 
 app.use(sassMiddleware({
-    /* Options */
     src: path.join(__dirname, '/build'),
     dest: path.join(__dirname, '/static/css'),
     debug: true,
@@ -39,9 +38,7 @@ app.use(sassMiddleware({
 app.use(express.static('./static'));
 
 app.use('/', require('./routes/auth'));
-app.use('/', require('./routes/functions'));
 app.use('/', require('./routes/pages'));
-
 app.use('/', require('./routes/commands/purge'));
 app.use('/', require('./routes/commands/register'));
 app.use('/', require('./routes/commands/search'));
