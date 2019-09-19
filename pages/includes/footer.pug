@@ -6,11 +6,13 @@ footer
     div#profile
       img(style={"background-image": "url(" + user.filename + ")"})
       if user.isAdmin>=0
-        a(href="/approve") Review
+        a(href="/approve") Approve
       if user.isAdmin>=0
-        a(href="/Add") Submit
+        a(href="/manage") Manage
+      if user.isAdmin>=0
+        a(href="/Add") Add
       if user.isAdmin<2
-        a(href="/register") Add Users
+        a(href="/register") Add User
       if user.isAdmin<1
         a(href="/admin") Manage Users
       a(href="/logout") Logout
