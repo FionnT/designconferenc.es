@@ -57,7 +57,7 @@ router.get('/search', (req, res) => {
           }
           resolve()
         }
-        if (helper.length !== 0) run();
+        if (helper.length !== 0) {run();}
         else resolve()
       }).then( () => { let run; }) // prevent stack size exceptions
     }catch (error) { console.log(error)}
