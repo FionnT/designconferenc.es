@@ -40,26 +40,26 @@ router.get('/search', (req, res) => {
         const result = [...new Set(raw.map(obj => JSON.stringify(obj)))].map(str => JSON.parse(str)); // removing duplicates from the raw array
         helper = result.splice(0); // cloning the constant so we can edit it
         function run () {
-          if (helper.length > 1) 
-            for (let i = 0; i < helper.length; i++) {
-              function parse (a, b) { // Loop through array we made earlier, and remove anything that doesn't match the search terms
-                let regex = new RegExp(a, 'ig');
-                let res = helper[i][b].match(regex);
-                if (!res) {
-                  if (helper.length === 1) { // can't splice a 1 length string
-                    helper = [];
-                    resolve()
-                  } else helper.splice(i, 1); run() // need to reset the stored helper.length after each splice, or it won't check every item
-                }
+          for (let i = 0; i < helper.length; i++) {
+            function parse (a, b) { // Loop through array we made earlier, and remove anything that doesn't match the search terms
+              let regex = new RegExp(a, 'ig');
+              let res = helper[i][b].match(regex);
+              if (!res) {
+                if (helper.length === 1) { // can't splice a 1 length string
+                  helper = [];
+                  resolve()
+                } else helper.splice(i, 1); run() // need to reset the stored helper.length after each splice, or it won't check every item
               }
-              if (name) parse(name, 'title');
-              if (time) parse(time, 'text_date');
-              if (place) parse(place, 'country')
             }
-          else{ resolve() }
+            if (name) parse(name, 'title');
+            if (time) parse(time, 'text_date');
+            if (place) parse(place, 'country')
+          }
+          resolve()
         }
-        run();
-      }).then(() => { run = undefined; }) // prevent stack size exceptions
+        if (helper.length > 1) {run();}
+        else resolve() // prevent stack size exceptions}
+      }).then(() => { run = undefined; })
     }catch (error) { console.log(error)}
   }
   
