@@ -91,12 +91,7 @@ router.get('/search', (req, res) => {
     name = req.query.title.toString();
     if (name === 'Any') name = false;
 
-    handler().then( () => { resolve(false) }).catch(
-      res.render('index', {
-        list: false
-      })
-    );
-    
+    handler().then( () => { resolve(false) })    
   }
 });
 
