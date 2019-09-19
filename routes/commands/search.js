@@ -40,26 +40,26 @@ router.get('/search', (req, res) => {
         const result = [...new Set(raw.map(obj => JSON.stringify(obj)))].map(str => JSON.parse(str)); // removing duplicates from the raw array
         helper = result.splice(0); // cloning the constant so we can edit it
         function run () {
-          for (let i = 0; i < helper.length; i++) {
-            function parse (a, b) { // Loop through array we made earlier, and remove anything that doesn't match the search terms
-              let regex = new RegExp(a, 'ig');
-              let res = helper[i][b].match(regex);
-              if (!res) {
-                if (helper.length === 1) { // can't splice a 1 length string
-                  helper = [];
-                  resolve()
-                } else helper.splice(i, i); run() // need to reset the stored helper.length after each splice, or it won't check every item
+          if (helper.length > 1) 
+            for (let i = 0; i < helper.length; i++) {
+              function parse (a, b) { // Loop through array we made earlier, and remove anything that doesn't match the search terms
+                let regex = new RegExp(a, 'ig');
+                let res = helper[i][b].match(regex);
+                if (!res) {
+                  if (helper.length === 1) { // can't splice a 1 length string
+                    helper = [];
+                    resolve()
+                  } else helper.splice(i, 1); run() // need to reset the stored helper.length after each splice, or it won't check every item
+                }
               }
+              if (name) parse(name, 'title');
+              if (time) parse(time, 'text_date');
+              if (place) parse(place, 'country')
             }
-            if (name) parse(name, 'title');
-            if (time) parse(time, 'text_date');
-            if (place) parse(place, 'country')
-          }
-          resolve()
+          else{ resolve() }
         }
-        if (helper.length !== 0) {run();}
-        else resolve()
-      }).then( () => { let run; }) // prevent stack size exceptions
+        run();
+      }).then(() => { run = undefined; }) // prevent stack size exceptions
     }catch (error) { console.log(error)}
   }
   
@@ -90,7 +90,7 @@ router.get('/search', (req, res) => {
     if (time === 'Any') time = false;
     name = req.query.title.toString();
     if (name === 'Any') name = false;
-
+    console.log(place, time, name)
     handler().then( () => { resolve(false) })    
   }
 });
