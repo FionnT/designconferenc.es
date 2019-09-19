@@ -8,21 +8,23 @@ const isAdmin = require('./privileges');
 const models = require('../mongoose/models.js');
 const person = models.person;
 
-router.post('/update', busboy({ immediate: true }), (req, res) => {
+router.post('/update', busboy({
+  immediate: true
+}), (req, res) => {
 
   req.pipe(req.busboy);
 
   const messages = [
-                    'Details were updated!',
-                    'Email is already taken',
-                    'Username is already taken',
-                    'Email and username are taken',
-                    'You don\'t have the permissions to do that.',
-                    'Something went wrong!',
-                    'Couldn\'t save that password for some reason!',
-                    'You can\'t delete yourself!',
-                    'User was deleted!'
-                  ];
+    'Details were updated!',
+    'Email is already taken',
+    'Username is already taken',
+    'Email and username are taken',
+    'You don\'t have the permissions to do that.',
+    'Something went wrong!',
+    'Couldn\'t save that password for some reason!',
+    'You can\'t delete yourself!',
+    'User was deleted!'
+  ];
 
   const tmpDir = __dirname + '../../../static/img/tmp/';
   const formData = new Map(); // Map inputs to their values
@@ -37,14 +39,20 @@ router.post('/update', busboy({ immediate: true }), (req, res) => {
   let found = [];
   let problem = 0;
 
-  const fetch_origin = async () => { 
-    try{
-      await person.findOne({_id: updated.id}, (err, result) => { original = result }) 
-    } catch (error) { console.log(error) }
+  const fetch_origin = async () => {
+    try {
+      await person.findOne({
+        _id: updated.id
+      }, (err, result) => {
+        original = result
+      })
+    } catch (error) {
+      console.log(error)
+    }
   };
 
   const fetch_and_filter = async () => {
-    try{ 
+    try {
       await new Promise((resolve, reject) => {
         let uid = ['email', 'username'];
         let info = [updated.email, updated.username];
@@ -52,18 +60,20 @@ router.post('/update', busboy({ immediate: true }), (req, res) => {
           let query = {};
           query[uid[i]] = info[i]; // Output: query = {email: updated.email}
           person.find(query, function (err, result) {
-            for(user in result) found.push(result[user])
-            for(i in found) {
-              if(found[i].id !== updated.id && found.length) { // skip checking the user being modified
-                if(found[i].email === updated.email) bools.email +=1
-                if(found[i].username === updated.username) bools.username +=1
+            for (user in result) found.push(result[user])
+            for (i in found) {
+              if (found[i].id !== updated.id && found.length) { // skip checking the user being modified
+                if (found[i].email === updated.email) bools.email += 1
+                if (found[i].username === updated.username) bools.username += 1
               }
             }
             resolve();
           })
         }
       })
-    } catch (error) { console.log(error) }
+    } catch (error) {
+      console.log(error)
+    }
   }
 
 
@@ -73,7 +83,7 @@ router.post('/update', busboy({ immediate: true }), (req, res) => {
         if (updated.filename) { // set to false on client side if we're not updating it
 
           let tmpName = path.join(tmpDir + updated.filename);
-          let newName = path.join(__dirname + '../../../static/' + original.filename.split('\'./')[1].split('\'')[0]) ; // No need to generate a new UUID, we're just going to overwrite
+          let newName = path.join(__dirname + '../../../static/' + original.filename.split('\'./')[1].split('\'')[0]); // No need to generate a new UUID, we're just going to overwrite
 
           updated.filename = original.filename;
           fs.rename(tmpName, newName, error => {
@@ -81,9 +91,13 @@ router.post('/update', busboy({ immediate: true }), (req, res) => {
             else resolve()
           })
 
-        } else { resolve() }
+        } else {
+          resolve()
+        }
       })
-    } catch (error) { console.log(error) }
+    } catch (error) {
+      console.log(error)
+    }
   }
 
 
@@ -92,7 +106,7 @@ router.post('/update', busboy({ immediate: true }), (req, res) => {
       await new Promise((resolve, reject) => {
         bcrypt.genSalt(saltRounds, function (err, salt) {
           bcrypt.hash(updated.password, salt, function (err, hash) {
-            if(err) reject();
+            if (err) reject();
             else {
               updated.password = hash;
               resolve()
@@ -100,22 +114,25 @@ router.post('/update', busboy({ immediate: true }), (req, res) => {
           })
         })
       })
-    } catch (error) { console.log(error) }
+    } catch (error) {
+      console.log(error)
+    }
   }
 
-  const updateUser = async ( requestor ) => {
+  const updateUser = async (requestor) => {
     try {
       await new Promise((resolve, reject) => {
-        person.findOne({_id: updated.id}, (err, result) => {
+        person.findOne({
+          _id: updated.id
+        }, (err, result) => {
           if (err) {
             console.log(err);
             reject();
-          }
-          else {
+          } else {
             // ehhh - no need for leet code
             if (updated.password) result.password = updated.password;
             if (updated.filename) result.filename = updated.filename;
-            if(requestor.isAdmin<=updated.isAdmin && original.isAdmin !== -1) result.isAdmin = updated.isAdmin;
+            if (requestor.isAdmin <= updated.isAdmin && original.isAdmin !== -1) result.isAdmin = updated.isAdmin;
             else {
               problem = 4;
               reject();
@@ -134,21 +151,27 @@ router.post('/update', busboy({ immediate: true }), (req, res) => {
           }
         });
       });
-    } catch (error) { console.log(error) }
+    } catch (error) {
+      console.log(error)
+    }
   }
 
-  const deleteUser = async ( requestor ) => {
-    if(updated.id == requestor.id) {
+  const deleteUser = async (requestor) => {
+    if (updated.id == requestor.id) {
       problem = 7;
       resolve();
-    }
-    else {
+    } else {
       try {
-        await person.findByIdAndDelete({_id: updated.id}, (err) => {
-          if(err) throw err 
-          else problem = 8; return true;
+        await person.findByIdAndDelete({
+          _id: updated.id
+        }, (err) => {
+          if (err) throw err
+          else problem = 8;
+          return true;
         })
-      } catch (error) { console.log(error) }
+      } catch (error) {
+        console.log(error)
+      }
     }
   }
 
@@ -167,31 +190,35 @@ router.post('/update', busboy({ immediate: true }), (req, res) => {
   });
 
   req.busboy.on('finish', () => {
-    function resolve () {
-      if(bools.email) problem +=1
-      if(bools.username) problem += 2;
+    function resolve() {
+      if (bools.email) problem += 1
+      if (bools.username) problem += 2;
       res.send(messages[problem])
     }
-    async function handler ( requestor ) {
+    async function handler(requestor) {
       if (updated.remove) {
-        await deleteUser( requestor );
+        await deleteUser(requestor);
         resolve()
-      }else {
+      } else {
         await fetch_origin();
         await fetch_and_filter();
-        if(bools.email || bools.username) resolve();
+        if (bools.email || bools.username) resolve();
         else {
-          if(updated.password) { await updatePassword(); }
-          if(updated.filename) { await saveFile();}
-          await updateUser( requestor );
+          if (updated.password) {
+            await updatePassword();
+          }
+          if (updated.filename) {
+            await saveFile();
+          }
+          await updateUser(requestor);
           resolve()
         }
       }
     }
 
-    isAdmin.basic(req, res, ( requestor ) => {
-      handler( requestor ).catch( () => {
-        if(problem>0) res.send(messages[problem])
+    isAdmin.basic(req, res, (requestor) => {
+      handler(requestor).catch(() => {
+        if (problem > 0) res.send(messages[problem])
         else res.send(messages[5])
       })
     }, () => {

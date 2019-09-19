@@ -29,8 +29,6 @@ router.post('/register', busboy({ immediate: true }), (req, res) => {
   const tmpDir = __dirname + '../../../static/img/tmp/';
   const formData = new Map(); // Map inputs to their values
 
-  let message = messages[0];
-
   let user;
   let query;
   let unique = true;

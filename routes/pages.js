@@ -16,7 +16,9 @@ router.get('/404', (req, res) => res.render('404'));
 // Processing required
 
 router.get('/', (req, res) => {
-  person.findOne({ _id: req.cookies.UID }, (err, user) => {
+  person.findOne({
+    _id: req.cookies.UID
+  }, (err, user) => {
     conf.find({}, function (err, conferences) {
       if (conferences.length !== 0) {
         res.render('index', {
@@ -50,7 +52,9 @@ router.get('/admin', (req, res) => {
         users: users
       })
     })
-  }, () => { res.redirect('/') })
+  }, () => {
+    res.redirect('/')
+  })
 });
 
 router.get('/approve', (req, res) => {
@@ -113,13 +117,17 @@ router.get('/register', (req, res) => {
 
 router.get('/suggest', (req, res) => {
   isAdmin.level(req, res, 2, (user) => {
-    res.redirect('/add')// Send an admin to the add page instead
-  }, () => {res.render('suggest')})
+    res.redirect('/add') // Send an admin to the add page instead
+  }, () => {
+    res.render('suggest')
+  })
 });
 
 router.get('/thanks', (req, res) => {
   isAdmin.basic(req, res, (user) => {
-    res.render('thanks', {user: user})
+    res.render('thanks', {
+      user: user
+    })
   }, () => {
     res.render('thanks')
   })
