@@ -6,9 +6,7 @@
   "auther": "Fionn Tolster",
   "main": "index.js",
   "scripts": {
-    "start": "nodemon index.js",
-    "test": "echo \"Error: no test specified\" && exit 1",
-    "dev": "echo \"Launching in Developer Mode\" && nodemon index.js"
+    "dev": "echo \"Launching in Developer Mode\" && nodemon --exitcrash app.js"
   },
   "author": "Fionn Tolster",
   "license": "CC-BY-NC-4.0",
@@ -31,7 +29,6 @@
     "uuid": "^3.3.2"
   },
   "devDependencies": {
-    "nodemon": "^1.19.1",
-    "eslint": "^6.4.0"
+    "nodemon": "^1.19.1"
   }
 }
