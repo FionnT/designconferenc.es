@@ -21,7 +21,7 @@ router.get('/search', (req, res) => {
   let name;
 
   const search = async (filter, field) => {
-    try{ 
+    try { 
       await new Promise((resolve, reject) => {
         query[field] = { $regex: filter, $options: 'i' }; // Result: var query = {field: { "$regex": filter, "$options": "i" }}
         conf.find(query, function (err, conferences) {

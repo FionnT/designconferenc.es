@@ -33,7 +33,7 @@ router.get('/', (req, res) => {
   person.findOne({
     _id: req.cookies.UID
   }, (err, user) => {
-    conf.find({}, function (err, conferences) {
+    conf.find({}).sort({"start_date.year": 'asc' , "start_date.month": 'asc' , "start_date.date": 'asc' }).exec((err, conferences) => {
       if (conferences.length !== 0) {
         res.render('index', {
           list: conferences,
