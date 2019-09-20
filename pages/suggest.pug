@@ -250,7 +250,7 @@ block body
             p 1
       #description.item.big
         p DESCRIPTION
-        textarea(type="text" maxlength="280" aria-label="Conference Description" placeholder="Enter a description...")
+        textarea(type="text" maxlength="450" aria-label="Conference Description" placeholder="Enter a description...")
       .item.small
         p CONFERENCE ICON (250x250)
         input.fileinput(type="file" name="icon" accept=".png,.jpg,.gif,.svg,.bmp")
@@ -258,10 +258,10 @@ block body
           p.fileinfo Upload a file  
       .item.big
         .rectangle(label="Suggest your conference!" type="submit" action="/suggest")
-          if !isAdmin
+          if !user
             p Suggest this conference!
-          if isAdmin 
-            p Save your conference!
+          if user 
+            p Save this conference!
 
 include includes/footer.pug
   script(src="js/suggest.js")

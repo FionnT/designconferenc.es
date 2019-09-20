@@ -1,14 +1,8 @@
 TODO:
 
-1/ Add emailer for new conferences
-2/ Fix footer
-3/ Fix file uploader 
-4/ Fix submit button
-
-  Optional:
-
-    1/ Add social media share options
-
+1/ Add emailer for new conferences (aws ses is setup)
+2/ Add social media share options for conferences
+   
 Done:
 
 1/ Suggest page (F+B)
@@ -20,3 +14,6 @@ Done:
 7/ Make sure manage page SASS is still valid after changes
 8/ Add cron-job function
 9/ Add auto-trim for out of date conferences
+10/ Fix footer
+11/ Fix file uploader 
+12/ Fix submit button

@@ -18,7 +18,7 @@ app.listen(port, () => console.log(`Running on port ${port}!`));
 
 app.use(require('cookie-parser')());
 app.use(require('express-session')({
-  secret: 'f',
+  secret: 'SADjsadkjasd81212!!..sada99a0sdaslsnadlk212ekl2ndams,n,m.als;kdahpdi21ohdasdj81391398498137409ysadKjsndljkaYSD89ashdaJNDLAK',
   resave: true,
   saveUninitialized: true
 }));

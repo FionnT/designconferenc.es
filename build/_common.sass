@@ -27,7 +27,9 @@
 	background-color: #555
 
 body
-  min-height: 100%
+  display: block
+  overflow: auto
+  height: auto
   background: $bg
   margin: $center
   @media screen and (max-width: $break-small)
@@ -39,8 +41,6 @@ label
   opacity: 0
   color: transparent
   display: none
-
-
 
 #notify
   font-family: $opensans
@@ -68,7 +68,9 @@ label
 .wrapper
   width: 100%
   height: auto
-  min-height: 100%
+  display: block
+  overflow: auto
+  padding-bottom: 75px
 
 #splash
   @media screen and (max-width: $break-small)
@@ -347,7 +349,7 @@ footer
   background: transparent
   overflow: visible
   pointer-events: none
-
+  padding-bottom: 20px
   #profile
     position: fixed
     top: 60px
@@ -398,12 +400,10 @@ footer
       color: #D74177
   #credits
     pointer-events: auto
-    width: 400px
+    width: 250px
     height: 75px
     position: relative
-    bottom: 15px
-    left: 50%
-    margin: 0 0 0 -200px
+    margin: $center
     text-align: center
     font-family: $lato
     font-weight: 300
@@ -413,7 +413,7 @@ footer
   #credits p
     width: auto
     display: inline-block
-    margin-bottom: 5px
+    margin-bottom: 10px
 
   #credits a
     text-decoration: none
