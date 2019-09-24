@@ -60,11 +60,11 @@ router.get('/admin', (req, res) => {
 router.get('/approve', (req, res) => {
   isAdmin.basic(req, res, (user) => {
     suggestion.find({}).sort({"UTC": 'asc'}).exec((err, conferences) => {
-      if (suggestions) {
+      if (conferences) {
         res.render('index', {
           manage: true,
-          list: suggestions,
-          result: suggestions.length,
+          list: conferences,
+          result: conferences.length,
           user: user
         })
       } else {
