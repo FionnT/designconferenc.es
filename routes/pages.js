@@ -1,5 +1,4 @@
 const router = require('express').Router();
-
 const isAdmin = require('./commands/privileges.js');
 const models = require('./mongoose/models.js');
 const person = models.person;
@@ -20,7 +19,7 @@ router.get('/', (req, res) => {
   person.findOne({
     _id: req.cookies.UID
   }, (err, user) => {
-    conf.find({}).sort({"start_date.year": 'asc' , "start_date.month": 'asc' , "start_date.date": 'asc' }).exec((err, conferences) => {
+    conf.find({}).sort({"UTC": 'asc'}).exec((err, conferences) => {
       if (conferences.length !== 0) {
         res.render('index', {
           list: conferences,
@@ -60,7 +59,7 @@ router.get('/admin', (req, res) => {
 
 router.get('/approve', (req, res) => {
   isAdmin.basic(req, res, (user) => {
-    suggestion.find({}, (err, suggestions) => {
+    suggestion.find({}).sort({"UTC": 'asc'}).exec((err, conferences) => {
       if (suggestions) {
         res.render('index', {
           manage: true,
@@ -84,7 +83,7 @@ router.get('/approve', (req, res) => {
 
 router.get('/manage', (req, res) => {
   isAdmin.basic(req, res, (user) => {
-    conf.find({}, (err, conferences) => {
+    conf.find({}).sort({"UTC": 'asc'}).exec((err, conferences) => {
       if (conferences) {
         res.render('index', {
           manage: true,
