@@ -92,7 +92,7 @@ $(document).ready(function () {
     let conference; 
 
     if (file) filename = file.name;
-    else if (type() == "suggestion" && $(container.find('.img')[0]).css('background-image') !== 'url("http://localhost/img/placeholder.png"\)') filename = ($(container.find('.img')[0]).css('background-image')).split('/pending/')[1].replace('")', '');
+    else if (type() == "suggestion" && $(container.find('.img')[0]).css('background-image') !== 'url("https://designconferenc.es/img/placeholder.png")') filename = ($(container.find('.img')[0]).css('background-image')).split('/pending/')[1].replace('")', '');
     else filename = false;
     
     if(type() == "conference") {
