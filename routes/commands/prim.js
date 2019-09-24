@@ -1,23 +1,29 @@
-const cron = require('node-cron');
-const models = require('./mongoose/models');
+const router = require('express').Router();
+const models = require('../mongoose/models');
 const conf = models.conference;
 
-let now = new Date();
-let time = {
-    date: now.getDate(),
-    month: now.getMonth(),
-    year: now.getFullYear()
-};
+router.post('/prim', (req, res) => {
+	conf.find({}, (err, result) => {
+    result.forEach((item) => {
+			// do UTC time conversion
+			let n = new Date().getTime();
+			if(!item.UTC){
+				let y0 = item.start_date.year;
+				let m0 = item.start_date.month;
+				let d0 = item.start_date.date;
+				let y1 = item.end_date.year;
+				let m1 = item.end_date.month;
+				let d1 = item.end_date.date;
 
-cron.schedule('59 59 23 * *', () => {
-    conf.find({}, (err, result) => {
-        for (item in result) {
-            if (time.year >= result[item].end_date.year) result[item].remove(); // Out of date year 
-            else if (time.year >= result[item].end_date.year && time.month > result[item].end_date.month) result[item].remove(); // handles  month, and ignores real date as irrelevant 
-            else if ((time.year >= result[item].end_date.year && time.month >= result[item].end_date.month && time.date > result[item].end_date.date)) result[item].remove(); // handles out of date in same month
-            return true
-        }
+				let s = Date.UTC(y0, m0, d0);
+				let e = Date.UTC(y1, m1, d1);
+				
+				if(s>e) item.UTC = s;
+				else item.UTC = e; 
+				item.save(); 
+			}else if(item.UTC<n) item.remove();
     })
-}, {
-    scheduled: true
-});
+  })
+})
+
+module.exports = router;

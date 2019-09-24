@@ -18,12 +18,12 @@ app.listen(port, () => console.log(`Running on port ${port}!`));
 
 app.use(require('cookie-parser')());
 app.use(require('express-session')({
-  secret: 'SADjsadkjasd81212!!..sada99a0sdaslsnadlk212ekl2ndams,n,m.als;kdahpdi21ohdasdj81391398498137409ysadKjsndljkaYSD89ashdaJNDLAK',
+  secret: 'NFA8734@£FASDFASDDSF$%^$T$@WQDFASDFFFFFSSsfsdfsdf£AS£adfds£%TSF!@£WTWTDS&***&%$£$WFSDR£@@£R@£R@££@FDSFSGAST$G%WA===-----324234@£3',
   resave: true,
   saveUninitialized: true
 }));
 
-app.use(robots({UserAgent: '*', Allow: '/', CrawlDelay: '5'}));
+app.use(robots({UserAgent: '*', Allow: '/', CrawlDelay: '5', Sitemap: './static/resources/sitemap.xml'}));
 
 app.use(sassMiddleware({
     src: path.join(__dirname, '/build'),
@@ -39,6 +39,7 @@ app.use(express.static('./static'));
 
 app.use('/', require('./routes/auth'));
 app.use('/', require('./routes/pages'));
+app.use('/', require('./routes/commands/prim'));
 app.use('/', require('./routes/commands/purge'));
 app.use('/', require('./routes/commands/register'));
 app.use('/', require('./routes/commands/search'));

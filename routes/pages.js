@@ -5,31 +5,18 @@ const models = require('./mongoose/models.js');
 const person = models.person;
 const conf = models.conference;
 const suggestion = models.suggestion;
+const ping = require('request');
 
 // No processing required
 
 router.get('/failed', (req, res) => res.send('Failed'));
-router.get('/users', (req, res) => res.render('users'));
 router.get('/404', (req, res) => res.render('404'));
 
 
 // Processing required
 
-router.get('/reset', (req, res) => {
-  conf.find({}, (err, result) => {
-    for(i in result){
-      result[i].remove()
-    }
-  })
-  suggestion.find({}, (err, result) => {
-    for(i in result){
-      result[i].remove()
-    }
-  })
-  res.redirect('/add')
-})
-
 router.get('/', (req, res) => {
+	ping.post("http://localhost:3000/prim")
   person.findOne({
     _id: req.cookies.UID
   }, (err, user) => {
