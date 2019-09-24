@@ -255,9 +255,8 @@ block body
             .item.small
               if conf.image != "false"
                 .img(style={"background-image": "url(" + conf.image + ")"})
-              else 
-                br/
-                br/ 
+              else
+                .img(style={"background": "none", "height": "25px", "margin": "0 auto"})
               h2=conf.title
               p=conf.text_date 
               p=conf.city + ", " + conf.country
