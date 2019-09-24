@@ -25,8 +25,7 @@ router.get('/search', (req, res) => {
       await new Promise((resolve, reject) => {
         query[field] = { $regex: filter, $options: 'i' }; // Result: var query = {field: { "$regex": filter, "$options": "i" }}
         conf.find(query, function (err, conferences) {
-          for (var i in conferences)
-            raw.push(conferences[i]);
+          conferences.forEach(item => raw.push(item))
           resolve();
         });
       });
@@ -57,7 +56,7 @@ router.get('/search', (req, res) => {
           }
           resolve()
         }
-        if (helper.length > 1) {run();}
+        if (helper.length >= 1) {run();}
         else resolve() // prevent stack size exceptions}
       }).then(() => { run = undefined; })
     }catch (error) { console.log(error)}
