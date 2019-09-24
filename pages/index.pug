@@ -253,7 +253,7 @@ block body
             span=result + " result found for your search."
           for conf in list
             .item.small
-              if conf.image 
+              if conf.image != "false"
                 .img(style={"background-image": "url(" + conf.image + ")"})
               h2=conf.title
               p=conf.text_date 
