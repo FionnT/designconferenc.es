@@ -9,7 +9,7 @@ const models = require('../mongoose/models.js')
 const suggestion = models.suggestion
 const conf = models.conference
 
-router.post('/submit', busboy(), (req, res) => {
+router.post('/approve', busboy(), (req, res) => {
   req.pipe(req.busboy)
 
   const tmpDir = __dirname + '../../../static/img/tmp/'
@@ -23,9 +23,7 @@ router.post('/submit', busboy(), (req, res) => {
   let newFile
 
   // Admin manual add page just renders the suggest page and then posts data to this route
-  // We're not wrapping the entire request because it should process as a suggestion if they're not
-  // an admin or other user
-  // also used for the management page
+  // We're not wrapping the entire request because it should process as a suggestion if they're not an admin or other user
 
   function ext() {
     let t = conference.image.split('.')

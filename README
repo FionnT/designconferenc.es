@@ -1,7 +1,8 @@
 TODO:
 
-1/ Add emailer for new conferences (aws ses is setup)
-2/ Add social media share options for conferences
+1/ Rewrite approve/submitters so they make more sense 
+2/ Add emailer for new conferences (aws ses is setup)
+3/ Add social media share options for conferences
    
 Done:
 

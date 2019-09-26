@@ -6,7 +6,7 @@
   "auther": "Fionn Tolster",
   "main": "index.js",
   "scripts": {
-    "dev": "echo \"Launching in Developer Mode\" && nodemon --exitcrash app.js"
+    "dev": "echo \"Launching in Developer Mode\" && prettier --write \"*/**/*.js\" && forever -c \"nodemon --exitcrash\" app.js"
   },
   "author": "Fionn Tolster",
   "license": "CC-BY-NC-4.0",
@@ -30,6 +30,7 @@
     "uuid": "^3.3.2"
   },
   "devDependencies": {
-    "nodemon": "^1.19.2"
+    "nodemon": "^1.19.2",
+    "prettier": "1.18.2"
   }
 }
