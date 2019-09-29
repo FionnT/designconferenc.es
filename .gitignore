@@ -7,6 +7,7 @@ db/diagnostic.data
 package-lock.json 
 .DS_Store
 .code-workspace 
+.vscode
 
 # exclude everything
 static/css/*
@@ -21,10 +22,10 @@ static/img/icons/approved/
 static/img/icons/pending/
 
 
-# exception to the rule
+# exceptions to the rule
 !db/.gitkeep
 !static/tmp/.gitkeep
 !static/css/.gitkeep
 !static/img/profiles/.gitkeep
 !static/img/icons/approved/.gitkeep
-!static/img/icons/pending/.gitkeep
+!static/img/icons/pending/.gitkeep 

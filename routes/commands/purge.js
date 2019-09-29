@@ -44,11 +44,11 @@ router.post('/purge', busboy(), (req, res) => {
         }
 
         if (type === 'suggestion')
-          suggestion.findOne({ _id: id }, (err, result) => {
+          suggestion.findOne({_id: id}, (err, result) => {
             clean(err, result)
           })
         else if (type === 'conference')
-          conf.findOne({ _id: id }, (err, result) => {
+          conf.findOne({_id: id}, (err, result) => {
             clean(err, result)
           })
       })
@@ -68,11 +68,11 @@ router.post('/purge', busboy(), (req, res) => {
         }
 
         if (type === 'suggestion')
-          suggestion.findOne({ _id: id }, (err, result) => {
+          suggestion.findOne({_id: id}, (err, result) => {
             clean(err, result)
           })
         else if (type === 'conference')
-          conf.findOne({ _id: id }, (err, result) => {
+          conf.findOne({_id: id}, (err, result) => {
             clean(err, result)
           })
       })

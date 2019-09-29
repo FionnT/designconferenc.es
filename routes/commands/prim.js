@@ -5,7 +5,7 @@ const sug = models.suggestion
 
 router.post('/prim', (req, res) => {
   conf.find({}, (err, result) => {
-    result.forEach(item => {
+    result.forEach((item) => {
       // do UTC time conversion
       let n = new Date().getTime()
       if (!item.UTC) {
@@ -27,7 +27,7 @@ router.post('/prim', (req, res) => {
   })
 
   sug.find({}, (err, result) => {
-    result.forEach(item => {
+    result.forEach((item) => {
       // do UTC time conversion
       let n = new Date().getTime()
       if (!item.UTC) {

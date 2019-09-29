@@ -91,7 +91,7 @@ router.post('/update', busboy(), (req, res) => {
           ) // No need to generate a new UUID, we're just going to overwrite
 
           updated.filename = original.filename
-          fs.rename(tmpName, newName, error => {
+          fs.rename(tmpName, newName, (error) => {
             if (error) reject()
             else resolve()
           })
@@ -122,7 +122,7 @@ router.post('/update', busboy(), (req, res) => {
     }
   }
 
-  const updateUser = async requestor => {
+  const updateUser = async (requestor) => {
     try {
       await new Promise((resolve, reject) => {
         person.findOne(
@@ -154,7 +154,7 @@ router.post('/update', busboy(), (req, res) => {
                 .then(() => {
                   resolve()
                 })
-                .catch(err => {
+                .catch((err) => {
                   console.log(err)
                 })
               resolve() // fallback
@@ -167,7 +167,7 @@ router.post('/update', busboy(), (req, res) => {
     }
   }
 
-  const deleteUser = async requestor => {
+  const deleteUser = async (requestor) => {
     if (updated.id == requestor.id) {
       problem = 7
       resolve()
@@ -177,7 +177,7 @@ router.post('/update', busboy(), (req, res) => {
           {
             _id: updated.id
           },
-          err => {
+          (err) => {
             if (err) throw err
             else problem = 8
             return true
@@ -233,7 +233,7 @@ router.post('/update', busboy(), (req, res) => {
     isAdmin.basic(
       req,
       res,
-      requestor => {
+      (requestor) => {
         handler(requestor).catch(() => {
           if (problem > 0) res.send(messages[problem])
           else res.send(messages[5])

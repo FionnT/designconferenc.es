@@ -24,7 +24,7 @@ $(document).ready(function() {
       })
   })
 
-  document.addEventListener('keydown', event => {
+  document.addEventListener('keydown', (event) => {
     // event.key is better than jQuery's e.which
     let country = $('#country ul')
     let month = $('#month ul')
@@ -51,7 +51,7 @@ $(document).ready(function() {
     else if (month.hasClass('active')) search(month)
   })
 
-  document.addEventListener('keyup', event => {
+  document.addEventListener('keyup', (event) => {
     if (match) {
       $(match)
         .parents()[0]

@@ -22,9 +22,7 @@ app.use(require('express-session')({
   resave: true,
   saveUninitialized: true
 }));
-
 app.use(robots({UserAgent: '*', Allow: '/', CrawlDelay: '5', Sitemap: './static/resources/sitemap.xml'}));
-
 app.use(sassMiddleware({
     src: path.join(__dirname, '/build'),
     dest: path.join(__dirname, '/static/css'),
@@ -34,7 +32,6 @@ app.use(sassMiddleware({
     outputStyle: 'compressed',
     prefix:  '/css'
 }));
-
 app.use(express.static('./static'));
 
 app.use('/', require('./routes/auth'));

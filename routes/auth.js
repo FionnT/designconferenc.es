@@ -16,9 +16,7 @@ passport.deserializeUser((user, done) => {
 passport.use(
   new LocalStrategy((username, password, done) => {
     let criteria =
-      username.indexOf('@') === -1
-        ? { username: username }
-        : { email: username }
+      username.indexOf('@') === -1 ? {username: username} : {email: username}
     person.findOne(criteria, function(err, user) {
       // All the same...
       if (err) {
@@ -43,7 +41,7 @@ router.get('/logout', function(req, res) {
 
 router.post(
   '/login',
-  passport.authenticate('local', { failureRedirect: '/login' }),
+  passport.authenticate('local', {failureRedirect: '/login'}),
   (req, res) => {
     res.cookie('UID', req.session.passport.user, {
       expires: new Date(Date.now() + 1800000),
@@ -55,7 +53,7 @@ router.post(
 )
 
 router.get('/login', (req, res) => {
-  person.findOne({ _id: req.cookies.UID }, function(err, user) {
+  person.findOne({_id: req.cookies.UID}, function(err, user) {
     if (err) {
       console.log(err)
     }

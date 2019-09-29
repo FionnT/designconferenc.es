@@ -283,7 +283,7 @@ block body
           span=result + " conference waiting for your approval."
         if list 
           for suggestion in list
-            .item.big.admin(data-id=suggestion._id)
+            .item.big.admin(data-id=suggestion._id data-start=suggest.start_date data-end=suggestion.end_date)
               input.fileinput(type="file" name="icon" accept=".png,.jpg,.gif,.svg,.bmp" placeholder="")
               if suggestion.image
                 .img(style={"background-image": "url(" + suggestion.image + ")"})

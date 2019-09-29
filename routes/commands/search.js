@@ -21,9 +21,9 @@ router.get('/search', (req, res) => {
   const search = async (filter, field) => {
     try {
       await new Promise((resolve, reject) => {
-        query[field] = { $regex: filter, $options: 'i' } // Result: var query = {field: { "$regex": filter, "$options": "i" }}
+        query[field] = {$regex: filter, $options: 'i'} // Result: var query = {field: { "$regex": filter, "$options": "i" }}
         conf.find(query, function(err, conferences) {
-          conferences.forEach(item => raw.push(item))
+          conferences.forEach((item) => raw.push(item))
           resolve()
         })
       })
@@ -36,8 +36,8 @@ router.get('/search', (req, res) => {
   const filter = async () => {
     try {
       await new Promise((resolve, reject) => {
-        const result = [...new Set(raw.map(obj => JSON.stringify(obj)))].map(
-          str => JSON.parse(str)
+        const result = [...new Set(raw.map((obj) => JSON.stringify(obj)))].map(
+          (str) => JSON.parse(str)
         ) // removing duplicates from the raw array
         helper = result.splice(0) // cloning the constant so we can edit it
         function run() {
@@ -74,7 +74,7 @@ router.get('/search', (req, res) => {
 
   function resolve(blank) {
     if (blank) res.redirect('/') //  Lists all by default
-    if (!blank && helper.length === 0) res.render('index', { list: false })
+    if (!blank && helper.length === 0) res.render('index', {list: false})
     else {
       res.render('index', {
         list: helper,
@@ -104,7 +104,6 @@ router.get('/search', (req, res) => {
     if (time === 'Any') time = false
     name = req.query.title.toString()
     if (name === 'Any') name = false
-    console.log(place, time, name)
     handler().then(() => {
       resolve(false)
     })

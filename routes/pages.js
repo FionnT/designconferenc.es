@@ -22,7 +22,7 @@ router.get('/', (req, res) => {
     (err, user) => {
       conf
         .find({})
-        .sort({ UTC: 'asc' })
+        .sort({UTC: 'asc'})
         .exec((err, conferences) => {
           if (conferences.length !== 0) {
             res.render('index', {
@@ -43,7 +43,7 @@ router.get('/add', (req, res) => {
   isAdmin.basic(
     req,
     res,
-    user => {
+    (user) => {
       res.render('suggest', {
         user: user
       })
@@ -59,7 +59,7 @@ router.get('/admin', (req, res) => {
     req,
     res,
     2,
-    user => {
+    (user) => {
       person.find({}, (err, users) => {
         res.render('admin', {
           user: user,
@@ -77,10 +77,10 @@ router.get('/approve', (req, res) => {
   isAdmin.basic(
     req,
     res,
-    user => {
+    (user) => {
       suggestion
         .find({})
-        .sort({ UTC: 'asc' })
+        .sort({UTC: 'asc'})
         .exec((err, conferences) => {
           if (conferences) {
             res.render('index', {
@@ -109,10 +109,10 @@ router.get('/manage', (req, res) => {
   isAdmin.basic(
     req,
     res,
-    user => {
+    (user) => {
       conf
         .find({})
-        .sort({ UTC: 'asc' })
+        .sort({UTC: 'asc'})
         .exec((err, conferences) => {
           if (conferences) {
             res.render('index', {
@@ -142,7 +142,7 @@ router.get('/register', (req, res) => {
     req,
     res,
     1,
-    user => {
+    (user) => {
       res.render('register', {
         user: user
       })
@@ -158,7 +158,7 @@ router.get('/suggest', (req, res) => {
     req,
     res,
     2,
-    user => {
+    (user) => {
       res.redirect('/add') // Send an admin to the add page instead
     },
     () => {
@@ -171,7 +171,7 @@ router.get('/thanks', (req, res) => {
   isAdmin.basic(
     req,
     res,
-    user => {
+    (user) => {
       res.render('thanks', {
         user: user
       })

@@ -79,7 +79,7 @@ router.post('/register', busboy(), (req, res) => {
                 ext()
             )
             user.filename = "'./" + newName.split('/static/')[1] + "'"
-            fs.rename(tmpName, newName, error => {
+            fs.rename(tmpName, newName, (error) => {
               if (error) reject(error)
               else resolve()
             })
@@ -105,7 +105,7 @@ router.post('/register', busboy(), (req, res) => {
                 .then(() => {
                   resolve()
                 })
-                .catch(err => {
+                .catch((err) => {
                   console.log(err)
                 })
               resolve() // fallback

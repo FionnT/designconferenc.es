@@ -92,6 +92,8 @@ $(document).ready(function() {
     let file = container.find('.fileinput')[0].files[0]
     let desc = container.find('textarea')[0].value
     let id = container.data('id').toString()
+    let start = container.data('start').toString()
+    let end = container.data('end').toString()
     let formData = new FormData()
     let filename
     let conference
@@ -118,6 +120,8 @@ $(document).ready(function() {
         description: desc,
         website: website,
         image: filename,
+        start_date: start,
+        end_date: end,
         approve: false // updating
       }
     } else {
@@ -130,13 +134,14 @@ $(document).ready(function() {
         description: desc,
         website: website,
         image: filename,
+        start_date: start,
+        end_date: end,
         approve: true
       }
     }
 
     formData.append('data', JSON.stringify(conference))
     formData.append('file', file)
-    console.log(conference)
     $.ajax({
       type: 'POST',
       url: '/submit',

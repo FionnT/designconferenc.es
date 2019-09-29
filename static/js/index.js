@@ -28,14 +28,14 @@ $(document).ready(function() {
             .addClass('big')
             .css('left', '2% !important') // Packery applies 4%, which is too much
           text.text('- See Less')
-          $('#conferences').packery({ percentPosition: true })
+          $('#conferences').packery({percentPosition: true})
         } else {
           container
             .removeClass('big')
             .addClass('small')
             .css('left', 'auto')
           text.text('+ See More')
-          $('#conferences').packery({ percentPosition: true })
+          $('#conferences').packery({percentPosition: true})
         }
       })
     })

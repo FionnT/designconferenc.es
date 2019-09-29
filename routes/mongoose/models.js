@@ -22,7 +22,7 @@ const userSchema = new Schema(
     },
     filename: String
   },
-  { collection: 'users' }
+  {collection: 'users'}
 )
 
 const conferenceSchema = new Schema(
@@ -48,7 +48,7 @@ const conferenceSchema = new Schema(
     website: String,
     image: String
   },
-  { collection: 'conferences' }
+  {collection: 'conferences'}
 )
 
 const suggestSchema = new Schema(
@@ -74,7 +74,7 @@ const suggestSchema = new Schema(
     website: String,
     image: String
   },
-  { collection: 'suggestions' }
+  {collection: 'suggestions'}
 )
 
 let person = mongoose.model('Person', userSchema)

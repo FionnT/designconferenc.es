@@ -38,7 +38,7 @@ router.post('/submit', busboy(), (req, res) => {
     })
   }
 
-  const fileStore = async admin => {
+  const fileStore = async (admin) => {
     if (conference.image) {
       // don't run if there's no file
       try {
@@ -77,7 +77,7 @@ router.post('/submit', busboy(), (req, res) => {
     } else return true
   }
 
-  const dbStore = async admin => {
+  const dbStore = async (admin) => {
     try {
       await new Promise((resolve, reject) => {
         let uData
@@ -90,12 +90,14 @@ router.post('/submit', busboy(), (req, res) => {
             result.city = conference.city
             result.description = conference.description
             result.website = conference.website
+            result.start_date = conference.start_date
+            result.end_date = conference.end_date
             result
               .save()
               .then(() => {
                 resolve()
               })
-              .catch(err => {
+              .catch((err) => {
                 console.log(err)
               })
             resolve() // fallback
@@ -119,7 +121,7 @@ router.post('/submit', busboy(), (req, res) => {
           .then(() => {
             resolve()
           })
-          .catch(err => {
+          .catch((err) => {
             res.sendStatus(500)
             console.log(err)
             reject()
@@ -160,7 +162,7 @@ router.post('/submit', busboy(), (req, res) => {
     isAdmin.basic(
       req,
       res,
-      user => {
+      (user) => {
         handler(true).then(() => {
           resolve()
         })

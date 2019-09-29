@@ -6,7 +6,7 @@
   "auther": "Fionn Tolster",
   "main": "index.js",
   "scripts": {
-    "dev": "echo \"Launching in Developer Mode\" && prettier --write \"*/**/*.js\" && forever -c \"nodemon --exitcrash\" app.js"
+    "dev": "echo \"Launching in Developer Mode\" && prettier --write \"*/**/*.js,.json\" && forever -c \"nodemon --exitcrash\" app.js"
   },
   "author": "Fionn Tolster",
   "license": "CC-BY-NC-4.0",
