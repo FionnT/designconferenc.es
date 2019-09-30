@@ -27,8 +27,8 @@ router.post('/submit', busboy(), (req, res) => {
     })
   }
 
-  // Admin manual add page just renders the suggest page and then posts data to this route
-  // We're not wrapping the entire request so that we can process submission as a suggestion if they're not an admin
+  // Editing page is just the suggest page, modified slightly
+  // We're not wrapping the entire request so that we can process a request as a suggestion if they're not an admin
 
   const dbStore = async (admin) => {
     let n = new Date().getTime()
@@ -64,16 +64,16 @@ router.post('/submit', busboy(), (req, res) => {
           }
         })
       })
-    } catch (error) {
-      console.log(error)
+    } catch (err) {
+      console.log(err)
     }
   }
 
   const fileStore = async () => {
-    // don't run if there's no file
+    // don't run if no file was submitted
     if (incoming.image) {
       let nameVar = uuid() + incoming.title.replace(/ /g, '') + '.' + ext()
-      let tmpName = path.join(tmpDir + incoming.image) // overwrite existing
+      let tmpName = path.join(tmpDir + incoming.image)
       let newName
       try {
         await new Promise((resolve, reject) => {
@@ -94,8 +94,8 @@ router.post('/submit', busboy(), (req, res) => {
             }
           })
         })
-      } catch (error) {
-        console.log(error)
+      } catch (err) {
+        console.log(err)
       }
     } else return true
   }

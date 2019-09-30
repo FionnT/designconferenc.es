@@ -12,7 +12,7 @@ router.post('/update', busboy(), (req, res) => {
   req.pipe(req.busboy)
 
   const messages = [
-    'Details were updated!',
+    'Details were incoming!',
     'Email is already taken',
     'Username is already taken',
     'Email and username are taken',
@@ -31,7 +31,7 @@ router.post('/update', busboy(), (req, res) => {
     username: 0
   }
 
-  let updated
+  let incoming
   let original
   let found = []
   let problem = 0
@@ -40,14 +40,14 @@ router.post('/update', busboy(), (req, res) => {
     try {
       await person.findOne(
         {
-          _id: updated.id
+          _id: incoming.id
         },
         (err, result) => {
           original = result
         }
       )
-    } catch (error) {
-      console.log(error)
+    } catch (err) {
+      console.log(err)
     }
   }
 
@@ -55,42 +55,42 @@ router.post('/update', busboy(), (req, res) => {
     try {
       await new Promise((resolve, reject) => {
         let uid = ['email', 'username']
-        let info = [updated.email, updated.username]
+        let info = [incoming.email, incoming.username]
         for (let i = 0; i < 2; i++) {
           let query = {}
-          query[uid[i]] = info[i] // Output: query = {email: updated.email}
+          query[uid[i]] = info[i] // Output: query = {email: incoming.email}
           person.find(query, function(err, result) {
             for (user in result) found.push(result[user])
             for (i in found) {
-              if (found[i].id !== updated.id && found.length) {
+              if (found[i].id !== incoming.id && found.length) {
                 // skip checking the user being modified
-                if (found[i].email === updated.email) bools.email += 1
-                if (found[i].username === updated.username) bools.username += 1
+                if (found[i].email === incoming.email) bools.email += 1
+                if (found[i].username === incoming.username) bools.username += 1
               }
             }
             resolve()
           })
         }
       })
-    } catch (error) {
-      console.log(error)
+    } catch (err) {
+      console.log(err)
     }
   }
 
   const saveFile = async () => {
     try {
       await new Promise((resolve, reject) => {
-        if (updated.filename) {
+        if (incoming.filename) {
           // set to false on client side if we're not updating it
 
-          let tmpName = path.join(tmpDir + updated.filename)
+          let tmpName = path.join(tmpDir + incoming.filename)
           let newName = path.join(
             __dirname +
               '../../../static/' +
               original.filename.split("'./")[1].split("'")[0]
           ) // No need to generate a new UUID, we're just going to overwrite
 
-          updated.filename = original.filename
+          incoming.filename = original.filename
           fs.rename(tmpName, newName, (error) => {
             if (error) reject()
             else resolve()
@@ -108,17 +108,17 @@ router.post('/update', busboy(), (req, res) => {
     try {
       await new Promise((resolve, reject) => {
         bcrypt.genSalt(saltRounds, function(err, salt) {
-          bcrypt.hash(updated.password, salt, function(err, hash) {
+          bcrypt.hash(incoming.password, salt, function(err, hash) {
             if (err) reject()
             else {
-              updated.password = hash
+              incoming.password = hash
               resolve()
             }
           })
         })
       })
-    } catch (error) {
-      console.log(error)
+    } catch (err) {
+      console.log(err)
     }
   }
 
@@ -127,28 +127,28 @@ router.post('/update', busboy(), (req, res) => {
       await new Promise((resolve, reject) => {
         person.findOne(
           {
-            _id: updated.id
+            _id: incoming.id
           },
           (err, result) => {
             if (err) {
               console.log(err)
               reject()
             } else {
-              // ehhh - no need for leet code
-              if (updated.password) result.password = updated.password
-              if (updated.filename) result.filename = updated.filename
+              // Not using object.assign as we need to check
+              if (incoming.password) result.password = incoming.password
+              if (incoming.filename) result.filename = incoming.filename
               if (
-                requestor.isAdmin <= updated.isAdmin &&
+                requestor.isAdmin <= incoming.isAdmin &&
                 original.isAdmin !== -1
               )
-                result.isAdmin = updated.isAdmin
+                result.isAdmin = incoming.isAdmin
               else {
                 problem = 4
                 reject()
               }
-              result.username = updated.username
-              result.email = updated.email
-              result.name = updated.name
+              result.username = incoming.username
+              result.email = incoming.email
+              result.name = incoming.name
               result
                 .save()
                 .then(() => {
@@ -162,20 +162,20 @@ router.post('/update', busboy(), (req, res) => {
           }
         )
       })
-    } catch (error) {
-      console.log(error)
+    } catch (err) {
+      console.log(err)
     }
   }
 
   const deleteUser = async (requestor) => {
-    if (updated.id == requestor.id) {
+    if (incoming.id == requestor.id) {
       problem = 7
       resolve()
     } else {
       try {
         await person.findByIdAndDelete(
           {
-            _id: updated.id
+            _id: incoming.id
           },
           (err) => {
             if (err) throw err
@@ -183,15 +183,15 @@ router.post('/update', busboy(), (req, res) => {
             return true
           }
         )
-      } catch (error) {
-        console.log(error)
+      } catch (err) {
+        console.log(err)
       }
     }
   }
 
   req.busboy.on('field', (fieldname, val) => {
     formData.set(fieldname, val)
-    updated = JSON.parse(formData.get('data'))
+    incoming = JSON.parse(formData.get('data'))
   })
 
   req.busboy.on('file', (fieldname, file, fileName) => {
@@ -210,7 +210,7 @@ router.post('/update', busboy(), (req, res) => {
       res.send(messages[problem])
     }
     async function handler(requestor) {
-      if (updated.remove) {
+      if (incoming.remove) {
         await deleteUser(requestor)
         resolve()
       } else {
@@ -218,10 +218,10 @@ router.post('/update', busboy(), (req, res) => {
         await fetch_and_filter()
         if (bools.email || bools.username) resolve()
         else {
-          if (updated.password) {
+          if (incoming.password) {
             await updatePassword()
           }
-          if (updated.filename) {
+          if (incoming.filename) {
             await saveFile()
           }
           await updateUser(requestor)

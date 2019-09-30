@@ -27,8 +27,8 @@ router.get('/purge', (req, res) => {
           }
         })
       })
-    } catch (error) {
-      console.log(error)
+    } catch (err) {
+      console.log(err)
     }
   }
   const dbPurge = async () => {
@@ -57,7 +57,6 @@ router.get('/purge', (req, res) => {
     res,
     () => {
       handler().then(() => {
-        console.log(req.query)
         res.redirect('/' + req.query.return)
       })
     },

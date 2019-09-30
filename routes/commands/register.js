@@ -27,7 +27,7 @@ router.post('/register', busboy(), (req, res) => {
   const formData = new Map() // Map inputs to their values
 
   let user
-  let query
+  let query = {}
   let unique = true
   let problem = 0
 
@@ -37,7 +37,6 @@ router.post('/register', busboy(), (req, res) => {
         let uid = ['email', 'username']
         let info = [user.email, user.username]
         for (i = 0; i < 2; i++) {
-          query = {}
           query[uid[i]] = info[i] // Output: {email: user.email}
           person.find(query, function(err, result) {
             if (result.length != 0) {
@@ -84,8 +83,8 @@ router.post('/register', busboy(), (req, res) => {
             })
           } else resolve()
         })
-      } catch (error) {
-        console.log(error)
+      } catch (err) {
+        console.log(err)
       }
     } else throw 'User already exists'
   }

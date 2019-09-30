@@ -30,7 +30,6 @@ router.get('/accept', (req, res) => {
     req,
     res,
     () => {
-      console.log(req.query)
       handler().then(() => {
         res.redirect('/' + req.query.return)
       })

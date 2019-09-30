@@ -1,7 +1,7 @@
 const router = require('express').Router()
 
 const models = require('../mongoose/models.js')
-const conf = models.conference
+const conferences = models.conference
 
 function isEmpty(obj) {
   for (const key in obj) {
@@ -21,15 +21,15 @@ router.get('/search', (req, res) => {
   const search = async (filter, field) => {
     try {
       await new Promise((resolve, reject) => {
-        query[field] = {$regex: filter, $options: 'i'} // Result: var query = {field: { "$regex": filter, "$options": "i" }}
-        conf.find(query, function(err, conferences) {
-          conferences.forEach((item) => raw.push(item))
+        query[field] = {$regex: filter, $options: 'i'} // Result: {field: { "$regex": filter, "$options": "i" }}
+        conferences.find(query, function(err, results) {
+          results.forEach((item) => raw.push(item))
           resolve()
         })
       })
       query = {} // empty query after each search
-    } catch (error) {
-      console.log(error)
+    } catch (err) {
+      console.log(err)
     }
   }
 
@@ -67,8 +67,8 @@ router.get('/search', (req, res) => {
       }).then(() => {
         run = undefined
       })
-    } catch (error) {
-      console.log(error)
+    } catch (err) {
+      console.log(err)
     }
   }
 
