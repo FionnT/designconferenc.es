@@ -30,7 +30,7 @@ app.use(
     UserAgent: '*',
     Allow: '/',
     CrawlDelay: '5',
-    Sitemap: './resources/sitemap.xml'
+    Sitemap: 'https://designconferenc.es/resources/sitemap.xml'
   })
 )
 app.use(
