@@ -14,14 +14,8 @@ static/css/*
 static/tmp/*
 static/img/profiles/*
 static/img/icons/conferences/*
-static/css/
-static/tmp/
-static/img/profiles/
-static/img/icons/conferences/
 
-
-
-# exceptions to the rule
+# keep the folders
 !db/.gitkeep
 !static/tmp/.gitkeep
 !static/css/.gitkeep
