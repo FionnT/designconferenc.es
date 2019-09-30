@@ -30,7 +30,7 @@ app.use(
     UserAgent: '*',
     Allow: '/',
     CrawlDelay: '5',
-    Sitemap: './static/resources/sitemap.xml'
+    Sitemap: './resources/sitemap.xml'
   })
 )
 app.use(
