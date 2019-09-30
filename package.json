@@ -6,7 +6,8 @@
   "auther": "Fionn Tolster, Laura Cunha",
   "main": "app.js",
   "scripts": {
-    "dev": "echo \"Launching in Developer Mode\" && prettier --write \"*/**/*.js\" && nodemon app.js"
+    "dev": "echo \"Launching in Developer Mode\" && prettier --write \"*/**/*.js\" && nodemon app.js",
+    "prod": "echo \"Launching in Production Mode\" && prettier --write \"*/**/*.js\" && forever -c \"nodemon --exitcrash\" app.js"
   },
   "author": "Fionn Tolster",
   "license": "CC-BY-NC-4.0",
