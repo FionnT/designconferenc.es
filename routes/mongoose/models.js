@@ -29,6 +29,7 @@ const conferenceSchema = new Schema(
   {
     title: String,
     text_date: String,
+    UTC: Number,
     start_date: {
       index: Number,
       date: Number,
@@ -41,7 +42,10 @@ const conferenceSchema = new Schema(
       month: Number,
       year: Number
     },
-    UTC: Number,
+    approved: {
+      type: Boolean,
+      default: false
+    },
     country: String,
     city: String,
     description: String,
@@ -51,38 +55,10 @@ const conferenceSchema = new Schema(
   {collection: 'conferences'}
 )
 
-const suggestSchema = new Schema(
-  {
-    title: String,
-    text_date: String,
-    start_date: {
-      index: Number,
-      date: Number,
-      month: Number,
-      year: Number
-    },
-    end_date: {
-      index: Number,
-      date: Number,
-      month: Number,
-      year: Number
-    },
-    UTC: Number,
-    country: String,
-    city: String,
-    description: String,
-    website: String,
-    image: String
-  },
-  {collection: 'suggestions'}
-)
-
 let person = mongoose.model('Person', userSchema)
-let suggestion = mongoose.model('Suggestion', suggestSchema)
 let conference = mongoose.model('Conference', conferenceSchema)
 
 module.exports = {
   person,
-  suggestion,
   conference
 }

@@ -11,9 +11,9 @@ footer
         a(href="/manage") Manage
       if user.isAdmin>=0
         a(href="/Add") Add
-      if user.isAdmin<2
+      if user.isAdmin<=1
         a(href="/register") Add User
-      if user.isAdmin<1
+      if user.isAdmin<=1
         a(href="/admin") Manage Users
       a(href="/logout") Logout
 

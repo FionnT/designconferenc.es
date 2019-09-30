@@ -1,5 +1,4 @@
 include includes/header.pug
-
   link(rel='stylesheet', href='/css/index.css')
   title Design Conferences
   
@@ -9,320 +8,93 @@ block body
       a(href="./")
         h1 The List of Design Conferences
       if !user  
-        p="If you have more suggestions, please let us know using "
-          a(href="/suggest") this form!
-      if user 
+        p="If you have any suggestions, please let us know using "
+          a(href="/submit") this form!
+      else 
         p="If you want to manually add a conference, use "
           a(href="/add") this form!
-    if !manage
-      nav 
-        input(type="text" name="Name search" aria-label="Name search" class="text" placeholder="Search this list...")
-        #month.menu(aria-label="Month dropdown menu")
-          p.sel This month 
-          p &#9662;
-          ul.dropdown.inactive
-            li Any month
-            li January
-            li February
-            li March
-            li April
-            li May
-            li June
-            li July
-            li August
-            li September
-            li October
-            li November
-            li December
-        #country.menu(aria-label="Country dropdown menu")
-          p.sel Worldwide
-          p &#9662;
-          ul.dropdown.inactive
-            li="Worldwide"
-            li="Afghanistan"
-            li="Albania"
-            li="Algeria"
-            li="Andorra"
-            li="Angola"
-            li="Antigua & Deps"
-            li="Argentina"
-            li="Armenia"
-            li="Australia"
-            li="Austria"
-            li="Azerbaijan"
-            li="Bahamas"
-            li="Bahrain"
-            li="Bangladesh"
-            li="Barbados"
-            li="Belarus"
-            li="Belgium"
-            li="Belize"
-            li="Benin"
-            li="Bhutan"
-            li="Bolivia"
-            li="Bosnia Herzegovina"
-            li="Botswana"
-            li="Brazil"
-            li="Brunei"
-            li="Bulgaria"
-            li="Burkina"
-            li="Burundi"
-            li="Cambodia"
-            li="Cameroon"
-            li="Canada"
-            li="Cape Verde"
-            li="Central African Rep"
-            li="Chad"
-            li="Chile"
-            li="China"
-            li="Colombia"
-            li="Comoros"
-            li="Congo"
-            li="Congo"
-            li="Costa Rica"
-            li="Croatia"
-            li="Cuba"
-            li="Cyprus"
-            li="Czech Republic"
-            li="Denmark"
-            li="Djibouti"
-            li="Dominica"
-            li="Dominican Republic"
-            li="East Timor"
-            li="Ecuador"
-            li="Egypt"
-            li="El Salvador"
-            li="Equatorial Guinea"
-            li="Eritrea"
-            li="Estonia"
-            li="Ethiopia"
-            li="Fiji"
-            li="Finland"
-            li="France"
-            li="Gabon"
-            li="Gambia"
-            li="Georgia"
-            li="Germany"
-            li="Ghana"
-            li="Greece"
-            li="Grenada"
-            li="Guatemala"
-            li="Guinea"
-            li="Guinea-Bissau"
-            li="Guyana"
-            li="Haiti"
-            li="Honduras"
-            li="Hungary"
-            li="Iceland"
-            li="India"
-            li="Indonesia"
-            li="Iran"
-            li="Iraq"
-            li="Ireland"
-            li="Israel"
-            li="Italy"
-            li="Ivory Coast"
-            li="Jamaica"
-            li="Japan"
-            li="Jordan"
-            li="Kazakhstan"
-            li="Kenya"
-            li="Kiribati"
-            li="Korea North"
-            li="Korea South"
-            li="Kosovo"
-            li="Kuwait"
-            li="Kyrgyzstan"
-            li="Laos"
-            li="Latvia"
-            li="Lebanon"
-            li="Lesotho"
-            li="Liberia"
-            li="Libya"
-            li="Liechtenstein"
-            li="Lithuania"
-            li="Luxembourg"
-            li="Macedonia"
-            li="Madagascar"
-            li="Malawi"
-            li="Malaysia"
-            li="Males"
-            li="Mali"
-            li="Malta"
-            li="Marshall Islands"
-            li="Mauritania"
-            li="Mauritius"
-            li="Mexico"
-            li="Micronesia"
-            li="Moldova"
-            li="Monaco"
-            li="Mongolia"
-            li="Montenegro"
-            li="Morocco"
-            li="Mozambique"
-            li="Myanmar, Burma"
-            li="Namibia"
-            li="Nauru"
-            li="Nepal"
-            li="Netherlands"
-            li="New Zealand"
-            li="Nicaragua"
-            li="Niger"
-            li="Nigeria"
-            li="Norway"
-            li="Oman"
-            li="Pakistan"
-            li="Palau"
-            li="Panama"
-            li="Papua New Guinea"
-            li="Paraguay"
-            li="Peru"
-            li="Philippines"
-            li="Poland"
-            li="Portugal"
-            li="Qatar"
-            li="Romania"
-            li="Russian Federation"
-            li="Rwanda"
-            li="St Kitts & Nevis"
-            li="St Lucia"
-            li="Saint Vincent & the Grenadines"
-            li="Samoa"
-            li="San Marino"
-            li="Sao Tome & Principe"
-            li="Saudi Arabia"
-            li="Senegal"
-            li="Serbia"
-            li="Seychelles"
-            li="Sierra Leone"
-            li="Singapore"
-            li="Slovakia"
-            li="Slovenia"
-            li="Solomon Islands"
-            li="Somalia"
-            li="South Africa"
-            li="South Sudan"
-            li="Spain"
-            li="Sri Lanka"
-            li="Sudan"
-            li="Suriname"
-            li="Swaziland"
-            li="Sweden"
-            li="Switzerland"
-            li="Syria"
-            li="Taiwan"
-            li="Tajikistan"
-            li="Tanzania"
-            li="Thailand"
-            li="Togo"
-            li="Tonga"
-            li="Trinidad & Tobago"
-            li="Tunisia"
-            li="Turkey"
-            li="Turkmenistan"
-            li="Tuvalu"
-            li="Uganda"
-            li="Ukraine"
-            li="United Arab Emirates"
-            li="United Kingdom"
-            li="United States"
-            li="Uruguay"
-            li="Uzbekistan"
-            li="Vanuatu"
-            li="Vatican City"
-            li="Venezuela"
-            li="Vietnam"
-            li="Yemen"
-            li="Zambia"
-            li="Zimbabwe"
-        #search(aria-label="Search Button")
-          .svg-wrapper
-            svg(height="100%" width="100%" xmlns="http://www.w3.org/2000/svg" )
-              rect#shape(height="100%" width="100%" x="0" y="0")
-              #text
-                span.spot
-                  p="Search"
-    if !manage
-      if list
-        #conferences
+    include includes/nav.pug
+    if list
+      #conferences
+        if !manage
           if !result
             span=""
           else if result!=1
             span=result + " results found for your search."
           else if result=1
             span=result + " result found for your search."
-          for conf in list
+          for item in list
             .item.small
-              if conf.image
-                .img(style={"background-image": "url(" + conf.image + ")"})
-              h2=conf.title
-              p=conf.text_date 
-              p=conf.city + ", " + conf.country
-              if conf.description 
-                p.desc=conf.description
+              if item.image
+                .img(style={"background-image": "url(" + item.image + ")"})
+              h2=item.title
+              p=item.text_date 
+              p=item.city + ", " + item.country
+              if item.description 
+                p.desc=item.description
               .expand.toggle
                 p + See More
-              if conf.website
+              if item.website
                 .expand.website
-                  a(href=conf.website target="_blank" rel="noopener")
+                  a(href=item.website target="_blank" rel="noopener")
                     p View website →
-      if !list
-        #noresults
-          h2 No results found :-(
-          p Try expanding your search,<br>or suggest a conference using the button below!
-          a.rectangle(href="/suggest" label="Suggest a Conference!") 
-            p Suggest a conference!
-    if manage    
-      #conferences
-        if !result
-          a(href="./").big No new suggestions to approve!
-          img.big(src="./img/done-dawg.gif")
-        else if result!=1
-          span=result + " conferences waiting for your approval."
-        else if result=1
-          span=result + " conference waiting for your approval."
-        if list 
-          for suggestion in list
-            .item.big.admin(data-id=suggestion._id data-start=suggest.start_date data-end=suggestion.end_date)
-              input.fileinput(type="file" name="icon" accept=".png,.jpg,.gif,.svg,.bmp" placeholder="")
-              if suggestion.image
-                .img(style={"background-image": "url(" + suggestion.image + ")"})
-                  .change
-                    .remove
-                    .upload
-              else 
-                .img(style={"background-image": "url('./img/placeholder.png')"} alt=suggestion.title)
-                  .change
-                    .remove
-                    .upload
-              input.h2(placeholder=suggestion.title)
-              input.date(placeholder=suggestion.text_date)
-              input.place(placeholder=suggestion.city + ", " + suggestion.country)
-              .description 
-                textarea.desc(placeholder=suggestion.description)
-              .expand.website
-                a(href=suggestion.website target="_blank" rel="noopener")
-                  p View website →
-                input(placeholder=suggestion.website) 
+        else
+          if !result
+            span=""
+          else if result!=1
+            span=result + " conferences for you to approve."
+          else if result=1
+            span=result + " conference for you to approve."
+          for item in list
+            //- TODO: Add button to redirect to editing page, and a button to reject the conference
+            .item.big.admin(data-id=item._id)
+              if item.image
+                .img.big(style={"background-image": "url(" + item.image + ")"})
+              h2=item.title
+              p=item.text_date 
+              p=item.city + ", " + item.country
+              if item.description 
+                p.desc=item.description
+              if item.website
+                .expand.website
+                  a(href=item.website target="_blank" rel="noopener")
+                    p View website →
               .buttonwrapper
-                .button.approve(data-id="")
-                  .svg-wrapper
-                    svg(height="40" width="150" xmlns="http://www.w3.org/2000/svg" )
-                      rect#shape(height="40" width="150")
-                      #text
-                        span.spot
-                          p="Save this listing"
                 .button.reject(data-id="")
                   .svg-wrapper
                     svg(height="40" width="150" xmlns="http://www.w3.org/2000/svg" )
                       rect#shape(height="40" width="150")
                       #text
                         span.spot
-                          p="Reject this listing"
+                          p="Edit"
+                if !existing
+                  .button.approve(data-id="")
+                    .svg-wrapper
+                      svg(height="40" width="150" xmlns="http://www.w3.org/2000/svg" )
+                        rect#shape(height="40" width="150")
+                        #text
+                          span.spot
+                            p="Approve"
+                .button.remove(data-id="")
+                  .svg-wrapper
+                    svg(height="40" width="150" xmlns="http://www.w3.org/2000/svg" )
+                      rect#shape(height="40" width="150")
+                      #text
+                        span.spot
+                          p="Delete"
+    else
+      if !manage
+        #noresults
+          h2 No results found :-(
+          p Try expanding your search,<br>or suggest a conference using the button below!
+          a.rectangle(href="/suggest" label="Suggest a Conference!") 
+            p Suggest a conference!
+      else 
+        a(href="./").big
+          img.big(src="./img/done-dawg.gif")
+
 include includes/footer.pug
-  if !manage
-    script(src="https://unpkg.com/packery@2.1.2/dist/packery.pkgd.min.js")
-    script(src="js/index.js")
+  script(src="js/minified/packery.pkgd.min.js")
+  script(src="js/index.js")
   if manage
-    link(rel='stylesheet', href='/css/manage.css')
     script(src="js/manage.js")

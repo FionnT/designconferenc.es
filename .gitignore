@@ -13,13 +13,12 @@ package-lock.json
 static/css/*
 static/tmp/*
 static/img/profiles/*
-static/img/icons/approved/*
-static/img/icons/pending/*
+static/img/icons/conferences/*
 static/css/
 static/tmp/
 static/img/profiles/
-static/img/icons/approved/
-static/img/icons/pending/
+static/img/icons/conferences/
+
 
 
 # exceptions to the rule
@@ -27,5 +26,4 @@ static/img/icons/pending/
 !static/tmp/.gitkeep
 !static/css/.gitkeep
 !static/img/profiles/.gitkeep
-!static/img/icons/approved/.gitkeep
-!static/img/icons/pending/.gitkeep 
+!static/img/icons/conferences/.gitkeep

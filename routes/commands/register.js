@@ -29,7 +29,6 @@ router.post('/register', busboy(), (req, res) => {
   let user
   let query
   let unique = true
-  let finished = false
   let problem = 0
 
   const existCheck = async () => {
@@ -39,7 +38,7 @@ router.post('/register', busboy(), (req, res) => {
         let info = [user.email, user.username]
         for (i = 0; i < 2; i++) {
           query = {}
-          query[uid[i]] = info[i] // Output: query = {email: user.email}
+          query[uid[i]] = info[i] // Output: {email: user.email}
           person.find(query, function(err, result) {
             if (result.length != 0) {
               if (result[0].email === user.email) problem += 1
@@ -112,8 +111,8 @@ router.post('/register', busboy(), (req, res) => {
             })
           })
         })
-      } catch (error) {
-        console.log(error)
+      } catch (err) {
+        console.log(err)
       }
     } else throw 'User already exists'
   }

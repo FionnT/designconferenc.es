@@ -128,7 +128,10 @@ nav
     border: 1px solid #E1E1E1
     background-color: #FFFFFF
     box-shadow: 2px 2px 8px 3px rgba(235, 235, 235, 0.5)
-
+  
+.big
+  display: block
+  margin: 100px auto 75px
 /************* Small Version *************/
 
 .item.small
@@ -259,7 +262,39 @@ nav
         white-space: nowrap
         float: right
         margin: 0 2.5% 0 0
+  &.admin
+    width: 99%
+    .button
+      &.reject
+        .svg-wrapper
+          &:hover
+            #text .spot p
+              color: #009FFD
+            #shape
+              stroke: #009FFD
 
+      &.approve
+        float: left
+        left: calc(50% - 85px)
+        .svg-wrapper
+            #shape
+              stroke: #06D6A0
+      
+      &.remove
+        float: right
+        margin-right: 15px
+        .svg-wrapper
+            #shape
+              stroke: #d63919
+        &:hover
+          .svg-wrapper
+            #shape
+              fill: rgba(242, 125, 125, 0.75)
+    p:last-of-type
+      padding-bottom: 100px
+    .expand.website a p 
+      padding: 0!important
+        
 .item .expand p,
 .item.small .expand p
   font-family: $lato

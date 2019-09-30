@@ -1,32 +1,16 @@
 const router = require('express').Router()
-const busboy = require('connect-busboy')
 const fs = require('fs')
 const path = require('path')
 
 const isAdmin = require('./privileges')
 const models = require('../mongoose/models.js')
-const suggestion = models.suggestion
-const conf = models.conference
+const conferences = models.conference
 
-router.post('/purge', busboy(), (req, res) => {
-  req.pipe(req.busboy)
-
-  let id
-  let type
-  let conference
-  const formData = new Map() // Map inputs to their values
-
-  req.busboy.on('field', (fieldname, val) => {
-    formData.set(fieldname, val)
-    conference = JSON.parse(formData.get('data'))
-    id = conference.id
-    type = conference.type
-  })
-
+router.get('/purge', (req, res) => {
   const filePurge = async () => {
     try {
       await new Promise((resolve, reject) => {
-        function clean(err, result) {
+        conferences.findOne({_id: req.query.id}, (err, result) => {
           if (err) reject()
           else {
             let image = result.image
@@ -41,16 +25,7 @@ router.post('/purge', busboy(), (req, res) => {
               })
             } else resolve()
           }
-        }
-
-        if (type === 'suggestion')
-          suggestion.findOne({_id: id}, (err, result) => {
-            clean(err, result)
-          })
-        else if (type === 'conference')
-          conf.findOne({_id: id}, (err, result) => {
-            clean(err, result)
-          })
+        })
       })
     } catch (error) {
       console.log(error)
@@ -59,50 +34,37 @@ router.post('/purge', busboy(), (req, res) => {
   const dbPurge = async () => {
     try {
       await new Promise((resolve, reject) => {
-        function clean(err, result) {
+        conferences.findOne({_id: req.query.id}, (err, result) => {
           if (err) reject()
           else {
             result.remove()
             resolve()
           }
-        }
-
-        if (type === 'suggestion')
-          suggestion.findOne({_id: id}, (err, result) => {
-            clean(err, result)
-          })
-        else if (type === 'conference')
-          conf.findOne({_id: id}, (err, result) => {
-            clean(err, result)
-          })
+        })
       })
     } catch (error) {
       console.log(error)
     }
   }
 
-  req.busboy.on('finish', () => {
-    function resolve() {
-      res.sendStatus(200)
-      res.end()
+  async function handler() {
+    await filePurge()
+    await dbPurge()
+  }
+  console.log(req)
+  isAdmin.basic(
+    req,
+    res,
+    () => {
+      handler().then(() => {
+        console.log(req.query)
+        res.redirect('/' + req.query.return)
+      })
+    },
+    () => {
+      res.redirect('/404')
     }
-    async function handler() {
-      await filePurge()
-      await dbPurge()
-    }
-    isAdmin.basic(
-      req,
-      res,
-      () => {
-        handler().then(() => {
-          resolve()
-        })
-      },
-      () => {
-        res.sendStatus(403)
-      }
-    )
-  })
+  )
 })
 
 module.exports = router

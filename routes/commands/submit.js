@@ -6,29 +6,18 @@ const uuid = require('uuid/v1')
 
 const isAdmin = require('./privileges')
 const models = require('../mongoose/models.js')
-const suggestion = models.suggestion
-const conf = models.conference
+const conferences = models.conference
 
 router.post('/submit', busboy(), (req, res) => {
   req.pipe(req.busboy)
 
   const tmpDir = __dirname + '../../../static/img/tmp/'
-  const pendingDir = __dirname + '../../../static/img/icons/pending/'
-  const approvedDir = __dirname + '../../../static/img/icons/approved/'
+  const confDir = __dirname + '../../../static/img/icons/conferences/'
   const formData = new Map() // Map inputs to their values
+  let incoming
 
-  let conference
-  let newName
-  let tmpName
-  let newFile
-
-  // Admin manual add page just renders the suggest page and then posts data to this route
-  // We're not wrapping the entire request because it should process as a suggestion if they're not
-  // an admin or other user
-  // also used for the management page
-
-  function ext() {
-    let t = conference.image.split('.')
+  const ext = () => {
+    let t = incoming.image.split('.')
     return t[t.length - 1].toString()
   }
 
@@ -38,38 +27,72 @@ router.post('/submit', busboy(), (req, res) => {
     })
   }
 
-  const fileStore = async (admin) => {
-    if (conference.image) {
-      // don't run if there's no file
+  // Admin manual add page just renders the suggest page and then posts data to this route
+  // We're not wrapping the entire request so that we can process submission as a suggestion if they're not an admin
+
+  const dbStore = async (admin) => {
+    let n = new Date().getTime()
+    try {
+      await new Promise((resolve, reject) => {
+        conferences.findById(incoming.id, (err, result) => {
+          if (err) reject(err)
+          else {
+            if (n > incoming.utc) reject("That date doesn't make sense!")
+            else {
+              if (admin) incoming.approved = true
+              else if (!admin) incoming.approved = false // Sneaky buggers
+              if (result) {
+                // approving or modifying a conference
+                Object.assign(result, incoming) // set values of existing conference to incoming details
+                result
+                  .save()
+                  .then(() => {
+                    resolve()
+                  })
+                  .catch((err) => reject(err))
+              } else {
+                // new submission
+                let uData = new conferences(incoming)
+                uData
+                  .save()
+                  .then(() => {
+                    resolve()
+                  })
+                  .catch((err) => reject(err))
+              }
+            }
+          }
+        })
+      })
+    } catch (error) {
+      console.log(error)
+    }
+  }
+
+  const fileStore = async () => {
+    // don't run if there's no file
+    if (incoming.image) {
+      let nameVar = uuid() + incoming.title.replace(/ /g, '') + '.' + ext()
+      let tmpName = path.join(tmpDir + incoming.image) // overwrite existing
+      let newName
       try {
         await new Promise((resolve, reject) => {
-          let nameVar =
-            uuid() + conference.title.replace(/ /g, '') + '.' + ext()
-          if (!conference.approve && conference.id && admin) {
-            // modifying live conference
-            conf.findById(conference.id, (err, result) => {
-              tmpName = path.join(tmpDir + conference.image) // overwrite existing
+          conferences.findById(incoming.id, (err, result) => {
+            if (result && result.image) {
+              // updating file => overwrite existing
               newName = path.join(
-                approvedDir + result.image.split('/approved/')[1].split("'")[0]
+                confDir + result.image.split('/conferences/')[1].split("'")[0]
               )
               rename(tmpName, newName)
               resolve()
-            })
-          } else if (admin) {
-            newName = path.join(approvedDir + nameVar)
-            if (newFile) tmpName = path.join(tmpDir + conference.image)
-            else tmpName = path.join(pendingDir + conference.image) // straight approval
-            rename(tmpName, newName)
-            conference.image = "'./" + newName.split('/static/')[1] + "'"
-            resolve()
-          } else {
-            // user suggestion
-            tmpName = path.join(tmpDir + conference.image)
-            newName = path.join(pendingDir + nameVar)
-            rename(tmpName, newName)
-            conference.image = "'./" + newName.split('/static/')[1] + "'"
-            resolve()
-          }
+            } else {
+              // new submission, or no existing image => generate file name
+              newName = path.join(confDir + nameVar)
+              rename(tmpName, newName)
+              incoming.image = "'./" + newName.split('/static/')[1] + "'"
+              resolve()
+            }
+          })
         })
       } catch (error) {
         console.log(error)
@@ -77,65 +100,10 @@ router.post('/submit', busboy(), (req, res) => {
     } else return true
   }
 
-  const dbStore = async (admin) => {
-    try {
-      await new Promise((resolve, reject) => {
-        let uData
-        if (!conference.approve && conference.id && admin) {
-          // modifying live conference
-          conf.findById(conference.id, (err, result) => {
-            result.title = conference.title
-            result.text_date = conference.date
-            result.country = conference.country
-            result.city = conference.city
-            result.description = conference.description
-            result.website = conference.website
-            result.start_date = conference.start_date
-            result.end_date = conference.end_date
-            result
-              .save()
-              .then(() => {
-                resolve()
-              })
-              .catch((err) => {
-                console.log(err)
-              })
-            resolve() // fallback
-          })
-        } else if (admin) {
-          // adding a conference directly
-          uData = new conf(conference)
-          if (conference.approve) {
-            // approving a suggestion
-            console.log(conference.id)
-            suggestion.findById(conference.id, (err, result) => {
-              result.remove()
-            })
-            delete conference.approve
-          }
-          delete conference.id
-        } else uData = new suggestion(conference) // user suggestion
-
-        uData
-          .save()
-          .then(() => {
-            resolve()
-          })
-          .catch((err) => {
-            res.sendStatus(500)
-            console.log(err)
-            reject()
-          })
-      })
-    } catch (error) {
-      console.log(error)
-    }
-  }
-
   // Parse the string from FormData format back into JSON
   req.busboy.on('field', (fieldname, val) => {
     formData.set(fieldname, val)
-    conference = JSON.parse(formData.get('data'))
+    incoming = JSON.parse(formData.get('data'))
   })
 
   req.busboy.on('file', (fieldname, file, fileName) => {
@@ -149,13 +117,16 @@ router.post('/submit', busboy(), (req, res) => {
   })
 
   req.busboy.on('finish', () => {
-    function resolve() {
-      res.sendStatus(200)
-      res.end()
+    function resolve(err) {
+      if (err) res.send(err)
+      else {
+        res.sendStatus(200)
+        res.end()
+      }
     }
 
     async function handler(admin) {
-      await fileStore(admin)
+      await fileStore()
       await dbStore(admin)
     }
 
@@ -163,14 +134,22 @@ router.post('/submit', busboy(), (req, res) => {
       req,
       res,
       (user) => {
-        handler(true).then(() => {
-          resolve()
-        })
+        handler(true)
+          .then(() => {
+            resolve()
+          })
+          .catch((err) => {
+            resolve(err)
+          })
       },
       () => {
-        handler(false).then(() => {
-          resolve()
-        })
+        handler(false)
+          .then(() => {
+            resolve()
+          })
+          .catch((err) => {
+            resolve(err)
+          })
       }
     )
   })

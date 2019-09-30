@@ -2,9 +2,7 @@ const router = require('express').Router()
 const isAdmin = require('./commands/privileges.js')
 const models = require('./mongoose/models.js')
 const person = models.person
-const conf = models.conference
-const suggestion = models.suggestion
-const ping = require('request')
+const conferences = models.conference
 
 // No processing required
 
@@ -13,20 +11,28 @@ router.get('/404', (req, res) => res.render('404'))
 
 // Processing required
 
+// For development purposes
+//
+// router.get('/reset', (req, res) => {
+//   conferences.find({}, (err, results) => {
+//     for (i = 0; i < results.length; i++) results[i].remove()
+//     res.redirect('/')
+//   })
+// })
+
 router.get('/', (req, res) => {
-  ping.post('http://localhost:3000/prim')
   person.findOne(
     {
       _id: req.cookies.UID
     },
     (err, user) => {
-      conf
-        .find({})
+      conferences
+        .find({approved: true})
         .sort({UTC: 'asc'})
-        .exec((err, conferences) => {
-          if (conferences.length !== 0) {
+        .exec((err, results) => {
+          if (results.length) {
             res.render('index', {
-              list: conferences,
+              list: results,
               user: user
             })
           } else {
@@ -44,12 +50,12 @@ router.get('/add', (req, res) => {
     req,
     res,
     (user) => {
-      res.render('suggest', {
+      res.render('submit', {
         user: user
       })
     },
     () => {
-      res.redirect('/suggest')
+      res.redirect('/submit')
     }
   )
 })
@@ -58,7 +64,7 @@ router.get('/admin', (req, res) => {
   isAdmin.level(
     req,
     res,
-    2,
+    1,
     (user) => {
       person.find({}, (err, users) => {
         res.render('admin', {
@@ -78,22 +84,20 @@ router.get('/approve', (req, res) => {
     req,
     res,
     (user) => {
-      suggestion
-        .find({})
+      conferences
+        .find({approved: false})
         .sort({UTC: 'asc'})
-        .exec((err, conferences) => {
-          if (conferences) {
+        .exec((err, results) => {
+          if (results.length) {
             res.render('index', {
               manage: true,
-              list: conferences,
-              result: conferences.length,
+              list: results,
+              result: results.length,
               user: user
             })
           } else {
             res.render('index', {
               manage: true,
-              list: false,
-              result: false,
               user: user
             })
           }
@@ -110,26 +114,48 @@ router.get('/manage', (req, res) => {
     req,
     res,
     (user) => {
-      conf
-        .find({})
+      conferences
+        .find({approved: true})
         .sort({UTC: 'asc'})
-        .exec((err, conferences) => {
-          if (conferences) {
+        .exec((err, results) => {
+          if (results) {
             res.render('index', {
               manage: true,
-              list: conferences,
-              result: conferences.length,
+              existing: true,
+              list: results,
+              result: results.length,
               user: user
             })
           } else {
             res.render('index', {
               manage: true,
-              list: false,
-              result: false,
               user: user
             })
           }
         })
+    },
+    () => {
+      res.redirect('/')
+    }
+  )
+})
+
+router.get('/edit', (req, res) => {
+  console.log(req)
+  isAdmin.basic(
+    req,
+    res,
+    (user) => {
+      conferences.findOne({_id: req.query.id}, (err, result) => {
+        if (result) {
+          res.render('edit', {
+            conference: result,
+            user: user
+          })
+        } else {
+          res.redirect('/')
+        }
+      })
     },
     () => {
       res.redirect('/')
@@ -153,7 +179,7 @@ router.get('/register', (req, res) => {
   )
 })
 
-router.get('/suggest', (req, res) => {
+router.get('/submit', (req, res) => {
   isAdmin.level(
     req,
     res,
@@ -162,7 +188,7 @@ router.get('/suggest', (req, res) => {
       res.redirect('/add') // Send an admin to the add page instead
     },
     () => {
-      res.render('suggest')
+      res.render('submit')
     }
   )
 })
