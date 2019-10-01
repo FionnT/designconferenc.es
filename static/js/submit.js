@@ -324,7 +324,7 @@ $(document).ready(function() {
   })
 
   $('.rectangle').on('click', function() {
-    // The file input on the conference editing page is first, therefore adjust the int to account
+    // The file input on the editing page is first, therefore adjust the int to account
     let f = 0
     if (document.location.href.match('edit')) f = 1
 

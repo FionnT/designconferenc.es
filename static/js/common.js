@@ -1,6 +1,6 @@
 $(document).ready(function() {
   const $ = jQuery
-  let match = false
+  let match
 
   $('.menu').each(function(index) {
     let _this = $(this)
