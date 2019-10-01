@@ -1,6 +1,6 @@
 const router = require('express').Router()
-const isAdmin = require('./commands/privileges.js')
-const models = require('./mongoose/models.js')
+const isAdmin = require('./privileges')
+const models = require('./mongoose/models')
 const person = models.person
 const conferences = models.conference
 
@@ -21,28 +21,38 @@ router.get('/404', (req, res) => res.render('404'))
 // })
 
 router.get('/', (req, res) => {
-  person.findOne(
-    {
-      _id: req.cookies.UID
-    },
-    (err, user) => {
-      conferences
-        .find({approved: true})
-        .sort({UTC: 'asc'})
-        .exec((err, results) => {
-          if (results.length) {
-            res.render('index', {
-              list: results,
-              user: user
-            })
-          } else {
-            res.render('index', {
-              user: user
-            })
-          }
-        })
-    }
-  )
+  let n = new Date().getTime()
+  try {
+    person.findOne(
+      {
+        _id: req.cookies.UID
+      },
+      (err, user) => {
+        if (err) throw err
+        conferences
+          .find({approved: true})
+          .sort({UTC: 'asc'})
+          .exec((err, results) => {
+            if (err) throw err
+            else if (results.length) {
+              results.forEach((item) => {
+                if (item.UTC < n) item.remove()
+              })
+              res.render('index', {
+                list: results,
+                user: user
+              })
+            } else {
+              res.render('index', {
+                user: user
+              })
+            }
+          })
+      }
+    )
+  } catch (err) {
+    console.log(err)
+  }
 })
 
 router.get('/add', (req, res) => {
@@ -61,106 +71,127 @@ router.get('/add', (req, res) => {
 })
 
 router.get('/admin', (req, res) => {
-  isAdmin.level(
-    req,
-    res,
-    1,
-    (user) => {
-      person.find({}, (err, users) => {
-        res.render('admin', {
-          user: user,
-          users: users
+  try {
+    isAdmin.level(
+      req,
+      res,
+      1,
+      (user) => {
+        person.find({}, (err, users) => {
+          if (err) throw err
+          else {
+            res.render('admin', {
+              user: user,
+              users: users
+            })
+          }
         })
-      })
-    },
-    () => {
-      res.redirect('/')
-    }
-  )
+      },
+      () => {
+        res.redirect('/')
+      }
+    )
+  } catch (err) {
+    console.log(err)
+  }
 })
 
 router.get('/approve', (req, res) => {
-  isAdmin.basic(
-    req,
-    res,
-    (user) => {
-      conferences
-        .find({approved: false})
-        .sort({UTC: 'asc'})
-        .exec((err, results) => {
-          if (results.length) {
-            res.render('index', {
-              manage: true,
-              list: results,
-              result: results.length,
-              user: user
-            })
-          } else {
-            res.render('index', {
-              manage: true,
-              user: user
-            })
-          }
-        })
-    },
-    () => {
-      res.redirect('/')
-    }
-  )
+  try {
+    isAdmin.basic(
+      req,
+      res,
+      (user) => {
+        conferences
+          .find({approved: false})
+          .sort({UTC: 'asc'})
+          .exec((err, results) => {
+            if (err) throw err
+            else if (results.length) {
+              res.render('index', {
+                manage: true,
+                list: results,
+                result: results.length,
+                user: user
+              })
+            } else {
+              res.render('index', {
+                manage: true,
+                user: user
+              })
+            }
+          })
+      },
+      () => {
+        res.redirect('/')
+      }
+    )
+  } catch (err) {
+    console.log(err)
+  }
 })
 
 router.get('/manage', (req, res) => {
-  isAdmin.basic(
-    req,
-    res,
-    (user) => {
-      conferences
-        .find({approved: true})
-        .sort({UTC: 'asc'})
-        .exec((err, results) => {
-          if (results) {
-            res.render('index', {
-              manage: true,
-              existing: true,
-              list: results,
-              result: results.length,
-              user: user
-            })
-          } else {
-            res.render('index', {
-              manage: true,
-              user: user
-            })
-          }
-        })
-    },
-    () => {
-      res.redirect('/')
-    }
-  )
+  try {
+    isAdmin.basic(
+      req,
+      res,
+      (user) => {
+        conferences
+          .find({approved: true})
+          .sort({UTC: 'asc'})
+          .exec((err, results) => {
+            if (err) throw err
+            else if (results) {
+              res.render('index', {
+                manage: true,
+                existing: true,
+                list: results,
+                result: results.length,
+                user: user
+              })
+            } else {
+              res.render('index', {
+                manage: true,
+                user: user
+              })
+            }
+          })
+      },
+      () => {
+        res.redirect('/')
+      }
+    )
+  } catch (err) {
+    console.log(err)
+  }
 })
 
 router.get('/edit', (req, res) => {
-  console.log(req)
-  isAdmin.basic(
-    req,
-    res,
-    (user) => {
-      conferences.findOne({_id: req.query.id}, (err, result) => {
-        if (result) {
-          res.render('edit', {
-            conference: result,
-            user: user
-          })
-        } else {
-          res.redirect('/')
-        }
-      })
-    },
-    () => {
-      res.redirect('/')
-    }
-  )
+  try {
+    isAdmin.basic(
+      req,
+      res,
+      (user) => {
+        conferences.findOne({_id: req.query.id}, (err, result) => {
+          if (err) throw err
+          else if (result) {
+            res.render('edit', {
+              conference: result,
+              user: user
+            })
+          } else {
+            res.redirect('/')
+          }
+        })
+      },
+      () => {
+        res.redirect('/')
+      }
+    )
+  } catch (err) {
+    console.log(err)
+  }
 })
 
 router.get('/register', (req, res) => {

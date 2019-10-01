@@ -6,8 +6,8 @@ const uuid = require('uuid/v1')
 const bcrypt = require('bcrypt')
 const saltRounds = 10
 
-const isAdmin = require('./privileges')
-const models = require('../mongoose/models.js')
+const isAdmin = require('../privileges')
+const models = require('../mongoose/models')
 const person = models.person
 
 const messages = [
@@ -30,6 +30,7 @@ router.post('/register', busboy(), (req, res) => {
   let query = {}
   let unique = true
   let problem = 0
+  let profileDir = path.join(__dirname + '../../../static/img/profiles/')
 
   const existCheck = async () => {
     await new Promise((resolve, reject) => {
@@ -37,16 +38,15 @@ router.post('/register', busboy(), (req, res) => {
         let uid = ['email', 'username']
         let info = [user.email, user.username]
         for (i = 0; i < 2; i++) {
-          query[uid[i]] = info[i] // Output: {email: user.email}
+          query[uid[i]] = info[i] // Output: {'email': user.email}
           person.find(query, function(err, result) {
-            if (result.length != 0) {
-              if (result[0].email === user.email) problem += 1
-              if (result[0].username === user.username) problem += 2
+            if (err) reject(err)
+            else if (result.length) {
+              if (result[0].email == user.email) problem += 1
+              if (result[0].username == user.username) problem += 2
               unique = false
               resolve()
-            } else {
-              resolve()
-            }
+            } else resolve()
           })
         }
       } catch (error) {
@@ -61,7 +61,6 @@ router.post('/register', busboy(), (req, res) => {
         await new Promise((resolve, reject) => {
           if (user.filename) {
             // don't run if there's no file
-
             function ext() {
               let t = user.filename.split('.')
               return t[t.length - 1].toString()
@@ -69,16 +68,11 @@ router.post('/register', busboy(), (req, res) => {
 
             let tmpName = path.join(tmpDir + user.filename)
             let newName = path.join(
-              __dirname +
-                '../../../static/img/profiles/' +
-                uuid() +
-                user.name.replace(/ /g, '') +
-                '.' +
-                ext()
+              profileDir + uuid() + user.name.replace(/ /g, '') + '.' + ext()
             )
             user.filename = "'./" + newName.split('/static/')[1] + "'"
-            fs.rename(tmpName, newName, (error) => {
-              if (error) reject(error)
+            fs.rename(tmpName, newName, (err) => {
+              if (err) reject(err)
               else resolve()
             })
           } else resolve()
@@ -86,7 +80,7 @@ router.post('/register', busboy(), (req, res) => {
       } catch (err) {
         console.log(err)
       }
-    } else throw 'User already exists'
+    } else throw 'User already exists' // Problem = 5
   }
 
   const userSave = async () => {
@@ -95,25 +89,31 @@ router.post('/register', busboy(), (req, res) => {
         await new Promise((resolve, reject) => {
           let pass = user.password
           bcrypt.genSalt(saltRounds, function(err, salt) {
-            bcrypt.hash(pass, salt, function(err, hash) {
-              user.password = hash
-              let uData = new person(user)
-              uData
-                .save()
-                .then(() => {
-                  resolve()
-                })
-                .catch((err) => {
-                  console.log(err)
-                })
-              resolve() // fallback
-            })
+            if (err) reject(err)
+            else {
+              bcrypt.hash(pass, salt, function(err, hash) {
+                if (err) reject(err)
+                else {
+                  user.password = hash
+                  let uData = new person(user)
+                  uData
+                    .save()
+                    .then(() => {
+                      resolve()
+                    })
+                    .catch((err) => {
+                      console.log(err)
+                    })
+                  resolve() // fallback
+                }
+              })
+            }
           })
         })
       } catch (err) {
         console.log(err)
       }
-    } else throw 'User already exists'
+    } else throw 'User already exists' // Problem = 5
   }
 
   req.busboy.on('field', (fieldname, val) => {
@@ -131,7 +131,7 @@ router.post('/register', busboy(), (req, res) => {
   })
 
   req.busboy.on('finish', () => {
-    function resolve() {
+    let resolve = () => {
       res.send(messages[problem])
     }
     async function handler() {

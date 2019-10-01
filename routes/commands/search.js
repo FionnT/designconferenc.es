@@ -1,6 +1,6 @@
 const router = require('express').Router()
 
-const models = require('../mongoose/models.js')
+const models = require('../mongoose/models')
 const conferences = models.conference
 
 function isEmpty(obj) {
@@ -23,8 +23,11 @@ router.get('/search', (req, res) => {
       await new Promise((resolve, reject) => {
         query[field] = {$regex: filter, $options: 'i'} // Result: {field: { "$regex": filter, "$options": "i" }}
         conferences.find(query, function(err, results) {
-          results.forEach((item) => raw.push(item))
-          resolve()
+          if (err) reject(err)
+          else {
+            results.forEach((item) => raw.push(item))
+            resolve()
+          }
         })
       })
       query = {} // empty query after each search
@@ -40,59 +43,36 @@ router.get('/search', (req, res) => {
           (str) => JSON.parse(str)
         ) // removing duplicates from the raw array
         helper = result.splice(0) // cloning the constant so we can edit it
-        function run() {
-          for (let i = 0; i < helper.length; i++) {
-            function parse(a, b) {
-              // Loop through array we made earlier, and remove anything that doesn't match the search terms
-              let regex = new RegExp(a, 'ig')
-              let res = helper[i][b].match(regex)
-              if (!res) {
-                if (helper.length === 1) {
-                  // can't splice a 1 length string
-                  helper = []
-                  resolve()
-                } else helper.splice(i, 1)
-                run() // need to reset the stored helper.length after each splice, or it won't check every item
-              }
-            }
-            if (name) parse(name, 'title')
-            if (time) parse(time, 'text_date')
-            if (place) parse(place, 'country')
-          }
-          resolve()
+        const parse = (search, field) => {
+          let regex = new RegExp(search, 'ig')
+          b = helper.filter((item) => item[field].match(regex)) // keep only those that match search
+          helper = b // set master array equal to filtered array
         }
-        if (helper.length >= 1) {
-          run()
-        } else resolve() // prevent stack size exceptions}
-      }).then(() => {
-        run = undefined
+        if (place) parse(place, 'country')
+        if (time) parse(time, 'text_date')
+        if (name) parse(name, 'title')
+        resolve()
       })
     } catch (err) {
       console.log(err)
     }
   }
 
-  function resolve(blank) {
-    if (blank) res.redirect('/') //  Lists all by default
-    if (!blank && helper.length === 0) res.render('index', {list: false})
-    else {
+  function resolve(blank_search) {
+    if (blank_search) res.redirect('/')
+    if (!blank && !helper.length) res.render('index', {list: false})
+    // no results found for search
+    else
       res.render('index', {
         list: helper,
         result: helper.length
       })
-    }
   }
   async function handler() {
     if (!place && !time && !name) resolve(true)
-    if (place) {
-      await search(place, 'country')
-    }
-    if (time) {
-      await search(time, 'text_date')
-    }
-    if (name) {
-      await search(name, 'title')
-    }
+    if (place) await search(place, 'country')
+    if (time) await search(time, 'text_date')
+    if (name) await search(name, 'title')
     await filter()
   }
 

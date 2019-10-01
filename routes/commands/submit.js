@@ -4,8 +4,8 @@ const fs = require('fs')
 const path = require('path')
 const uuid = require('uuid/v1')
 
-const isAdmin = require('./privileges')
-const models = require('../mongoose/models.js')
+const isAdmin = require('../privileges')
+const models = require('../mongoose/models')
 const conferences = models.conference
 
 router.post('/submit', busboy(), (req, res) => {
@@ -78,7 +78,8 @@ router.post('/submit', busboy(), (req, res) => {
       try {
         await new Promise((resolve, reject) => {
           conferences.findById(incoming.id, (err, result) => {
-            if (result && result.image) {
+            if (err) reject(err)
+            else if (result && result.image) {
               // updating file => overwrite existing
               newName = path.join(
                 confDir + result.image.split('/conferences/')[1].split("'")[0]

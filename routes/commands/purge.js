@@ -2,23 +2,22 @@ const router = require('express').Router()
 const fs = require('fs')
 const path = require('path')
 
-const isAdmin = require('./privileges')
-const models = require('../mongoose/models.js')
+const isAdmin = require('../privileges')
+const models = require('../mongoose/models')
 const conferences = models.conference
+const staticDir = __dirname + '../../../static/'
 
 router.get('/purge', (req, res) => {
   const filePurge = async () => {
     try {
       await new Promise((resolve, reject) => {
         conferences.findOne({_id: req.query.id}, (err, result) => {
-          if (err) reject()
+          if (err) reject(err)
           else {
             let image = result.image
             if (image) {
               let file = path.join(
-                __dirname +
-                  '../../../static/' +
-                  image.split('./')[1].split("'")[0]
+                staticDir + image.split('./')[1].split("'")[0]
               )
               fs.unlink(file, () => {
                 resolve()
@@ -35,15 +34,15 @@ router.get('/purge', (req, res) => {
     try {
       await new Promise((resolve, reject) => {
         conferences.findOne({_id: req.query.id}, (err, result) => {
-          if (err) reject()
+          if (err) reject(err)
           else {
             result.remove()
             resolve()
           }
         })
       })
-    } catch (error) {
-      console.log(error)
+    } catch (err) {
+      console.log(err)
     }
   }
 

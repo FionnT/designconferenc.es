@@ -1,24 +1,27 @@
 const router = require('express').Router()
-const isAdmin = require('./privileges')
-const models = require('../mongoose/models.js')
+const isAdmin = require('../privileges')
+const models = require('../mongoose/models')
 const conf = models.conference
 
 router.get('/accept', (req, res) => {
   const approve = async () => {
     try {
       await conf.findById(req.query.id, (err, result) => {
-        result.approved = true
-        result
-          .save()
-          .then(() => {
-            return true
-          })
-          .catch((err) => {
-            console.log(err)
-          })
+        if (err) throw err
+        else {
+          result.approved = true
+          result
+            .save()
+            .then(() => {
+              return true
+            })
+            .catch((err) => {
+              console.log(err)
+            })
+        }
       })
-    } catch (error) {
-      console.log(error)
+    } catch (err) {
+      console.log(err)
     }
   }
 

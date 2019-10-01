@@ -5,7 +5,7 @@ const path = require('path')
 const bcrypt = require('bcrypt')
 const saltRounds = 10
 const isAdmin = require('./privileges')
-const models = require('../mongoose/models.js')
+const models = require('./mongoose/models')
 const person = models.person
 
 router.post('/update', busboy(), (req, res) => {
@@ -23,7 +23,8 @@ router.post('/update', busboy(), (req, res) => {
     'User was deleted!'
   ]
 
-  const tmpDir = __dirname + '../../../static/img/tmp/'
+  const tmpDir = __dirname + '../../static/img/tmp/'
+  const staticDir = __dirname + '../../static/'
   const formData = new Map() // Map inputs to their values
 
   const bools = {
@@ -43,7 +44,8 @@ router.post('/update', busboy(), (req, res) => {
           _id: incoming.id
         },
         (err, result) => {
-          original = result
+          if (err) reject(err)
+          else original = result
         }
       )
     } catch (err) {
@@ -60,15 +62,19 @@ router.post('/update', busboy(), (req, res) => {
           let query = {}
           query[uid[i]] = info[i] // Output: query = {email: incoming.email}
           person.find(query, function(err, result) {
-            for (user in result) found.push(result[user])
-            for (i in found) {
-              if (found[i].id !== incoming.id && found.length) {
-                // skip checking the user being modified
-                if (found[i].email === incoming.email) bools.email += 1
-                if (found[i].username === incoming.username) bools.username += 1
+            if (err) reject(err)
+            else {
+              for (user in result) found.push(result[user])
+              for (i in found) {
+                if (found[i].id !== incoming.id && found.length) {
+                  // skip checking the user being modified
+                  if (found[i].email === incoming.email) bools.email += 1
+                  if (found[i].username === incoming.username)
+                    bools.username += 1
+                }
               }
+              resolve()
             }
-            resolve()
           })
         }
       })
@@ -85,22 +91,20 @@ router.post('/update', busboy(), (req, res) => {
 
           let tmpName = path.join(tmpDir + incoming.filename)
           let newName = path.join(
-            __dirname +
-              '../../../static/' +
-              original.filename.split("'./")[1].split("'")[0]
+            staticDir + original.filename.split("'./")[1].split("'")[0]
           ) // No need to generate a new UUID, we're just going to overwrite
 
           incoming.filename = original.filename
-          fs.rename(tmpName, newName, (error) => {
-            if (error) reject()
+          fs.rename(tmpName, newName, (err) => {
+            if (err) reject(err)
             else resolve()
           })
         } else {
           resolve()
         }
       })
-    } catch (error) {
-      console.log(error)
+    } catch (err) {
+      console.log(err)
     }
   }
 
@@ -109,7 +113,7 @@ router.post('/update', busboy(), (req, res) => {
       await new Promise((resolve, reject) => {
         bcrypt.genSalt(saltRounds, function(err, salt) {
           bcrypt.hash(incoming.password, salt, function(err, hash) {
-            if (err) reject()
+            if (err) reject(err)
             else {
               incoming.password = hash
               resolve()
@@ -130,11 +134,9 @@ router.post('/update', busboy(), (req, res) => {
             _id: incoming.id
           },
           (err, result) => {
-            if (err) {
-              console.log(err)
-              reject()
-            } else {
-              // Not using object.assign as we need to check
+            if (err) reject(err)
+            else {
+              // Not using object.assign as we have some checks in place
               if (incoming.password) result.password = incoming.password
               if (incoming.filename) result.filename = incoming.filename
               if (
@@ -155,7 +157,7 @@ router.post('/update', busboy(), (req, res) => {
                   resolve()
                 })
                 .catch((err) => {
-                  console.log(err)
+                  throw err
                 })
               resolve() // fallback
             }
@@ -179,8 +181,10 @@ router.post('/update', busboy(), (req, res) => {
           },
           (err) => {
             if (err) throw err
-            else problem = 8
-            return true
+            else {
+              problem = 8
+              return true
+            }
           }
         )
       } catch (err) {

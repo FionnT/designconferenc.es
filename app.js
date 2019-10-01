@@ -48,7 +48,7 @@ app.use(express.static('./static'))
 
 app.use('/', require('./routes/auth'))
 app.use('/', require('./routes/pages'))
-app.use('/', require('./routes/commands/admin'))
+app.use('/', require('./routes/admin'))
 app.use('/', require('./routes/commands/purge'))
 app.use('/', require('./routes/commands/accept'))
 app.use('/', require('./routes/commands/register'))

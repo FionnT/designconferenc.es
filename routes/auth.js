@@ -3,7 +3,7 @@ const passport = require('passport')
 const bcrypt = require('bcrypt')
 const LocalStrategy = require('passport-local').Strategy
 
-const models = require('./mongoose/models.js')
+const models = require('./mongoose/models')
 const person = models.person
 
 passport.serializeUser((user, done) => {
@@ -16,35 +16,27 @@ passport.deserializeUser((user, done) => {
 passport.use(
   new LocalStrategy((username, password, done) => {
     let criteria =
-      username.indexOf('@') === -1 ? {username: username} : {email: username}
+      username.indexOf('@') === -1 ? {username: username} : {email: username} // All the same...
     person.findOne(criteria, function(err, user) {
-      // All the same...
-      if (err) {
-        return done(null, err)
+      if (err) return done(null, err)
+      else if (!user) return done(null, false)
+      else {
+        bcrypt.compare(password, user.password, (err, res) => {
+          if (err) console.log(err)
+          if (!res) return done(null, false)
+          return done(null, user)
+        })
       }
-      if (!user) return done(null, false)
-      bcrypt.compare(password, user.password, (err, res) => {
-        if (err) {
-          console.log(err)
-        }
-        if (!res) return done(null, false)
-        return done(null, user)
-      })
     })
   })
 )
-
-router.get('/logout', function(req, res) {
-  res.clearCookie('UID')
-  res.redirect('/')
-})
 
 router.post(
   '/login',
   passport.authenticate('local', {failureRedirect: '/login'}),
   (req, res) => {
     res.cookie('UID', req.session.passport.user, {
-      expires: new Date(Date.now() + 1800000),
+      expires: new Date(Date.now() + 1.44e7), // 4 hours
       httpOnly: true,
       encode: String
     })
@@ -54,12 +46,15 @@ router.post(
 
 router.get('/login', (req, res) => {
   person.findOne({_id: req.cookies.UID}, function(err, user) {
-    if (err) {
-      console.log(err)
-    }
-    if (user) res.redirect('/')
+    if (err) console.log(err)
+    else if (user) res.redirect('/')
     else res.render('auth')
   })
+})
+
+router.get('/logout', function(req, res) {
+  res.clearCookie('UID')
+  res.redirect('/')
 })
 
 module.exports = router
