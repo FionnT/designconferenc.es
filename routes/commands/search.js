@@ -60,7 +60,7 @@ router.get('/search', (req, res) => {
 
   function resolve(blank_search) {
     if (blank_search) res.redirect('/')
-    if (!blank && !helper.length) res.render('index', {list: false})
+    if (!blank_search && !helper.length) res.render('index', {list: false})
     // no results found for search
     else
       res.render('index', {
