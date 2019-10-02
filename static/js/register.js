@@ -49,7 +49,7 @@ $(document).ready(function() {
     const admin = $('.sel')
     let email = inputs[0].value
     let username = inputs[1].value
-    let personname = inputs[2].value
+    let name = inputs[2].value
     let password = inputs[3].value
     let file = $('.fileinput')[0].files[0]
 
@@ -85,18 +85,17 @@ $(document).ready(function() {
     if (notify()) {
       let formData = new FormData()
       let user = {
-        username: username,
-        name: personname,
-        password: password,
-        email: email,
+        username,
+        name,
+        password,
+        email,
         isAdmin: admin.val(),
-        filename: filename
+        filename
       }
 
       let str = JSON.stringify(user)
       formData.append('data', str)
       formData.append('file', file)
-
       $.ajax({
         type: 'POST',
         url: '/register',

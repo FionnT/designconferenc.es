@@ -1,8 +1,7 @@
 $(document).ready(function() {
   const $ = jQuery
 
-  let realInput = $('.fileinput')
-  let filename = false
+  let realInput
   let file
 
   $('input').each(function() {
@@ -33,10 +32,10 @@ $(document).ready(function() {
         .replace(/'/g, '')
     )
     _this.on('click', function() {
-      let realInput = $($(_this.parents()[0]).find('.fileinput')[0])
+      realInput = $($(_this.parents()[0]).find('.fileinput')[0])
       realInput.click()
       realInput.change(function() {
-        let file = this.files[0]
+        file = this.files[0]
         _this.data('filename', file.name)
         let reader = new FileReader()
         reader.onloadend = function() {
@@ -76,7 +75,7 @@ $(document).ready(function() {
       let id = _this.data('id')
       let inputs = _this.find('input')
       let username = _this.find('.username')[0].value
-      let personname = _this.find('.name')[0].value
+      let name = _this.find('.name')[0].value
       let password = _this.find('.password')[0]
       let admin = $(_this.find('.sel'))
       let email = _this.find('.email')[0].value
@@ -116,13 +115,13 @@ $(document).ready(function() {
 
       if (notify()) {
         let request = {
-          id: id,
-          username: username,
-          name: personname,
-          password: password,
-          email: email,
+          id,
+          username,
+          name,
+          password,
+          email,
           isAdmin: Number(admin.data('admin')), // db stores this as a number
-          filename: filename,
+          filename,
           remove: false
         }
         let str = JSON.stringify(request)
@@ -154,7 +153,7 @@ $(document).ready(function() {
       let _this = $($(this).parents()[1])
       let id = _this.data('id')
       let request = {
-        id: id,
+        id,
         remove: true
       }
 

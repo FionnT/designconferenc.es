@@ -144,16 +144,22 @@ $(document).ready(function() {
 
   function month_memory() {
     if (start_date.month == current_month && start_date.year == current_year) {
+      // i.e. December 2019 -> January 2020
       if (start_date.month > end_date.month) {
+        // verify it's cross year
         if (start_date.year < end_date.year) highlight(start_date.index, 99)
         else highlight(0, start_date.index)
+        // e.g. February 2019 -> March 2019
       } else if (start_date.month < end_date.month) {
+        // e.g. January 2020 -> December 2019
         if (start_date.year > end_date.year) highlight(0, start_date.index)
         else highlight(start_date.index, 99)
       } else if (
+        // e.g. 01/01/2019 -> 09/01/2019
         start_date.month == end_date.month &&
         start_date.year == end_date.year
       ) {
+        // Don't set transit highlighting on a single day conference1
         if (start_date.date != end_date.date) {
           highlight(start_date.index, end_date.index)
           $($('.date')[end_date.index]).addClass('active')
@@ -309,18 +315,18 @@ $(document).ready(function() {
 
   // Fake input - file uploader
   const realInput = $('.fileinput')
-  let filename
+  let image
 
   $('.file').on('click', function() {
     realInput.click()
   })
 
   realInput.on('change', function() {
-    filename = realInput
+    image = realInput
       .val()
       .split(/\\|\//)
       .pop()
-    $('.fileinfo').text(filename)
+    $('.fileinfo').text(image)
   })
 
   $('.rectangle').on('click', function() {
@@ -330,20 +336,20 @@ $(document).ready(function() {
 
     let missing = []
     let id = $('#suggest').data('id')
-    let name = $($('input')[f]).val()
+    let title = $($('input')[f]).val()
     let website = $($('input')[f + 1]).val()
     let country = $('#country p')
       .text()
       .split('▾')[0]
     let city = $($('input')[f + 2]).val()
-    let desc = $('textarea').val()
+    let description = $('textarea').val()
     let file = $('.fileinput')[0].files[0]
     let text_date = displayfield.text()
     let start
     let end
 
     function notify() {
-      if (name === '') missing.push('name')
+      if (title === '') missing.push('name')
       if (city === '') missing.push('city')
       if (country === 'Select a country...') missing.push('country')
       if (!start_date.hasOwnProperty('index')) missing.push('date')
@@ -376,30 +382,29 @@ $(document).ready(function() {
     }
 
     if (notify()) {
-      // Set the UTC timestamps to the true ending date
+      // Set the timestamps to the true ending date
       if (start >= end) {
         let x = start_date
         let y = end_date
         end_date = x
         start_date = y
-        UTC_Date = start
+        UTC = start
       } else {
-        UTC_Date = end
+        UTC = end
       }
-      console.log(UTC_Date)
       let formData = new FormData()
       let conference = {
-        id: id,
-        title: name,
-        text_date: text_date,
-        UTC: UTC_Date,
-        start_date: start_date,
-        end_date: end_date,
-        country: country,
-        city: city,
-        description: desc,
-        website: website,
-        image: filename
+        id,
+        title,
+        text_date,
+        UTC,
+        start_date,
+        end_date,
+        country,
+        city,
+        description,
+        website,
+        image
       }
 
       formData.append('data', JSON.stringify(conference))
