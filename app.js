@@ -20,7 +20,7 @@ app.use(require('cookie-parser')())
 app.use(
   require('express-session')({
     secret:
-      'NFA8734@£FASDFASDDSF$%^$T$@WQDFASDFFFFFSSsfsdfsdf£AS£adfds£%TSF!@£WTWTDS&***&%$£$WFSDR£@@£R@£R@££@FDSFSGAST$G%WA===-----324234@£3',
+      'Some Secret',
     resave: true,
     saveUninitialized: true
   })

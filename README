@@ -1,8 +1,7 @@
 TODO:
 
-1/ Rewrite approve/submitters so they make more sense 
-2/ Add emailer for new conferences (aws ses is setup)
-3/ Add social media share options for conferences
+1/ Add emailer for new conferences (aws ses is setup)
+2/ Add social media share options for conferences
    
 Done:
 
@@ -18,3 +17,4 @@ Done:
 10/ Fix footer
 11/ Fix file uploader 
 12/ Fix submit button
+13/ Rewrite approve/submitters so they make more sense 
