@@ -1,5 +1,5 @@
 include includes/header.pug
-  
+
   link(rel='stylesheet', href='/css/suggest.css')
   link(rel='stylesheet', href='/css/admin.css')
   
@@ -12,7 +12,7 @@ block body
           a(href="/register") Or register a new person.
       #suggest
         if users
-          for person in users
+          each person in users
             .item.big(data-id=person._id)
               img.file(src=person.filename data-filename="")
               .parent_wrapper

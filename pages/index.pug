@@ -23,7 +23,7 @@ block body
             span=result + " results found for your search."
           else if result=1
             span=result + " result found for your search."
-          for item in list
+          each item in list
             .item.small
               if item.image
                 .img(style={"background-image": "url(" + item.image + ")"})
@@ -34,10 +34,9 @@ block body
                 p.desc=item.description
               .expand.toggle
                 p + See More
-              
+
               include includes/social.pug
-
-
+              
               if item.website
                 .expand.website
                   a(href=item.website target="_blank" rel="noopener")
@@ -49,7 +48,7 @@ block body
             span=result + " conferences for you to approve."
           else if result=1
             span=result + " conference for you to approve."
-          for item in list
+          each item in list
             //- TODO: Add button to redirect to editing page, and a button to reject the conference
             .item.big.admin(data-id=item._id)
               if item.image
