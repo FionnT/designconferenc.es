@@ -1,0 +1,191 @@
+$facebook: #3B5998
+$twitter: #3CF
+$instagram: #E1306C
+$btn-size: 35px
+
+.item
+  .social-btns
+    display: none
+  &.big
+    .animate
+      transition: all .35s
+      transition-timing-function: cubic-bezier(0.310,-0.105,0.430,1.590)
+    .btn__inactive 
+      &:before 
+        top: 90%
+        left: -110%
+      .fa 
+        transform: scale(.6)
+      &.twitter 
+        &:before 
+          background-color: $twitter
+        &.fa 
+          color: $twitter
+      &.facebook 
+        &:before 
+          background-color: $facebook
+        &.fa 
+          color: $facebook
+      &.instagram 
+        &:before 
+          background-color: $instagram
+        &.fa 
+          color: $instagram
+    .btn__active 
+      &:before 
+        top: -10%
+        left: -10%
+      .fa 
+        color: #fff
+        transform: scale(0.55)
+        margin-top: -2px
+        vertical-align: unset
+        font-size: 38px
+    .social-btns 
+      height: $btn-size
+      margin: 30px auto;
+      display: block;
+      font-size: 0;
+      text-align: center;
+      width: 200px;
+      padding-top: 32px;
+      .btn 
+        color: $pink
+        @extend .btn__inactive
+        @extend .animate
+        display: inline-block
+        background-color: #fff
+        width: $btn-size
+        height: $btn-size
+        line-height: $btn-size
+        margin: 0 10px
+        text-align: center
+        position: relative
+        overflow: hidden
+        border-radius: 30%
+        box-shadow: 0 5px 15px -5px rgba(0, 0, 0, 0.1)
+        //overflow bug fix
+        opacity: .99
+        &:before 
+          @extend .animate
+          content: ''
+          width: 120%
+          height: 120%
+          position: absolute
+          transform: rotate(45deg)
+        .fa 
+          @extend .animate
+          font-size: 38px
+          vertical-align: middle
+        &:focus,
+        &:hover 
+          @extend .btn__active
+
+// btn-size = 90px
+// sites = {
+//   'facebook': #3B5998
+//   'twitter': #3CF
+//   'google': #DC4A38
+//   'dribbble': #F26798
+//   'skype': #00AFF0
+// }
+
+// .animate {
+//   transition: all .35s
+//   transition-timing-function: cubic-bezier(
+//     0.310,
+//     -0.105,
+//     0.430,
+//     1.590
+//   )
+// }
+
+// .btn__inactive {
+  
+//   &:before {
+//     top: 90%
+//     left: -110%
+//   }
+  
+//   .fa {
+//     transform: scale(.8)
+//   }
+  
+//   // variants
+//   for name, color in sites {
+    
+//     &.{name} {
+      
+//       &:before {
+//         background-color: color
+//       }
+      
+//       .fa {
+//         color: color
+//       }
+//     }
+//   }
+// }
+
+// .btn__active {
+
+//   &:before {
+//     top: -10%
+//     left: -10%
+//   }
+
+//   .fa {
+//     color: #fff
+//     transform: scale(1)
+//   }
+// }
+
+// .social-btns {
+//   height: btn-size
+//   margin: auto
+//   font-size: 0
+//   text-align: center
+//   position: absolute
+//   top: 0
+//   bottom: 0
+//   left: 0
+//   right: 0
+
+//   .btn {
+//     @extend: .btn__inactive
+//     @extend: .animate
+//     display: inline-block
+//     background-color: #fff
+//     width: btn-size
+//     height: btn-size
+//     line-height: btn-size
+//     margin: 0 10px
+//     text-align: center
+//     position: relative
+//     overflow: hidden
+//     border-radius: 28%
+//     box-shadow: 0 5px 15px -5px rgba(0, 0, 0, 0.1)
+//     //overflow bug fix
+//     opacity: .99
+
+//     &:before {
+//       @extend: .animate
+//       content: ''
+//       width: 120%
+//       height: 120%
+//       position: absolute
+//       transform: rotate(45deg)
+//     }
+
+//     .fa {
+//       @extend: .animate
+//       font-size: 38px
+//       vertical-align: middle
+//     }
+
+//     &:focus,
+//     &:hover {
+//       @extend: .btn__active
+//     }
+//   }
+// }

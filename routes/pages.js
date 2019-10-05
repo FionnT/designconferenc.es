@@ -15,7 +15,9 @@ router.get('/404', (req, res) => res.render('404'))
 //
 // router.get('/reset', (req, res) => {
 //   conferences.find({}, (err, results) => {
-//     for (i = 0; i < results.length; i++) results[i].remove()
+//     results.forEach((item) => {
+//        item.remove()
+//      })
 //     res.redirect('/')
 //   })
 // })

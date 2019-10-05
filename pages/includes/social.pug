@@ -1,0 +1,11 @@
+- let sites = ['twitter', 'facebook'] 
+- let twitter = "https://twitter.com/intent/tweet?hashtags=designconferenc.es&original_referrer=https://designconferenc.es&text=I\'m going to " + item.title + " on the " + item.text_date + "! Are you coming too?!?"
+- let urls = [twitter, 'javascript:void(0)']
+
+.social-btns
+  each site, index in sites
+    a(href=urls[index] class='btn ' + site target="popup")
+      i(class='fa fa-' + site)
+    
+
+  

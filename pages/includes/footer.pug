@@ -25,4 +25,37 @@ footer
       a(href="https://www.lauracunha.com/" target="_blank" rel="noopener") Laura 
     p 
          <style>.bmc-button img{width: 27px !important;margin-bottom: 1px !important;box-shadow: none !important;border: none !important;vertical-align: middle !important;}.bmc-button{line-height: 36px !important;height:37px !important;text-decoration: none !important;display:inline-flex !important;color:#ffffff !important;background-color:#BB5794 !important;border-radius: 3px !important;border: 1px solid transparent !important;padding: 1px 9px !important;font-size: 22px !important;letter-spacing: 0.6px !important;box-shadow: 0px 1px 2px rgba(190, 190, 190, 0.5) !important;-webkit-box-shadow: 0px 1px 2px 2px rgba(190, 190, 190, 0.5) !important;margin: 0 auto !important;font-family:'Cookie', cursive !important;-webkit-box-sizing: border-box !important;box-sizing: border-box !important;-o-transition: 0.3s all linear !important;-webkit-transition: 0.3s all linear !important;-moz-transition: 0.3s all linear !important;-ms-transition: 0.3s all linear !important;transition: 0.3s all linear !important;}.bmc-button:hover, .bmc-button:active, .bmc-button:focus {-webkit-box-shadow: 0px 1px 2px 2px rgba(190, 190, 190, 0.5) !important;text-decoration: none !important;box-shadow: 0px 1px 2px 2px rgba(190, 190, 190, 0.5) !important;opacity: 0.85 !important;color:#ffffff !important;}</style><link href="https://fonts.googleapis.com/css?family=Cookie" rel="stylesheet"><a class="bmc-button" rel="noopener" target="_blank" href="https://www.buymeacoffee.com/kZsrfpqlK"><img src="https://bmc-cdn.nyc3.digitaloceanspaces.com/BMC-button-images/BMC-btn-logo.svg" alt="Buy us a coffee!"><span style="margin-left:5px">Buy us a coffee!</span></a>
+  script.
+    window.fbAsyncInit = function() {
+      FB.init({
+        appId: '392511698107418',
+        autoLogAppEvents: false,
+        xfbml: false,
+        version: 'v4.0',
+        cookie : false,
+        status: false
+      });
+      $('.fa-facebook').each(function() {
+        let _this = $(this)
+        let container = $(_this.parents()[2])
+        let url = $(container.find('a')[2]).attr('href')
+        let text =
+          "I'm going to " +
+          container.find('h2')[0].innerHTML +
+          ' on the ' +
+          container.find('p')[0].innerHTML +
+          '! Are you coming too?!? ' + url
+        _this.on('click', function(event) {
+          event.preventDefault()
+          FB.ui({
+            method: 'share',
+            href: "designconferenc.es",
+            display: 'popup'
+          }, function(response){
+            console.log(response)
+          })
+          return false
+        })
+      })
+    };
 

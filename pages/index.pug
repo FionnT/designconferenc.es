@@ -3,6 +3,8 @@ include includes/header.pug
   title Design Conferences
   
 block body
+  <div id="fb-root"></div>
+  <script async defer crossorigin="anonymous" src="https://connect.facebook.net/en_US/sdk.js#xfbml=1&version=v4.0"></script>
   .wrapper
     #splash
       a(href="./")
@@ -34,6 +36,10 @@ block body
                 p.desc=item.description
               .expand.toggle
                 p + See More
+              
+              include includes/social.pug
+
+
               if item.website
                 .expand.website
                   a(href=item.website target="_blank" rel="noopener")
@@ -94,7 +100,9 @@ block body
           img.big(src="./img/done-dawg.gif")
 
 include includes/footer.pug
+
   script(src="js/minified/packery.pkgd.min.js")
   script(src="js/index.js")
   if manage
     script(src="js/manage.js")
+  link(rel='stylesheet', href='/css/font-awesome.min.css')

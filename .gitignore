@@ -18,6 +18,7 @@ static/img/icons/conferences/*
 # keep the folders
 !db/.gitkeep
 !static/tmp/.gitkeep
+!static/css/font-awesome.min.css
 !static/css/.gitkeep
 !static/img/profiles/.gitkeep
 !static/img/icons/conferences/.gitkeep
