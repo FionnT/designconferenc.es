@@ -424,7 +424,7 @@ $(document).ready(function() {
           }
         },
         error: function(e) {
-          console.log('some error', e)
+          console.log(e)
         }
       })
     }

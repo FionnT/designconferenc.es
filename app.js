@@ -1,5 +1,6 @@
 const bodyParser = require('body-parser')
 const express = require('express')
+const compression = require('compression')
 const app = express()
 const port = 3000
 const passport = require('passport')
@@ -7,6 +8,7 @@ const sassMiddleware = require('node-sass-middleware')
 const path = require('path')
 const robots = require('express-robots-txt')
 
+app.use(compression())
 app.use(passport.initialize())
 app.use(passport.session())
 app.use(bodyParser.json())
@@ -19,8 +21,7 @@ app.listen(port, () => console.log(`Running on port ${port}!`))
 app.use(require('cookie-parser')())
 app.use(
   require('express-session')({
-    secret:
-      'Some Secret',
+    secret: 'Some Secret',
     resave: true,
     saveUninitialized: true
   })
