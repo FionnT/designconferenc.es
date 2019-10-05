@@ -41,8 +41,7 @@ html(xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en")
     //- Google Site Verification
     meta(name="google-site-verification" content="UZoXptQO3QJ80NHjhpeqzy8R3KpY-jVbT0Gbh-6pzII")/
     meta(name="google-site-verification" content="y_Btz_RaLlgRafJbuMDbpkA-u-FxHe15MFRaifn5slM")/
-    //- script(async defer src="https://connect.facebook.net/en_US/sdk.js")
     script.
       if (!(location.hostname === "localhost" || location.hostname === "127.0.0.1" || location.hostname === "") && (location.protocol != 'https:')) {
-        //- location.href = 'https:' + window.location.href.substring(window.location.protocol.length)
+        location.href = 'https:' + window.location.href.substring(window.location.protocol.length)
       }
