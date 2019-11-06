@@ -37,10 +37,11 @@ block body
         a(href="/")
           p Go back to the list
       .rectangle.other
-        a(href="/suggest")
-          if !user
+        if !user
+          a(href="/submit")
             p Suggest another conference
-          if user
+        if user
+          a(href="/add")
             p Add another conference
             
 include includes/footer.pug
