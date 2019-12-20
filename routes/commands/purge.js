@@ -48,7 +48,6 @@ router.get('/purge', (req, res) => {
 		await filePurge()
 		await dbPurge()
 	}
-	console.log(req)
 	isAdmin.basic(
 		req,
 		res,

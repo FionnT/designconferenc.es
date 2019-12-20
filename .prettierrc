@@ -1,5 +1,5 @@
 {
-	"tabWidth": 2,
+	"tabWidth": 1,
 	"useTabs": true,
 	"semi": false,
 	"singleQuote": true,
@@ -9,5 +9,5 @@
 	"arrowParens": "avoid",
 	"requirePragma": false,
 	"proseWrap": "never",
-	"printWidth": 300
+	"printWidth": 200
 }

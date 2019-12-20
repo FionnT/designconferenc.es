@@ -37,7 +37,7 @@ router.post('/update', busboy(), (req, res) => {
 	let found = []
 	let problem = 0
 
-	const fetch_origin = async () => {
+	const fetchOrigin = async () => {
 		try {
 			await person.findOne({_id: incoming.id}, (err, result) => {
 				if (err) reject(err)
@@ -48,7 +48,7 @@ router.post('/update', busboy(), (req, res) => {
 		}
 	}
 
-	const fetch_and_filter = async () => {
+	const fetchAndFilter = async () => {
 		try {
 			await new Promise((resolve, reject) => {
 				let uid = ['email', 'username']
@@ -206,8 +206,8 @@ router.post('/update', busboy(), (req, res) => {
 				await deleteUser(requestor)
 				resolve()
 			} else {
-				await fetch_origin()
-				await fetch_and_filter()
+				await fetchOrigin()
+				await fetchAndFilter()
 				if (bools.email || bools.username) resolve()
 				else {
 					if (incoming.password) {

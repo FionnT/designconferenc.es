@@ -10,7 +10,15 @@ const isAdmin = require('../privileges')
 const models = require('../mongoose/models')
 const person = models.person
 
-const messages = ['User is registered!', 'Email is already taken', 'Username is already taken', 'Email and username are taken', "You don't have the permissions to do that.", 'Sorry - something went wrong!', "Don't be silly - you can't delete yourself!!"]
+const messages = [
+	'User is registered!',
+	'Email is already taken',
+	'Username is already taken',
+	'Email and username are taken',
+	"You don't have the permissions to do that.",
+	'Sorry - something went wrong!',
+	"Don't be silly - you can't delete yourself!!"
+]
 
 router.post('/register', busboy(), (req, res) => {
 	req.pipe(req.busboy)
@@ -70,7 +78,7 @@ router.post('/register', busboy(), (req, res) => {
 			} catch (err) {
 				console.log(err)
 			}
-		} else throw 'User already exists' // Problem = 5
+		} else return
 	}
 
 	const userSave = async () => {
@@ -103,7 +111,7 @@ router.post('/register', busboy(), (req, res) => {
 			} catch (err) {
 				console.log(err)
 			}
-		} else throw 'User already exists' // Problem = 5
+		} else return
 	}
 
 	req.busboy.on('field', (fieldname, val) => {

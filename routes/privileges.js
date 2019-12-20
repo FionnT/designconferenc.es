@@ -6,7 +6,7 @@ module.exports = {
 		person.findOne({_id: req.cookies.UID}, (err, user) => {
 			if (user != null && user.isAdmin >= 0) _success(user)
 			else if (_fail !== undefined) {
-				if (typeof _fail === 'function') _fail()
+				if (typeof _fail == 'function') _fail()
 				else return _fail
 			}
 		})
@@ -15,9 +15,9 @@ module.exports = {
 		person.findOne({_id: req.cookies.UID}, (err, user) => {
 			if (user != null && user.isAdmin <= level) _success(user)
 			else if (_fail !== undefined) {
-				if (typeof _fail === 'function') _fail()
+				if (typeof _fail == 'function') _fail()
 				else return _fail
 			}
 		})
-	},
+	}
 }
